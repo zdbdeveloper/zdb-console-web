@@ -4,6 +4,7 @@
 
 ```bash
 # run json-server
+$ npm install -g json-server
 $ yarn json-table
 $ yarn json-detail
 
