@@ -3,12 +3,12 @@
     <CToggler
       in-header
       class="d-lg-none"
-      @click="$store.commit('toggleSidebarMobile')"
+      @click="$store.dispatch('toggleSidebarMobile')"
     />
     <CToggler
       in-header
       class="d-md-down-none"
-      @click="$store.commit('toggleSidebarDesktop')"
+      @click="$store.dispatch('toggleSidebarDesktop')"
     />
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
       <!--<CIcon name="logo" height="48" alt="Logo"/>-->
@@ -38,7 +38,7 @@
       <CHeaderNavItem class="px-3">
         <button
           class="c-header-nav-btn"
-          @click="() => $store.commit('toggle', 'darkMode')"
+          @click="() => $store.dispatch('toggle', 'darkMode')"
         >
           <CIcon v-if="$store.state.darkMode" name="cil-sun" />
           <CIcon v-else name="cil-moon" />
@@ -52,7 +52,7 @@
         <button
           in-header
           class="c-header-nav-btn"
-          @click="$store.commit('toggle', 'asideShow')"
+          @click="$store.dispatch('toggle', 'asideShow')"
         >
           <CIcon size="lg" name="cil-applications-settings" class="mr-2" />
         </button>

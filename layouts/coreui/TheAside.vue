@@ -5,9 +5,9 @@
     color-scheme="light"
     overlaid
     size="lg"
-    @update:show="(val) => $store.commit('set', ['asideShow', val])"
+    @update:show="(val) => $store.dispatch('set', ['asideShow', val])"
   >
-    <CSidebarClose @click.native="$store.commit('toggle', 'asideShow')" />
+    <CSidebarClose @click.native="$store.dispatch('toggle', 'asideShow')" />
     <CTabs tabs class="nav-underline nav-underline-primary">
       <CTab active>
         <template slot="title">

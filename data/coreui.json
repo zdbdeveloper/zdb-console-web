@@ -1,0 +1,209 @@
+{
+  "mytables" : {
+    "table_fields" : [
+      { 
+        "key": "show_details", 
+        "label": "", 
+        "style": "width:1%", 
+        "sorter": false, 
+        "filter": false
+      },
+      {"key": "Provider", "_style": "text-align: center;"},
+      {"key": "Cluster", "_style": "text-align: center;"},
+      {"key": "Node", "_style": "text-align: center;"},
+      {"key": "Roles"},
+      {"key": "Status", "_style": "text-align: center;"},
+      {"key": "CPU_Usage", "label": "CPU Usage", "_style": "text-align: center;"},
+      {"key": "Memory_Usage", "label": "Memory Usage", "_style": "text-align: center;"},
+      {"key": "Age", "_style": "text-align: center;"}
+    ],
+    "table_items": [
+      {
+        "Provider": "IBM",
+        "Cluster": "cloudzcp-pog-dev",
+        "Node": "10.178.218.148",
+        "Roles": "zdb",
+        "Status": ["READY"],
+        "Helath": "green",
+        "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+        "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+        "Memory_Req": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Limit": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+        "CPU_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+        "Age": "647d",
+        "_cellClasses": {
+          "Cluster": "text-center",
+          "Node": "text-center",
+          "Roles": "text-center",
+          "Age": "text-center"
+        }
+      },
+      {
+        "Provider": "AWS",
+        "Cluster": "cloudzcp-zdb-dev",
+        "Node": "10.178.218.177",
+        "Roles": "zdb",
+        "Status": ["NOTREADY"],
+        "Helath": "yellow",
+        "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+        "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+        "Memory_Req": {"value": 26.06, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Limit": {"value": 38.07, "full": "2861Mi", "range": "2211Mi"},
+        "CPU_Usage": {"value": 74.03, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Usage": {"value": 47.08, "full": "2861Mi", "range": "2211Mi"},
+        "Age": "504d",
+        "_cellClasses": {
+          "Cluster": "text-center",
+          "Node": "text-center",
+          "Roles": "text-center",
+          "Age": "text-center"
+        }
+      },
+      {
+        "Provider": "AZURE",
+        "Cluster": "cloudzcp-zdb-dev",
+        "Node": "10.178.218.100",
+        "Roles": "zdb",
+        "Status": ["READY"],
+        "Helath": "yellow",
+        "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+        "CPU_Limit": {"value": 53.59, "full": "1920m", "range": "300m"},
+        "Memory_Req": {"value": 36.06, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Limit": {"value": 28.07, "full": "2861Mi", "range": "2211Mi"},
+        "CPU_Usage": {"value": 44.03, "full": "2861Mi", "range": "2211Mi"},
+        "Memory_Usage": {"value": 27.08, "full": "2861Mi", "range": "2211Mi"},
+        "Age": "504d",
+        "_cellClasses": {
+          "Cluster": "text-center",
+          "Node": "text-center",
+          "Roles": "text-center",
+          "Age": "text-center"
+        }
+      }
+    ],
+    "dbservers" : [
+      {"id": "1", "title": "primary-oracle", "text": "Oracle", "color": "info"},
+      {"id": "2", "title": "secondary-maria", "text": "MariaDB", "color": "primary"},
+      {"id": "3", "title": "backup-sqlserver", "text": "SqlServer", "color": "warning"},
+      {"id": "4", "title": "slave-mysql", "text": "MySql", "color": "success"},
+      {"id": "5", "title": "test-postgresql", "text": "PostgreSql", "color": "danger"}
+    ]
+  },
+  "mydetails" : [
+    {
+      "id": 1,
+      "details_fields" : [
+        {"key": "Provider", "_style": "text-align: center;"},
+        {"key": "Cluster", "_style": "text-align: center;"},
+        {"key": "Node", "_style": "text-align: center;"},
+        {"key": "Roles", "_style": "text-align: center;"},
+        {"key": "Status", "_style": "text-align: center;"},
+        {"key": "CPU_Usage", "label": "CPU Usage", "_style": "text-align: center;"},
+        {"key": "Memory_Usage", "label": "Memory Usage", "_style": "text-align: center;"},
+        {"key": "Age", "_style": "text-align: center;"}
+      ],
+      "details_items": [
+        {
+          "Provider": "IBM-1",
+          "Cluster": "cloudzcp-pog-dev",
+          "Node": "10.178.218.148",
+          "Roles": "zdb",
+          "Status": ["READY"],
+          "Helath": "green",
+          "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+          "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+          "Memory_Req": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Limit": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "CPU_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Age": "647d",
+          "_cellClasses": {
+            "Cluster": "text-center",
+            "Node": "text-center",
+            "Roles": "text-center",
+            "Age": "text-center"
+          }
+        },
+        {
+          "Provider": "IBM-2",
+          "Cluster": "cloudzcp-pog-dev",
+          "Node": "10.178.218.148",
+          "Roles": "zdb",
+          "Status": ["READY"],
+          "Helath": "green",
+          "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+          "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+          "Memory_Req": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Limit": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "CPU_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Age": "647d",
+          "_cellClasses": {
+            "Cluster": "text-center",
+            "Node": "text-center",
+            "Roles": "text-center",
+            "Age": "text-center"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "details_fields" : [
+        {"key": "Provider", "_style": "text-align: center;"},
+        {"key": "Cluster", "_style": "text-align: center;"},
+        {"key": "Node", "_style": "text-align: center;"},
+        {"key": "Roles", "_style": "text-align: center;"},
+        {"key": "Status", "_style": "text-align: center;"},
+        {"key": "CPU_Usage", "label": "CPU Usage", "_style": "text-align: center;"},
+        {"key": "Memory_Usage", "label": "Memory Usage", "_style": "text-align: center;"},
+        {"key": "Age", "_style": "text-align: center;"}
+      ],
+      "details_items": [
+        {
+          "Provider": "AWS-1",
+          "Cluster": "cloudzcp-pog-dev",
+          "Node": "10.178.218.148",
+          "Roles": "zdb",
+          "Status": ["READY"],
+          "Helath": "green",
+          "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+          "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+          "Memory_Req": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Limit": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "CPU_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Age": "647d",
+          "_cellClasses": {
+            "Cluster": "text-center",
+            "Node": "text-center",
+            "Roles": "text-center",
+            "Age": "text-center"
+          }
+        },
+        {
+          "Provider": "AWS-2",
+          "Cluster": "cloudzcp-pog-dev",
+          "Node": "10.178.218.148",
+          "Roles": "zdb",
+          "Status": ["READY"],
+          "Helath": "green",
+          "CPU_Req": {"value": 15.62, "full": "1920m", "range": "1413m"},
+          "CPU_Limit": {"value": 73.59, "full": "1920m", "range": "300m"},
+          "Memory_Req": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Limit": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "CPU_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Memory_Usage": {"value": 17.06, "full": "2861Mi", "range": "2211Mi"},
+          "Age": "647d",
+          "_cellClasses": {
+            "Cluster": "text-center",
+            "Node": "text-center",
+            "Roles": "text-center",
+            "Age": "text-center"
+          }
+        }
+      ]
+    }
+  ]
+}

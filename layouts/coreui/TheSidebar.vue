@@ -197,10 +197,10 @@ export default {
   methods: {
     // for Botton Actions
     setSidebarShow(value) {
-      this.$store.commit("set", ["sidebarShow", value]);
+      this.$store.dispatch("set", ["sidebarShow", value]);
     },
     toggleSidebarMinimize() {
-      this.$store.commit("toggle", "sidebarMinimize");
+      this.$store.dispatch("toggle", "sidebarMinimize");
     },
     hideSidebar() {
       const show = !this._.isEmpty(this.sideMenus);

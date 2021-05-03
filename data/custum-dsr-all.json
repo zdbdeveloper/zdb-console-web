@@ -1,0 +1,32 @@
+{
+	"items": {
+		"metadata" : {
+			"namespace": "zdb-managed",
+			"name": "zdb-managed-dsr-mdb"
+		},
+		"spec" : {
+			"datastore": "mongodb",
+			"version": "4.2.9"
+		},
+		"status": {
+			"architecture": "Replicaset(P-S-A)",
+			"deployStatus": "DEPLOYED",
+			"status": "Running",
+			"ready": "3/3",
+			"resources" : {
+				"requestCpu": "700m",
+				"requestMemory": "704Mi"
+			}
+		},
+		"storage": {
+			"datastorages": [
+				{
+					"size": "20Gi"
+				},
+				{
+					"size": "20Gi"
+				}
+			]
+		}
+	}
+}
