@@ -138,14 +138,32 @@ const sideMenus = [
     subMenu: "Dashboard"
   },
   {
+    index: 300,
+    title: "Components",
+    category: "components",
+    link: "/components",
+    target: "_self",
+    mainMenu: "",
+    subMenu: ""
+  },
+  {
     index: 301,
     title: "Components",
     category: "components",
     link: "/components/components",
     target: "_self",
-    mainMenu: "",
+    mainMenu: "Components",
     subMenu: "components"
   },
+  {
+    index: 302,
+    title: "Tables",
+    category: "components",
+    link: "/components/tables",
+    target: "_self",
+    mainMenu: "Components",
+    subMenu: "tables"
+  },  
 ]
 export default {
   name: "TheSidebar",

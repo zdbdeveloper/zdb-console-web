@@ -140,11 +140,9 @@
         dbservers: [],
         activeTab: 0,
         collapseDuration: 100,
-        
         //For STOMP socket
         stompClient: null,
         subscription: null,
-
         //System States as cpuUsage, memoryUsage
         systemStates: [],
       };
@@ -158,9 +156,6 @@
       this.disconnectSocket()
     },
     methods: {
-      /**
-       * Connect Socket
-       */
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
@@ -169,10 +164,6 @@
           this.subscribe()
         })
       },
-
-      /**
-       * Receive data via the socket
-       */
       subscribe () {
         this.subscription = this.stompClient.subscribe('/topic/states', (res) => {
           let systemStates = JSON.parse(res.body || '[]')
@@ -180,32 +171,15 @@
           this.handleTablesSystemUsage(systemStates)
         })
       },
-
-      /**
-       * Start and Restart the socket
-       */
       startSocket () {
         this.stompClient.send("/states", {}, "socket-stop")
         this.subscribe()
       }, 
-
-      /**
-       * Stop the socket
-       */
       stopSocket () {
-        // this.stompClient.send('/states', {}, JSON.stringify(
-        //   {
-        //     name: ''
-        //   }
-        // ))
         this.stompClient.send("/states", {}, "socket-stop")
         this.subscription.unsubscribe()
         this.subscription = null
       },
-
-      /**
-       * Disconnect the socket
-       */
       disconnectSocket () {
         if (this.subscription) {
           this.subscription.unsubscribe()
@@ -218,16 +192,6 @@
         console.log('disconnect.subscription:', this.subscription)
         console.log('disconnect.stompClient:', this.stompClient)
       },    
-      // handleSocket () {
-      //   this.socket.emit('handleSocket', {
-      //     hello: 'world' 
-      //   }, (resp) => {
-      //   })
-      // },
-
-      /** 
-       * Handle the system usages in the tables
-       */
       handleTablesSystemUsage (mysystemStates) {
         //console.log('table_details: ', this.table_details)
         Object.keys(this.table_details).forEach(namespace => {
@@ -247,10 +211,6 @@
           })
         })
       },
-
-      /**
-       * Fetch data for the tables
-       */
       fetchTables () {
         const url = 'http://localhost:3003/items'
         this.$axios.$get(url, {}).then(res => {
@@ -264,35 +224,22 @@
           //this.dbservers = res.dbservers
         })
       },
-
-      /**
-       * Fetch table's detail data and toggleing its items
-       */
       fetchDetails (item) {
         let namespace = item.namespace
-        //Check the opened children
         if (this.table_details && this.table_details[namespace].table_items) {
           this.$set(this.table_items[item.id], '_toggled', !item._toggled)
           return false
         }
-        //Fetch data
         const url = `http://localhost:3005/${namespace}`
         this.$axios.$get(url, {}).then(res => {
           if (!res) return this.toastError()
-          //Parse data
           res = this.parseTableDetails(res)
-          //Assign data
           let table_fields = res.table_fields
           let table_items = res.table_items.map((item, id) => { return {...item, id}})
           this.table_details[namespace] =  { table_fields, table_items }
-          //Toggle the children of the row
           this.$set(this.table_items[item.id], '_toggled', !item._toggled)
         })
       },
-
-      /**
-       * Parse the row data into useable items
-       */
       parseTableItems (items) {
         let table_fields = [
           {key: "show_details", label: "", style: "width:1%", sorter: false, filter: false},
@@ -310,7 +257,6 @@
           {key: "message", label: "MESSAGE"},
           {key: "age", label: "AGE"}
         ]
-        //Calculate elapsed times for Age
         let getAge = creationTime => {
           let elapsedTime = new Date().getTime() - new Date(creationTime).getTime()
             , times = elapsedTime / (1000 * 60 * 60 * 24)
@@ -338,12 +284,9 @@
               age: getAge(item.metadata.creationTimestamp)
             }
           ]
-          //console.log('table_items: ', table_items)    
         })
         return { table_fields, table_items }
       },
-
-      /** parsing for Table's Details */
       parseTableDetails (items) {
         let table_fields = [
           // {key: "namespace", label: "NAMESPACE"},
@@ -360,7 +303,6 @@
           {key: "memoryUsage", label: "MEMORY\n(BYTES)"},
           {key: "storage", label: "STORAGE\n(DATA)"}
         ]
-        //Translate size into byte type
         let getByteSize = (size) => {
           return (  
             ! /\D?(g|m)/gi.test(size)
@@ -371,7 +313,6 @@
               )
           )
         }
-        //Build a percentage number as rate 
         let getUsageRate = (item, type) => {
           if (!/(cpu|memory)/i.test(type)) return 0
           let usage = 'cpu' == type
@@ -405,25 +346,16 @@
               storage: item.status.storage.data || ''
             }
           ]
-          //console.log('table_items: ', table_items)    
         })
         return { table_fields, table_items }
       },
-      
-      /**
-       * Click Event on the table rows
-       */
       handleRowClick (item, index, columnName, event) {
-        if (columnName === 'namespace') {
+        if (columnName === 'name') {
           this.$router.push({
             path: `/components/details/${item.namespace}`
           })
         }
       },
-
-      /**
-       * Bage color
-       */
       getBadgeColor(name) {
         switch (name) {
           case 'Running': return 'success'
