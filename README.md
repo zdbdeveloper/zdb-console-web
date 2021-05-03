@@ -3,6 +3,10 @@
 ## Build Setup
 
 ```bash
+# run json-server
+$ yarn json-table
+$ yarn json-detail
+
 # install dependencies
 $ npm install --save package.json
 
