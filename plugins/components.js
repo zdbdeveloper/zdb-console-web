@@ -10,6 +10,11 @@ import "vue-select/dist/vue-select.css";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 import VTooltip from "v-tooltip";
+import VueApexCharts from 'vue-apexcharts'
+
+//For ApexChart
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 
 Vue.use(CoreuiVue);
 Vue.use(VTooltip);

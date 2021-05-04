@@ -1,6 +1,21 @@
 <template>
-  <CTabs @update:activeTab="activeTab = $event">
+  <CTabs @update:activeTab="activeTab = $event"
+    fill
+    justified
+    variant='pills'
+  >
     <br/>
+    <CTab title="ApexChart">
+      <div id="chart1">
+        <apexchart type="area" height="350" :options="chartOptionsTimeseries" :series="seriesTimeseries"></apexchart>
+      </div><br/>
+      <div id="chart2">
+        <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
+      </div><br/>
+      <div id="chart3">
+        <apexchart type="area" height="350" :options="chartOptionsSpline" :series="seriesSpline"></apexchart>
+      </div><br/>
+    </CTab>
     <CTab :title="namespace">
       <CDataTable
         :items="table_items"
@@ -72,6 +87,16 @@
 </template>
 
 <script>
+import dataSeries from '~/static/dataSeries'
+
+let ts2 = 1484418600000;
+const dates = [];
+for (var i = 0; i < 120; i++) {
+  ts2 = ts2 + 86400000;
+  let innerArr = [ts2, dataSeries[1][i].value];
+  dates.push(innerArr)
+}
+
 export default {
   data() {
     return {
@@ -81,12 +106,145 @@ export default {
       table_items: [],
       table_details: [],
       dbservers: [],
-      activeTab: 0,
       collapseDuration: 100,
-    };
+
+      
+      //Apex Line Charts > Zoomable Timeseries
+      seriesTimeseries: [{
+        name: 'XYZ MOTORS',
+        data: dates
+      }],
+      chartOptionsTimeseries: {
+        chart: {
+          type: 'area',
+          stacked: false,
+          height: 350,
+          zoom: {
+            type: 'x',
+            enabled: true,
+            autoScaleYaxis: true
+          },
+          toolbar: {
+            autoSelected: 'zoom'
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          size: 0,
+        },
+        title: {
+          text: 'Stock Price Movement',
+          align: 'left'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          },
+        },
+        yaxis: {
+          labels: {
+            formatter: function (val) {
+              return (val / 1000000).toFixed(0);
+            },
+          },
+          title: {
+            text: 'Price'
+          },
+        },
+        xaxis: {
+          type: 'datetime',
+        },
+        tooltip: {
+          shared: false,
+          y: {
+            formatter: function (val) {
+              return (val / 1000000).toFixed(0)
+            }
+          }
+        }
+      },      
+
+      //Apex line
+      series: [{
+        name: "Desktops",
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      }],
+      chartOptions: {
+        chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Product Trends by Month',
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+      },
+
+      //Apex Area Charts > Spline
+      seriesSpline: [
+        {
+          name: 'series1',
+          data: [31, 40, 28, 51, 42, 109, 100]
+        },
+        {
+          name: 'series2',
+          data: [11, 32, 45, 32, 34, 52, 41]
+        }
+      ],
+      chartOptionsSpline: {
+        chart: {
+          height: 350,
+          type: 'area'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+        },
+        tooltip: {
+          x: {
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+      },
+
+    }
+  },
+  computed: {
+
   },
   created() {
-    this.fetchDetails(this.namespace)
+    //this.fetchDetails(this.namespace)
   },
   methods: {
     /**
@@ -213,8 +371,10 @@ export default {
   watch: {
     activeTab (value) {
       if (1 === value) {
+        this.fetchDetails(this.namespace)
+      } else if (2 === value) {
         this.fetchConfiguration()
-      }
+      } 
     }
   }
 }

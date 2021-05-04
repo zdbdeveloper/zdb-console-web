@@ -126,7 +126,7 @@
         </CRow>
       </CCol>
     </CRow> -->
-    <CRow>
+    <!-- <CRow>
       <CCol>
         <CMultiSelect
             :multiple="true"
@@ -146,7 +146,7 @@
           </optgroup>
         </CMultiSelect>
       </CCol>
-    </CRow>
+    </CRow> -->
 
   </div>
 </template>
@@ -218,7 +218,10 @@
       this.fetchTables()
       this.connectSocket()
     },
-    beforeDestroy() {
+    // beforeDestroy() {
+    //   this.disconnectSocket()
+    // },
+    unmounted() {
       this.disconnectSocket()
     },
     computed: {
