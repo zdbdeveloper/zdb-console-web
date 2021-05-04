@@ -175,10 +175,10 @@ export default {
      * Click Event for the tab of Configuration
      */
     fetchConfiguration() {
-      const url = 'http://localhost:3004/mytables'
+      const url = 'http://localhost:3003/dbservers'
       this.$axios.$get(url, {}).then(res => {
         if (!res) return this._toast_err("Fail to fetch data from the server")
-        this.dbservers = res.dbservers
+        this.dbservers = res
       })
     },
 

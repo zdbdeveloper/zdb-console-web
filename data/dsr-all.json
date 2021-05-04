@@ -413,5 +413,12 @@
     "metadata": {
         "resourceVersion": "",
         "selfLink": ""
-    }
+    },
+    "dbservers" : [
+        {"id": "1", "title": "primary-oracle", "text": "Oracle", "color": "info"},
+        {"id": "2", "title": "secondary-maria", "text": "MariaDB", "color": "primary"},
+        {"id": "3", "title": "backup-sqlserver", "text": "SqlServer", "color": "warning"},
+        {"id": "4", "title": "slave-mysql", "text": "MySql", "color": "success"},
+        {"id": "5", "title": "test-postgresql", "text": "PostgreSql", "color": "danger"}
+    ]
 }

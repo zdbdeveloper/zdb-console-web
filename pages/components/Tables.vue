@@ -9,9 +9,13 @@
       :disabled="!Boolean(stompClient)">DISCONNECT SOCKET</button>
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button>
+    <button @click="allColumm">COLUMN</button>
+
+
+
     <CDataTable
-      :items="table_items"
-      :fields="table_fields"
+      :items="tableItems"
+      :fields="FilteredFields"
       hover
       pagination
       sorter
@@ -37,8 +41,8 @@
           :show="Boolean(item._toggled)"
           :duration="collapseDuration">
           <CDataTable
-            :items="table_details[item.namespace].table_items"
-            :fields="table_details[item.namespace].table_fields"
+            :items="tableDetails[item.namespace].tableItems"
+            :fields="tableDetails[item.namespace].tableFields"
             hover
             pagination
             sorter
@@ -104,7 +108,7 @@
         </td>
       </template>
     </CDataTable><br/><br/>
-    <h2>Cards</h2>
+    <!-- <h2>Cards</h2>
     <CRow class="card-dash-group">
       <CCol lg="12" xl="10" class="card-dash-icon-group">
         <CRow>
@@ -121,7 +125,29 @@
           </CCol>
         </CRow>
       </CCol>
+    </CRow> -->
+    <CRow>
+      <CCol>
+        <CMultiSelect
+            :multiple="true"
+            :search="true"
+            :selected="['1']"
+            :selection="true"
+            optionsEmptyPlaceholder="No options placeholder"
+            searchPlaceholder="..."
+        >
+          <option value="0">enhancement</option>
+          <option value="1">bug</option>
+          <option value="2">duplicate</option>
+          <option value="3">invalid</option>
+          <optgroup label="group">
+            <option value="4">enhancement2</option>
+            <option value="5">bug2</option>
+          </optgroup>
+        </CMultiSelect>
+      </CCol>
     </CRow>
+
   </div>
 </template>
 <script>
@@ -134,28 +160,89 @@
     data() {
       return {
         //For Tables
-        table_fields: [],
-        table_items: [],
-        table_details: [],
+        tableFields: [],
+        tableItems: [],
+        tableDetails: [],
+        filteringFields: ['version', 'datastore'],
         dbservers: [],
-        activeTab: 0,
         collapseDuration: 100,
         //For STOMP socket
         stompClient: null,
         subscription: null,
-        //System States as cpuUsage, memoryUsage
         systemStates: [],
+
+      selected: [
+        '1',
+        // '1', 'group option 2', '5'
+      ],
+      options: [
+        {
+          value: 0,
+          text: 'enhancement'
+        },
+        {
+          value: 1,
+          text: 'bug',
+          // selected: true
+        },
+        {
+          value: 2,
+          text: 'duplicate',
+          // selected: true
+        },
+        {
+          value: 3,
+          text: 'invalid'
+        },
+        {
+          label: 'group',
+          options: [
+            {
+              value: 4,
+              text: 'enhancement2'
+            },
+            {
+              value: 5,
+              text: 'bug2'
+            }
+          ]
+        }
+      ],
+
+
+
       };
     },
     created() {
-      //console.log('this.table_details: ', this.table_details)
+      //console.log('this.tableDetails: ', this.tableDetails)
       this.fetchTables()
       this.connectSocket()
     },
     beforeDestroy() {
       this.disconnectSocket()
     },
+    computed: {
+      computedFields () {
+        return this.tableFields.map(field => {
+          return { 
+            ...field
+          }
+        })
+      },
+      FilteredFields() {
+        return this.computedFields.filter(field => {
+          return !this.filteringFields.includes(field.key)
+        })
+      }
+    },
     methods: {
+      allColumm() {
+        this.filteringFields = []
+      },
+
+      /**
+       * Connect Socket
+       */      
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
@@ -164,6 +251,9 @@
           this.subscribe()
         })
       },
+      /**
+       * Receive data via the socket
+       */
       subscribe () {
         this.subscription = this.stompClient.subscribe('/topic/states', (res) => {
           let systemStates = JSON.parse(res.body || '[]')
@@ -171,15 +261,24 @@
           this.handleTablesSystemUsage(systemStates)
         })
       },
+      /**
+       * Start and Restart the socket
+       */
       startSocket () {
-        this.stompClient.send("/states", {}, "socket-stop")
+        this.stompClient.send("/topic/states", {}, "socket-stop")
         this.subscribe()
-      }, 
+      },
+      /**
+       * Stop the socket
+       */ 
       stopSocket () {
-        this.stompClient.send("/states", {}, "socket-stop")
+        this.stompClient.send("/topic/states", {}, "socket-stop")
         this.subscription.unsubscribe()
         this.subscription = null
       },
+      /**
+       * Disconnect the socket
+       */
       disconnectSocket () {
         if (this.subscription) {
           this.subscription.unsubscribe()
@@ -191,14 +290,17 @@
         }
         console.log('disconnect.subscription:', this.subscription)
         console.log('disconnect.stompClient:', this.stompClient)
-      },    
+      },
+      /** 
+       * Handle the system usages in the tables
+       */    
       handleTablesSystemUsage (mysystemStates) {
-        //console.log('table_details: ', this.table_details)
-        Object.keys(this.table_details).forEach(namespace => {
-          let table_items = this.table_details[namespace].table_items
-          if (!table_items) return false
+        //console.log('tableDetails: ', this.tableDetails)
+        Object.keys(this.tableDetails).forEach(namespace => {
+          let tableItems = this.tableDetails[namespace].tableItems
+          if (!tableItems) return false
 
-          table_items.forEach((tableItem, tableItemIdx) => {
+          tableItems.forEach((tableItem, tableItemIdx) => {
             if (!mysystemStates.length) return false
            
             mysystemStates.forEach(systemState => {
@@ -211,42 +313,52 @@
           })
         })
       },
+      /**
+       * Fetch data for the tables
+       */
       fetchTables () {
         const url = 'http://localhost:3003/items'
         this.$axios.$get(url, {}).then(res => {
           res = this.parseTableItems(res)
-          this.table_fields = res.table_fields
-          this.table_items = res.table_items.map((item, id) => {
-            //Assign table_details
-            this.table_details[item.namespace] = {}
+          this.tableFields = res.tableFields
+          this.tableItems = res.tableItems.map((item, id) => {
+            //Assign tableDetails
+            this.tableDetails[item.namespace] = {}
             return {...item, id}
           })
-          //this.dbservers = res.dbservers
         })
       },
+      /**
+       * Fetch table's detail data and toggleing its items
+       */
       fetchDetails (item) {
         let namespace = item.namespace
-        if (this.table_details && this.table_details[namespace].table_items) {
-          this.$set(this.table_items[item.id], '_toggled', !item._toggled)
+        //Check the opened children
+        if (this.tableDetails && this.tableDetails[namespace].tableItems) {
+          this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
           return false
         }
         const url = `http://localhost:3005/${namespace}`
         this.$axios.$get(url, {}).then(res => {
           if (!res) return this.toastError()
           res = this.parseTableDetails(res)
-          let table_fields = res.table_fields
-          let table_items = res.table_items.map((item, id) => { return {...item, id}})
-          this.table_details[namespace] =  { table_fields, table_items }
-          this.$set(this.table_items[item.id], '_toggled', !item._toggled)
+          let tableFields = res.tableFields
+          let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
+          this.tableDetails[namespace] =  { tableFields, tableItems }
+          //Toggle the children of the row
+          this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
         })
       },
+      /**
+       * Parse the row data into useable items
+       */
       parseTableItems (items) {
-        let table_fields = [
+        let tableFields = [
           {key: "show_details", label: "", style: "width:1%", sorter: false, filter: false},
           {key: "namespace", label: "NAMESPACE", _style: 'min-width:100px'},
           {key: "name", label: "NAME", _style:'min-width:140px'},
           {key: "datastore", label: "DATASTORE"},
-          {key: "version", label: "VERSION"},
+          {key: "version", label: "VERSION", _classes:'hide'},
           {key: "architecture", label: "ARCHITECTURE"},
           {key: "deployStatus", label: "DEPLOY\nSTATUS"},
           {key: "status", label: "STATUS"},
@@ -265,9 +377,9 @@
           //return `${ days }d-${String(hours).split('.')[0] || 0 }h`
           return `${ days }d`
         }
-        let table_items = []
+        let tableItems = []
         items.map(item => {
-          table_items = [ ...table_items,
+          tableItems = [ ...tableItems,
             {
               namespace: item.metadata.namespace || '',
               name: item.metadata.name || '',
@@ -285,10 +397,13 @@
             }
           ]
         })
-        return { table_fields, table_items }
+        return { tableFields, tableItems }
       },
+      /**
+       * parsing for Table's Details
+       */
       parseTableDetails (items) {
-        let table_fields = [
+        let tableFields = [
           // {key: "namespace", label: "NAMESPACE"},
           {key: "name", label: "NAME", _style:'min-width:140px'},
           {key: "memberRole", label: "MEMBER\nROLE"},
@@ -303,6 +418,7 @@
           {key: "memoryUsage", label: "MEMORY\n(BYTES)"},
           {key: "storage", label: "STORAGE\n(DATA)"}
         ]
+        //Translate size into byte type
         let getByteSize = (size) => {
           return (  
             ! /\D?(g|m)/gi.test(size)
@@ -313,6 +429,7 @@
               )
           )
         }
+        //Build a percentage number as rate 
         let getUsageRate = (item, type) => {
           if (!/(cpu|memory)/i.test(type)) return 0
           let usage = 'cpu' == type
@@ -327,9 +444,9 @@
           //console.log('####### maximum', maximum)
           return !usage || !maximum ? 0 : Math.round((usage/maximum) * 100)
         }
-        let table_items = []
+        let tableItems = []
         items.map(item => {
-          table_items = [ ...table_items,
+          tableItems = [ ...tableItems,
             { 
               namespace: item.metadata.namespace || '',
               name: item.metadata.name || '',
@@ -347,8 +464,11 @@
             }
           ]
         })
-        return { table_fields, table_items }
+        return { tableFields, tableItems }
       },
+      /**
+       * Click Event on the table rows
+       */
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
           this.$router.push({
@@ -356,6 +476,9 @@
           })
         }
       },
+      /**
+       * Bage color
+       */
       getBadgeColor(name) {
         switch (name) {
           case 'Running': return 'success'
@@ -420,6 +543,7 @@
     }
   };
 </script>
-<style>
+<style scoped>
 .table {text-align: center}
+.hide {display: none}
 </style>
