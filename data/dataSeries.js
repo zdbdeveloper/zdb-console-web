@@ -1,3 +1,11 @@
+// let ts2 = 1484418600000;
+// const dates = [];
+// for (var i = 0; i < 120; i++) {
+//   ts2 = ts2 + 86400000;
+//   //let innerArr = [ts2, dataSeries[1][i].value];
+//   let innerArr = [dataSeries[1][i].date, dataSeries[1][i].value];
+//   dates.push(innerArr)
+// }
 export default [
   [
     {

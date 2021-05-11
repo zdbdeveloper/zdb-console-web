@@ -249,6 +249,8 @@
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
+        //if (!this.stompClient.connected) return false
+        
         this.stompClient.connect({}, (frame) => {
           console.log('Connected.frame: ' + frame)
           this.subscribe()
@@ -298,14 +300,13 @@
        * Handle the system usages in the tables
        */    
       handleTablesSystemUsage (mysystemStates) {
-        //console.log('tableDetails: ', this.tableDetails)
+        if (!Array.isArray(mysystemStates) || !mysystemStates.length) return false
+
         Object.keys(this.tableDetails).forEach(namespace => {
           let tableItems = this.tableDetails[namespace].tableItems
           if (!tableItems) return false
 
           tableItems.forEach((tableItem, tableItemIdx) => {
-            if (!mysystemStates.length) return false
-           
             mysystemStates.forEach(systemState => {
               if (systemState.name == tableItem.name) {
                 tableItem.cpuUsage.rate = systemState.cpuRate
@@ -327,7 +328,7 @@
           this.tableItems = res.tableItems.map((item, id) => {
             //Assign tableDetails
             this.tableDetails[item.namespace] = {}
-            return {...item, id}
+            return { ...item, id }
           })
         })
       },
@@ -376,8 +377,6 @@
           let elapsedTime = new Date().getTime() - new Date(creationTime).getTime()
             , times = elapsedTime / (1000 * 60 * 60 * 24)
             , days = Math.floor(times)
-            //, hours = (times - days) / (1000 *60 * 60)
-          //return `${ days }d-${String(hours).split('.')[0] || 0 }h`
           return `${ days }d`
         }
         let tableItems = []

@@ -11,6 +11,7 @@
     "lint": "npm run lint:js",
     "json-table": "json-server --watch --port 3003 ./data/dsr-all.json",
     "json-detail": "json-server --watch --port 3005 ./data/dsr-mdb-zdbs.json",
+    "json-apex": "json-server --watch --port 3006 ./data/apexchart.json",
     "json-test": "json-server --watch --port 3004 ./data/coreui.json"
   },
   "dependencies": {

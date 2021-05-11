@@ -13,3 +13,8 @@ function install (vue, options) {
 }
 
 Vue.use({ install })
+
+// export default (context, inject) => {
+//   context.$dayjs = dayjs
+//   inject('dayjs', dayjs)
+// }

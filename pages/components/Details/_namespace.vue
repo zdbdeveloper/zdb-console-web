@@ -6,16 +6,23 @@
   >
     <br/>
     <CTab title="ApexChart">
-      <div id="chart1">
-        <apexchart type="area" height="350" :options="chartOptionsTimeseries" :series="seriesTimeseries"></apexchart>
-      </div><br/>
-      <div id="chart2">
-        <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
-      </div><br/>
-      <div id="chart3">
-        <apexchart type="area" height="350" :options="chartOptionsSpline" :series="seriesSpline"></apexchart>
-      </div><br/>
+      <div id="cpuUsageChart" v-if="cpuUsageChart">
+        <apexchart type="area" height="350" ref="cpuUsageChart"
+          :options="cpuUsageChart.options" :series="cpuUsageChart.series">
+        </apexchart>
+      </div><br/><br/>
+      <div id="memoryUsageChart" v-if="memoryUsageChart">
+        <apexchart type="area" height="350"
+          :options="memoryUsageChart.options" :series="memoryUsageChart.series">
+        </apexchart>
+      </div><br/><br/>
+     <div id="networkIOChart" v-if="networkIOChart">
+        <apexchart type="area" height="350"
+          :options="networkIOChart.options" :series="networkIOChart.series">
+        </apexchart>
+      </div><br/><br/>
     </CTab>
+
     <CTab :title="namespace">
       <CDataTable
         :items="table_items"
@@ -87,17 +94,11 @@
 </template>
 
 <script>
-import dataSeries from '~/static/dataSeries'
-
-let ts2 = 1484418600000;
-const dates = [];
-for (var i = 0; i < 120; i++) {
-  ts2 = ts2 + 86400000;
-  let innerArr = [ts2, dataSeries[1][i].value];
-  dates.push(innerArr)
-}
+import { dialog } from '~/mixins'
+import { getCpuUsageChart, getMemoryUsageChart, getNetworkIOChart } from '~/modules/apexcharts'
 
 export default {
+  mixins: [dialog],
   data() {
     return {
       namespace: this.$route.params.namespace,
@@ -107,159 +108,76 @@ export default {
       table_details: [],
       dbservers: [],
       collapseDuration: 100,
-
-      
-      //Apex Line Charts > Zoomable Timeseries
-      seriesTimeseries: [{
-        name: 'XYZ MOTORS',
-        data: dates
-      }],
-      chartOptionsTimeseries: {
-        chart: {
-          type: 'area',
-          stacked: false,
-          height: 350,
-          zoom: {
-            type: 'x',
-            enabled: true,
-            autoScaleYaxis: true
-          },
-          toolbar: {
-            autoSelected: 'zoom'
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        markers: {
-          size: 0,
-        },
-        title: {
-          text: 'Stock Price Movement',
-          align: 'left'
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shadeIntensity: 1,
-            inverseColors: false,
-            opacityFrom: 0.5,
-            opacityTo: 0,
-            stops: [0, 90, 100]
-          },
-        },
-        yaxis: {
-          labels: {
-            formatter: function (val) {
-              return (val / 1000000).toFixed(0);
-            },
-          },
-          title: {
-            text: 'Price'
-          },
-        },
-        xaxis: {
-          type: 'datetime',
-        },
-        tooltip: {
-          shared: false,
-          y: {
-            formatter: function (val) {
-              return (val / 1000000).toFixed(0)
-            }
-          }
-        }
-      },      
-
-      //Apex line
-      series: [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      }],
-      chartOptions: {
-        chart: {
-          height: 350,
-          type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {
-          text: 'Product Trends by Month',
-          align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
-      },
-
-      //Apex Area Charts > Spline
-      seriesSpline: [
-        {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100]
-        },
-        {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }
-      ],
-      chartOptionsSpline: {
-        chart: {
-          height: 350,
-          type: 'area'
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-        },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy HH:mm'
-          },
-        },
-      },
-
+      //Apexchart Chart
+      cpuUsageChart: null,
+      memoryUsageChart: null,
+      networkIOChart: null,
     }
   },
   computed: {
-
   },
   created() {
+    console.log(this)
     //this.fetchDetails(this.namespace)
+    this.fetchCpuUsageChart()
+    this.fetchMemoryUsageChart()
+    this.fetchNetworkIOChart()
+    //this.cpuUsageChart.toggleSeries('Current/awesome-shopping-demo-mariadb-0')
   },
   methods: {
+    // fetchCpuUsageChart () {
+    //   let url = 'http://localhost:3006/cpuCurrent'
+    //   this.$axios.$get(url, {}).then(res => {
+    //     if (!res) return this._toast_err('error: fetchCpuUsageChart')
+    //     this.cpuUsageChart = getCpuUsageChart(res)
+    //   })
+    // },
+    async fetchCpuUsageChart () {
+     let url1 = 'http://localhost:3006/cpuCurrent'
+        , url2 = 'http://localhost:3006/cpuLimits'
+        , url3 = 'http://localhost:3006/cpuRequests'
+        , content1 = await this.$axios.$get(url1, {})
+        , content2 = await this.$axios.$get(url2, {})
+        , content3 = await this.$axios.$get(url3, {})
+      if (!content1 || !content2 || !content3) return this._toast_err('error: fetchNetworkIOChart')
+      this.cpuUsageChart = getCpuUsageChart(content1, content2, content3)
+      //this.cpuUsageChart.toggleSeries('Current/awesome-shopping-demo-mariadb-0')
+      //this.cpuUsageChart.series[2].data.map(item => console.log('item:', item))
+      //this.$refs.cpuUsageChart.toggleSeries('Current/awesome-shopping-demo-mariadb-0')
+      //this.$apexcharts.exec('cpuUsageChart', 'toggleSeries', 'Current/awesome-shopping-demo-mariadb-0')
+      setTimeout(() => { 
+        this.$refs.cpuUsageChart.hideSeries('Limit/awesome-shopping-demo-mariadb-0')
+        this.$refs.cpuUsageChart.hideSeries('Requested/awesome-shopping-demo-mariadb-0')
+      }, 100)
+    },
+    fetchMemoryUsageChart () {
+      let url = 'http://localhost:3006/memoryUsage'
+      this.$axios.$get(url, {}).then(res => {
+        if (!res) return this._toast_err('error: fetchMemoryUsageChart')
+        this.memoryUsageChart = getMemoryUsageChart(res)
+      })
+    },
+    async fetchNetworkIOChart () {
+      let url1 = 'http://localhost:3006/networkTx'
+        , url2 = 'http://localhost:3006/networkRx'
+        , content1 = await this.$axios.$get(url1, {})
+        , content2 = await this.$axios.$get(url2, {})
+      if (!content1 || !content2) return this._toast_err('error: fetchNetworkIOChart')
+      this.networkIOChart = getNetworkIOChart(content1, content2)
+    },
     /**
      * Fetch the detail data and toggleing its items
      */
     fetchDetails (namespace) {
       //Fetch data
-      const url = `http://localhost:3005/${namespace}`
+      let url = `http://localhost:3005/${namespace}`
       this.$axios.$get(url, {}).then(res => {
-        if (!res) return this.toastError()
+        if (!res) return this._toast_err('error: fetchDetails')
         //Parse data
         res = this.parseTableDetails(res)
         this.table_fields = res.table_fields
         this.table_items = res.table_items.map((item, id) => {
-          return {...item, id}
+          return { ...item, id }
         })
       })
     },
@@ -333,7 +251,7 @@ export default {
      * Click Event for the tab of Configuration
      */
     fetchConfiguration() {
-      const url = 'http://localhost:3003/dbservers'
+      let url = 'http://localhost:3003/dbservers'
       this.$axios.$get(url, {}).then(res => {
         if (!res) return this._toast_err("Fail to fetch data from the server")
         this.dbservers = res
