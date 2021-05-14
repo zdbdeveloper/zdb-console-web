@@ -1,40 +1,18 @@
-export function getCpuUsageChart(content1, content2, content3) {
-  let data1 = content1?.result.data
-    , name1 = data1 ? 'Current/' + data1.result[0].metric.pod : 'TX'
-    , values1 = data1 ? data1.result[0].values : []
-    , categories = data1 ? data1.result[0].values.map(period => period[0]) : []  
-  let data2 = content2?.result.data
-    , name2 = data2 ? 'Limit/' + data2.result[0].metric.pod : 'RX'
-    , values2 = data2 ? data2.result[0].values : []
-  let data3 = content3?.result.data
-    , name3 = data3 ? 'Requested/' + data3.result[0].metric.pod : 'RX'
-    , values3 = data3 ? data3.result[0].values : []
+export function getCpuUsageChart() {
   return {
-    series: [
-      {
-        name: name1,
-        data: values1
-      },
-      {
-        name: name2,
-        data: values2
-      },
-      {
-        name: name3,
-        data: values3
-      }
-    ],
+    series: [],
     options: {
       chart: {
-        stacked: false,
-        zoom: {
-          type: 'x',
-          enabled: true,
-          autoScaleYaxis: true
-        },
-        toolbar: {
-          autoSelected: 'zoom'
-        }
+        id: 'cpuUsageChart',
+        // stacked: false,
+        // zoom: {
+        //   type: 'x',
+        //   enabled: true,
+        //   autoScaleYaxis: true
+        // },
+        // toolbar: {
+        //   autoSelected: 'zoom'
+        // }
       },
       dataLabels: {
         enabled: false
@@ -71,7 +49,7 @@ export function getCpuUsageChart(content1, content2, content3) {
           }
           return max + 1
         },
-        labels: { // Y 축의 label format 설정 
+        labels: {
           formatter: function(value, index) {
             if (value > 0.09) {
               return value.toFixed(1);
@@ -89,7 +67,7 @@ export function getCpuUsageChart(content1, content2, content3) {
       },
       xaxis: {
         type: 'datetime', //(datetime, category, numeric)
-        categories: categories,
+        categories: [],
         labels: {
           formatter: function(value) {
             //console.log(`value: ${value}`)
@@ -104,8 +82,8 @@ export function getCpuUsageChart(content1, content2, content3) {
         //tickPlacement: 'between',  //(on, between)
         //position:'bottom'  //(top, bottom )
       },
-      noData:{ text: 'No Data', align: 'center', verticalAlign:'top' },
-      legend:{ height:100, horizontalAlign: 'center' },
+      noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+      legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
       // tooltip: {
       //   shared: false,
       //   y: {
@@ -115,35 +93,20 @@ export function getCpuUsageChart(content1, content2, content3) {
       //   }
       // }
     },
-    events: {
-      mounted: function(chartContext, config) {
-        console.log(`chart mounted: ${chartContext}`)
-      }
-    }
+    // events: {
+    //   mounted: function(chartContext, config) {
+    //     console.log(`chart mounted: ${chartContext}`)
+    //   }
+    // }
   }
 }
 
-export function getMemoryUsageChart(content) {
-  let data = content?.result.data
-    , name = data ? data.result[0].metric.pod : 'Memory Usage'
-    , values = data ? data.result[0].values : []
-    , categories = data ? data.result[0].values.map(period => period[0]) : []
+export function getMemoryUsageChart() {
   return {
-    series: [{
-      name: name,
-      data: values
-    }],
+    series: [],
     options: {
       chart: {
-        stacked: false,
-        zoom: {
-          type: 'x',
-          enabled: true,
-          autoScaleYaxis: true
-        },
-        toolbar: {
-          autoSelected: 'zoom'
-        }
+        id: 'memoryUsageChart'
       },
       dataLabels: {
         enabled: false
@@ -178,7 +141,7 @@ export function getMemoryUsageChart(content) {
       },
       xaxis: {
         type: 'datetime',
-        categories: categories,
+        categories: [],
         labels: {
           formatter: function(value) {
             let date = new Date(value * 1000)
@@ -190,35 +153,18 @@ export function getMemoryUsageChart(content) {
         },
         tickAmount: 8,
       },
-      noData:{ text: 'No Data', align: 'center', verticalAlign:'top' },
-      legend:{ height:100, horizontalAlign: 'left' }
+      noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+      legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
     }
   }
 }
 
-export function getNetworkIOChart(content1, content2) {
-  let data1 = content1?.result.data
-    , name1 = data1 ? 'TX/' + data1.result[0].metric.pod : 'TX'
-    , values1 = data1 ? data1.result[0].values : []
-    , categories = data1 ? data1.result[0].values.map(period => period[0]) : []  
-  let data2 = content2?.result.data
-    , name2 = data2 ? 'RX/' + data2.result[0].metric.pod : 'RX'
-    , values2 = data2 ? data2.result[0].values : []
+export function getNetworkIOChart() {
   return {
-    series: [
-      {
-        name: name1,
-        data: values1
-      },
-      {
-        name: name2,
-        data: values2
-      }
-    ],
+    series: [],
     options: {
       chart: {
-        //height: 350,
-        //type: 'area'
+        id: 'networkIOChart'
       },
       dataLabels: {
         enabled: false
@@ -239,7 +185,7 @@ export function getNetworkIOChart(content1, content2) {
       },
       xaxis: {
         type: 'datetime',
-        categories: categories,
+        categories: [],
         labels: {
           formatter: function(value) {
             let date = new Date(value * 1000)
@@ -252,7 +198,355 @@ export function getNetworkIOChart(content1, content2) {
         , tickAmount: 8
       },
     },
-    noData:{ text: 'No Data', align: 'center', verticalAlign:'top' },
-    legend:{ height:100, horizontalAlign: 'left' }
-  }
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getConnectionsChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'connectionsChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Connections',
+        align: 'left'
+      },
+      yaxis: {
+        labels: {
+          formatter: function(value) {
+            return `${(value / 1024).toFixed(1)}KBps`;
+          }
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getThreadActivityChart(contents) {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'threadActivityChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Thread Activity',
+        align: 'left'
+      },
+      yaxis: {
+        labels: {
+          formatter: function(value) {
+            let re = Number(value).toFixed(3)
+            if(Number(value) == 0  ){							    		  
+                re = Number(value).toFixed(0) ;	
+            }else if(Number(value) > 10  ){
+              re = Number(value).toFixed(0) ;
+            }else if(Number(value) > 0.9  ){
+              re = Number(value).toFixed(1) ;		
+            }else if(Number(value) > 0.1  ){
+              re = Number(value).toFixed(2) ;								    		  
+            }
+            return re; 
+          }
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getTableLocksChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'tableLocksChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Table Locks',
+        align: 'left'
+      },
+      yaxis: {
+        labels: {
+          formatter: function(value) {
+            let re = Number(value).toFixed(3)
+            if(Number(value) == 0  ){							    		  
+                re = Number(value).toFixed(0) ;	
+            }else if(Number(value) > 10  ){
+              re = Number(value).toFixed(0) ;
+            }else if(Number(value) > 0.9  ){
+              re = Number(value).toFixed(1) ;		
+            }else if(Number(value) > 0.1  ){
+              re = Number(value).toFixed(2) ;								    		  
+            }
+            return re; 
+          }
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getCurrentQPSChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'currentQPSChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Current QPS',
+        align: 'left'
+      },
+      yaxis: {
+        labels: {
+          formatter: function(value) {
+            let re = Number(value).toFixed(3)
+            if(Number(value) == 0  ){							    		  
+                re = Number(value).toFixed(0) ;	
+            }else if(Number(value) > 10  ){
+              re = Number(value).toFixed(0) ;
+            }else if(Number(value) > 0.9  ){
+              re = Number(value).toFixed(1) ;		
+            }else if(Number(value) > 0.1  ){
+              re = Number(value).toFixed(2) ;								    		  
+            }
+            return re; 
+          }
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getReplictionDelayChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'replictionDelayChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Repliction Delay',
+        align: 'left'
+      },
+      yaxis: {
+        decimalsInFloat: 0,
+        tickAmount: 4,
+        min: 0,
+        max: function(max) {
+          return max <= 0 ? max + 1 : max
+        },
+        labels: {
+          formatter: function(value) {
+            let re = Number(value).toFixed(1)
+            if(Number(value) == 0) {							    		  
+                re = Number(value).toFixed(0) ;
+            }
+            return re; 
+          }
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getSlaveSqlThreadRunningChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'slaveSqlThreadRunningChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Slave Sql Thread Running',
+        align: 'left'
+      },
+      yaxis: {
+        //decimalsInFloat: 4,
+        //tickAmount: 3,
+        min: 0,
+        max: function(value) {
+          return value.toFixed()
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
+}
+
+export function getSlaveIOThreadRunningChart() {
+  return {
+    series: [],
+    options: {
+      chart: {
+        id: 'slaveIOThreadRunningChart'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Slave IO Thread Running',
+        align: 'left'
+      },
+      yaxis: {
+        min: 0,
+        max: function(value) {
+          return value.toFixed()
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+        labels: {
+          formatter: function(value) {
+            let date = new Date(value * 1000)
+                , hours = date.getHours()
+                , minutes = ('0' + date.getMinutes()).substr(-2)
+                , seconds = ('0' + date.getSeconds()).substr(-2)
+            return `${hours}:${minutes}:${seconds}`
+          },
+        }
+        , tickAmount: 8
+      },
+    },
+    noData:{ text: 'Loading...', align: 'center', verticalAlign:'top' },
+    legend:{ height:100, horizontalAlign: 'center', show: true, showForSingleSeries: true, showForNullSeries: true, showForZeroSeries: true }
+  }  
 }
