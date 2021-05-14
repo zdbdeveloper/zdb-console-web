@@ -22,7 +22,7 @@ let monMemoryRequests = {
           kubernetes_namespace: "zcp-system",
           namespace: "backup-test",
           node: "10.178.218.166",
-          pod: "backup-test-ydb1-mariadb-0",
+          pod: "backup-test-ydb1-mariadb-0"
         },
         values: [
           [1620632362, "1048576000"],
@@ -42,8 +42,8 @@ let monMemoryRequests = {
           [1620632460, "1048576000"],
           [1620632467, "1048576000"],
           [1620632474, "1048576000"],
-          [1620632481, "1048576000"],
-        ],
+          [1620632481, "1048576000"]
+        ]
       },
       {
         metric: {
@@ -56,7 +56,7 @@ let monMemoryRequests = {
           kubernetes_namespace: "zcp-system",
           namespace: "backup-test",
           node: "10.178.218.187",
-          pod: "backup-test-test10214-mariadb-master-0",
+          pod: "backup-test-test10214-mariadb-master-0"
         },
         values: [
           [1620632362, "1048576000"],
@@ -76,11 +76,11 @@ let monMemoryRequests = {
           [1620632460, "1048576000"],
           [1620632467, "1048576000"],
           [1620632474, "1048576000"],
-          [1620632481, "1048576000"],
-        ],
-      },
-    ],
-  },
+          [1620632481, "1048576000"]
+        ]
+      }
+    ]
+  }
 };
 let monMemoryLimits = null;
 let monMemoryCurrents = {
@@ -108,8 +108,8 @@ let monMemoryCurrents = {
           [1620632460, "232448000"],
           [1620632467, "232448000"],
           [1620632474, "232448000"],
-          [1620632481, "232476672"],
-        ],
+          [1620632481, "232476672"]
+        ]
       },
       {
         metric: { pod: "backup-test-ydb1-mariadb-0" },
@@ -131,11 +131,11 @@ let monMemoryCurrents = {
           [1620632460, "230834176"],
           [1620632467, "230834176"],
           [1620632474, "230834176"],
-          [1620632481, "230838272"],
-        ],
-      },
-    ],
-  },
+          [1620632481, "230838272"]
+        ]
+      }
+    ]
+  }
 };
 let arrMemoryType = ["memoryCurrent", "memoryLimits", "memoryRequests"];
 
@@ -144,36 +144,39 @@ const memRequest =
 const memCurrent =
   'avg by(pod) (container_memory_rss{pod=~"backup-test-.*",container="mariadb"})';
 export default {
-  mounted: function () {
+  mounted: function() {
     this.getMemoryMon();
   },
   methods: {
     promQueryService(query, step) {
       console.log(query);
-      const end = 1620634162;
+      const end = 1620634162; // unixtime 으로 현재시간 가져오기
       const start = end - 1800;
       const args = new URLSearchParams({
         query: query,
         start: start,
         end: end,
-        step: step,
+        step: step
       });
       const url = `https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range`;
       var response = null;
       return this.$axios.$get(url, { params: args });
     },
     getMemoryMon() {
+      // metrics 값 가져오기
       // Memory Usage Chart GET Data
       // use promQueryService
-      //   monMemoryRequests = await this.promQueryService(memRequest, 7);
+      //   monMemoryRequests = await this.promQueryService(memRequest, 7); // asyn 동작 필요
       this.getMemoryMonCharts();
     },
-    getMemoryMonCharts: function () {
+    getMemoryMonCharts: function() {
+      // 그래프  그리기
       // CPU Usage Chart Rendering
       let pSeries = [];
       let pCategories = [];
       console.log(monMemoryRequests);
 
+      // monMemoryCurrents 데이터 가공
       if (monMemoryCurrents != null) {
         if (
           monMemoryCurrents.data.result != undefined &&
@@ -204,6 +207,7 @@ export default {
         }
       }
 
+      // monMemoryRequests 데이터 가공
       if (monMemoryRequests != null) {
         if (
           monMemoryRequests.data.result != undefined &&
@@ -234,23 +238,24 @@ export default {
         }
       }
 
+      // 그래프 설정
       let options = {
         chart: { type: "line", height: 350, zoom: { enabled: false } },
         stroke: {
           width: 1, //그래프 선 굵기 설정
-          curve: "smooth", // 선의 형태 설정 (smooth , straight , stepline)
+          curve: "smooth" // 선의 형태 설정 (smooth , straight , stepline)
           //, lineCap : 'square'   // 선의 시작과 끝점의 설정용 옵션 (butt, square , round)
         },
         fill: {
           // 선의  색 채우기 옵션
           //colors: ['#f2f1de','#f2f1de']        // 선의 index 별 색 지정
           opacity: 0.35, // 색의 투명도 수치
-          type: "solid", // 채우기 type (solid, gradient, pattern ,image)
+          type: "solid" // 채우기 type (solid, gradient, pattern ,image)
         },
         title: {
           text: "Memory Usage",
           align: "center",
-          style: { fontSize: "16px", color: "#666" },
+          style: { fontSize: "16px", color: "#666" }
         },
         legend: { height: 50, horizontalAlign: "left" }, // 하단 목록 style
         noData: { text: "No Data", align: "center", verticalAlign: "top" }, // nodata  일 경우 표현 처리
@@ -265,17 +270,17 @@ export default {
           //   },
           tickAmount: 3, //표현하려는 갯수 (type 이 datetime 일 때만 기능 )
           tickPlacement: "between", // label 의 위치 조정 (on , between)
-          position: "bottom", // x 축 표현 위치 (top /bottom )
+          position: "bottom" // x 축 표현 위치 (top /bottom )
         },
         yaxis: {
           decimalsInFloat: 3, //float 값으로 들어왔을 경우 소수점 자리수 셋팅
           tickAmount: 4, //표현하려는 갯수 (type 이 datetime 일 때만 기능 )
-          min: function (min) {
+          min: function(min) {
             return 0;
           },
           labels: {
             // Y 축의 label format 설정
-            formatter: function (val, index) {
+            formatter: function(val, index) {
               let re = "";
               if (Number(val) > 1) {
                 re = Number(val).toFixed(1);
@@ -290,16 +295,15 @@ export default {
                 re += " MB";
               }
               return re;
-            },
-          },
-        },
+            }
+          }
+        }
       };
 
       let memoryChart = new ApexCharts(this.$refs.memoryChart, options);
-
       memoryChart.render();
-    },
-  },
+    }
+  }
 };
 </script>
 
