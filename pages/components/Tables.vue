@@ -10,9 +10,6 @@
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button>
     <button @click="allColumm">COLUMN</button>
-
-
-
     <CDataTable
       :items="tableItems"
       :fields="FilteredFields"
@@ -126,28 +123,6 @@
         </CRow>
       </CCol>
     </CRow> -->
-    <!-- <CRow>
-      <CCol>
-        <CMultiSelect
-            :multiple="true"
-            :search="true"
-            :selected="['1']"
-            :selection="true"
-            optionsEmptyPlaceholder="No options placeholder"
-            searchPlaceholder="..."
-        >
-          <option value="0">enhancement</option>
-          <option value="1">bug</option>
-          <option value="2">duplicate</option>
-          <option value="3">invalid</option>
-          <optgroup label="group">
-            <option value="4">enhancement2</option>
-            <option value="5">bug2</option>
-          </optgroup>
-        </CMultiSelect>
-      </CCol>
-    </CRow> -->
-
   </div>
 </template>
 <script>

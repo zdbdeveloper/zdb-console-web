@@ -6,58 +6,13 @@
   >
     <br/>
     <CTab title="ApexChart">
-      <div v-if="cpuUsageChart" class="chart-wrap">
+      <div v-for="(chart, idx) in targetCharts" :key="idx" class="chart-wrap">
         <apexchart type="area" height="350"
-          :options="cpuUsageChart.options" :series="cpuUsageChart.series">
-        </apexchart>
-      </div>
-      <div v-if="memoryUsageChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="memoryUsageChart.options" :series="memoryUsageChart.series">
-        </apexchart>
-      </div>
-     <div v-if="networkIOChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="networkIOChart.options" :series="networkIOChart.series">
-        </apexchart>
-      </div>
-      <div v-if="connectionsChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="connectionsChart.options" :series="connectionsChart.series">
-        </apexchart>
-      </div>
-      <div v-if="threadActivityChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="threadActivityChart.options" :series="threadActivityChart.series">
-        </apexchart>
-      </div>
-      <div v-if="tableLocksChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="tableLocksChart.options" :series="tableLocksChart.series">
-        </apexchart>
-      </div>
-      <div v-if="currentQPSChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="currentQPSChart.options" :series="currentQPSChart.series">
-        </apexchart>
-      </div>
-      <div v-if="replictionDelayChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="replictionDelayChart.options" :series="replictionDelayChart.series">
-        </apexchart>
-      </div>
-      <div v-if="slaveSqlThreadRunningChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="slaveSqlThreadRunningChart.options" :series="slaveSqlThreadRunningChart.series">
-        </apexchart>
-      </div>
-      <div v-if="slaveIOThreadRunningChart" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :options="slaveIOThreadRunningChart.options" :series="slaveIOThreadRunningChart.series">
+          :series="chart.series"
+          :options="chart.options">
         </apexchart>
       </div>
     </CTab>
-
     <CTab :title="namespace">
       <CDataTable
         :items="table_items"
@@ -130,18 +85,35 @@
 
 <script>
 import { dialog } from '~/mixins'
-import { getCpuUsageChart, getMemoryUsageChart, getNetworkIOChart
-  , getConnectionsChart, getThreadActivityChart, getTableLocksChart
-  , getCurrentQPSChart, getReplictionDelayChart, getSlaveSqlThreadRunningChart
-  , getSlaveIOThreadRunningChart } from '~/modules/apexcharts'
+import { ApexChart } from '~/modules/apexChart'
 
-const now = Math.floor(new Date().getTime() / 1000)
+const charts = [
+  'cpuUsageChart'
+  , 'memoryUsageChart'
+  , 'networkIOChart'
+  ,'connectionsChart'
+  ,'threadActivityChart'
+  ,'tableLocksChart'
+  ,'currentQPSChart'
+  ,'replictionDelayChart'
+  ,'slaveSqlThreadRunningChart'
+  ,'slaveIOThreadRunningChart'
+]
+const apexChart = new ApexChart({
+  server: 'https://pog-dev-prometheus.cloudzcp.io'
+  , period: 1800
+  , step: 30
+  , container: 'mariadb'
+  , service: 'backup-test-test10214-mariadb'
+  , pod: 'backup-test-test10214-mariadb-master-0'
+})
+const targetCharts = apexChart.getCharts(charts)
 
 export default {
   mixins: [dialog],
-  data() {
+  data () {
     return {
-      namespace: this.$route.params.namespace,
+      namespace: this.$route.params.service,
       activeTab: 0,
       table_fields: [],
       table_items: [],
@@ -149,36 +121,15 @@ export default {
       dbservers: [],
       collapseDuration: 100,
       //Apexchart Chart
-      cpuUsageChart: getCpuUsageChart(),
-      memoryUsageChart: getMemoryUsageChart(),
-      networkIOChart: getNetworkIOChart(),
-      connectionsChart: getConnectionsChart(),
-      threadActivityChart: getThreadActivityChart(),
-      tableLocksChart: getTableLocksChart(),
-      currentQPSChart: getCurrentQPSChart(),
-      replictionDelayChart: getReplictionDelayChart(),
-      slaveSqlThreadRunningChart: getSlaveSqlThreadRunningChart(),
-      slaveIOThreadRunningChart: getSlaveIOThreadRunningChart()
+      targetCharts,
     }
   },
-  created() {
-    //this.fetchDetails(this.namespace)
-    this.fetchCpuUsageChart()
-    this.fetchMemoryUsageChart()
-    this.fetchNetworkIOChart()
-    this.fetchConnectionsChart()
-    this.fetchThreadActivityChart()
-    this.fetchTableLocksChart()
-    this.fetchCurrentQPSChart()
-    this.fetchReplictionDelayChart()
-    this.fetchSlaveSqlThreadRunningChart()
-    this.fetchSlaveIOThreadRunningChart()
+  created () {
+    this.fetchCharts(charts)
   },
   methods: {
-
-    parseRawChartData (rawData) {
+    parseChartData (rawData) {
       let series = [], categories = [], names = []
-
       if(rawData) {
         for (let [key, content] of Object.entries(rawData)) {
           content.data.result.forEach((result, idx) => {
@@ -197,11 +148,9 @@ export default {
       }
       return { series, categories, names }
     },
-
     async updateChart (target, contents) {
-      let targetChart = this[target.id]
-      //console.log('targetChart:', targetChart)
-      contents = this.parseRawChartData(contents)
+      let targetChart = this.targetCharts[target.id]
+      contents = this.parseChartData(contents)
       targetChart.series = contents.series
       targetChart.options = await { ...targetChart.options, ...{
         xaxis: { ...targetChart.options.xaxis, categories: contents.categories }
@@ -212,233 +161,30 @@ export default {
           this.$apexcharts.exec(target.id, 'hideSeries', name)
       })
     },
-
-    async fetchCpuUsageChart () { 
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            current: 'sum by (pod)(rate(container_cpu_usage_seconds_total{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"}[1m]))',
-            request: 'kube_pod_container_resource_requests_cpu_cores{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"}',
-            limit: 'kube_pod_container_resource_limits_cpu_cores{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"}'
+    async fetchCharts (targets) {
+      targetCharts && targets?.forEach(async id => {
+        let requests = apexChart.getRequests(id)
+        if (!requests) return
+        let url = requests.url
+          , params = requests.params
+          , queries = requests.chart.queries
+          , exclusive = requests.chart.exclusive || ''
+        let names = [], taskes = [] 
+        for (let [name, query] of Object.entries(queries)) {
+          names.push(name)
+          taskes = [ ...taskes, this.$axios.$get(url, { params: { ...params, query }}) ]
         }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-        
-      let current = this.$axios.$get(url, { params: { ...params, query: queries.current } })
-        , request = this.$axios.$get(url, { params: { ...params, query: queries.request } })
-        , limit = this.$axios.$get(url, { params: { ...params, query: queries.limit } })
-
-      Promise.all([ current, request, limit ]).then(([current, request, limit ]) => {
-        this.updateChart (
-          { id: 'cpuUsageChart', exclusive: 'current limit' },
-          { current, request, limit }
-        )
+        Promise.all(taskes).then(resolve => {
+          let data = {}, i = 0
+          for (let name of names) {
+            data[name] = resolve[i++]
+          }
+          this.updateChart (
+            { id, exclusive }, data
+          )
+        })
       })
     },
-
-    async fetchMemoryUsageChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            current: 'avg by(pod) (container_memory_rss{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"})',
-            request: 'kube_pod_container_resource_requests_memory_bytes{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"}',
-            limit: 'kube_pod_container_resource_limits_memory_bytes{pod=~"backup-test-test10214-mariadb-master-0",container="mariadb"}'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let current = this.$axios.$get(url, { params: { ...params, query: queries.current } })
-        , request = this.$axios.$get(url, { params: { ...params, query: queries.request } })
-        , limit = this.$axios.$get(url, { params: { ...params, query: queries.limit } })
-
-      Promise.all([ current, request, limit ]).then(([current, request, limit ]) => {
-        this.updateChart (
-          { id: 'memoryUsageChart', exclusive: 'current' },
-          { current, request, limit }
-        )
-      })
-    },
-    
-    async fetchNetworkIOChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            tx: 'rate (container_network_transmit_bytes_total{pod=~"backup-test-test10214-mariadb-master-0",interface="eth0"}[5m])',
-            rx: 'rate (container_network_receive_bytes_total{pod=~"backup-test-test10214-mariadb-master-0",interface="eth0"}[5m])'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let tx = this.$axios.$get(url, { params: { ...params, query: queries.tx } })
-        , rx = this.$axios.$get(url, { params: { ...params, query: queries.rx } })
-
-      Promise.all([ tx, rx ]).then(([ tx, rx ]) => {
-        this.updateChart (
-          { id: 'networkIOChart', exclusive: 'tx' },
-          { tx, rx }
-        )
-      })
-    },
-
-    async fetchConnectionsChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            connections: 'max(max_over_time(mysql_global_status_threads_connected{service="backup-test-test10214-mariadb"}[15s])  or mysql_global_status_threads_connected{service="backup-test-test10214-mariadb"})',
-	          maxUsedConnections: 'mysql_global_status_max_used_connections{service="backup-test-test10214-mariadb"}',
-	          maxConnections: 'mysql_global_variables_max_connections{service="backup-test-test10214-mariadb"}'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let connections = this.$axios.$get(url, { params: { ...params, query: queries.connections } })
-        , maxUsedConnections = this.$axios.$get(url, { params: { ...params, query: queries.maxUsedConnections } })
-        , maxConnections = this.$axios.$get(url, { params: { ...params, query: queries.maxConnections } })
-
-      Promise.all([ connections, maxUsedConnections, maxConnections ])
-        .then(([ connections, maxUsedConnections, maxConnections ]) => {
-        this.updateChart (
-          { id: 'connectionsChart', exclusive: 'connections' },
-          { connections, maxUsedConnections, maxConnections }
-        )
-      })
-    },
-
-    async fetchThreadActivityChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-          peakThreadsConnected: 'max_over_time(mysql_global_status_threads_connected{service="backup-test-test10214-mariadb"}[15s]) or max_over_time(mysql_global_status_threads_connected{service="backup-test-test10214-mariadb"}[5m])',
-          peakThreadsRunning: 'max_over_time(mysql_global_status_threads_running{service="backup-test-test10214-mariadb"}[15s]) or max_over_time(mysql_global_status_threads_running{service="backup-test-test10214-mariadb"}[5m])',
-          avgThreadsRunning: 'avg_over_time(mysql_global_status_threads_running{service="backup-test-test10214-mariadb"}[15s]) or avg_over_time(mysql_global_status_threads_running{service="backup-test-test10214-mariadb"}[5m])'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let  avgThreadsRunning = this.$axios.$get(url, { params: { ...params, query: queries.avgThreadsRunning } })
-        , peakThreadsConnected = this.$axios.$get(url, { params: { ...params, query: queries.peakThreadsConnected } })
-        , peakThreadsRunning = this.$axios.$get(url, { params: { ...params, query: queries.peakThreadsRunning } })
-
-      Promise.all([ avgThreadsRunning, peakThreadsConnected, peakThreadsRunning ])
-        .then(([ avgThreadsRunning, peakThreadsConnected, peakThreadsRunning ]) => {
-        this.updateChart (
-          { id: 'threadActivityChart', exclusive: 'avgThreadsRunning' },
-          { avgThreadsRunning, peakThreadsConnected, peakThreadsRunning }
-        )
-      })
-    },
-
-    async fetchTableLocksChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            tableLocksImmediate: 'rate(mysql_global_status_table_locks_immediate{service="backup-test-test10214-mariadb"}[15s]) or irate(mysql_global_status_table_locks_immediate{service="backup-test-test10214-mariadb"}[5m])',
-	          tableLocksWaited: 'rate(mysql_global_status_table_locks_waited{service="backup-test-test10214-mariadb"}[15s]) or irate(mysql_global_status_table_locks_waited{service="backup-test-test10214-mariadb"}[5m])'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let tableLocksImmediate = this.$axios.$get(url, { params: { ...params, query: queries.tableLocksImmediate } })
-        , tableLocksWaited = this.$axios.$get(url, { params: { ...params, query: queries.tableLocksWaited } })
-
-      Promise.all([ tableLocksImmediate, tableLocksWaited ]).then(([ tableLocksImmediate, tableLocksWaited ]) => {
-        this.updateChart (
-          { id: 'tableLocksChart' },
-          { tableLocksImmediate, tableLocksWaited }
-        )
-      })
-    },
-
-    async fetchCurrentQPSChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-            currentQPS: 'rate(mysql_global_status_queries{service="backup-test-test10214-mariadb"}[5m]) or irate(mysql_global_status_queries{service="backup-test-test10214-mariadb"}[5m])'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let currentQPS = await this.$axios.$get(url, { params: { ...params, query: queries.currentQPS } })
-
-      this.updateChart (
-        { id: 'currentQPSChart' },
-        { currentQPS }
-      )
-    },
-
-    //master , slave일 경우에만 나온다.
-    async fetchReplictionDelayChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-          replicationDelay: 'mysql_slave_status_seconds_behind_master{master_host="backup-test-test10214-mariadb"}'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let replicationDelay = await this.$axios.$get(url, { params: { ...params, query: queries.replicationDelay } })
-      
-      this.updateChart (
-        { id: 'replictionDelayChart' },
-        { replicationDelay }
-      )
-    },
-
-    async fetchSlaveSqlThreadRunningChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        //service name == master_host
-        , queries = {
-          slaveSqlThreadRunning: 'mysql_slave_status_slave_sql_running{master_host="backup-test-test10214-mariadb"}'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let slaveSqlThreadRunning = await this.$axios.$get(url, { params: { ...params, query: queries.slaveSqlThreadRunning } })
-      
-      this.updateChart (
-        { id: 'slaveSqlThreadRunningChart' },
-        { slaveSqlThreadRunning }
-      )
-    },
-
-    async fetchSlaveIOThreadRunningChart () {
-      let url = 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , queries = {
-          slaveIOThreadRunning: 'mysql_slave_status_slave_io_running{master_host="backup-test-test10214-mariadb"}'
-        }
-        , params = {
-          end: now,
-          start: now - 1800,
-          step: 30
-        }
-
-      let slaveIOThreadRunning = await this.$axios.$get(url, { params: { ...params, query: queries.slaveIOThreadRunning } })
-      
-      this.updateChart (
-        { id: 'slaveIOThreadRunningChart' },
-        { slaveIOThreadRunning }
-      )
-    },
-
     /**
      * Fetch the detail data and toggleing its items
      */
@@ -573,5 +319,5 @@ export default {
 </script>
 
 <style>
-.chart-wrap {float:left;width:32%;padding:0.2%;margin:0 0 30px}
+.chart-wrap {float:left;width:33.3%;padding:1%;margin:0 0 30px}
 </style>
