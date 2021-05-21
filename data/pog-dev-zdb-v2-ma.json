@@ -1,0 +1,168 @@
+{
+  "zdb-v2-ma": [
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStore",
+      "metadata": {
+          "creationTimestamp": "2021-05-07T00:50:31Z",
+          "finalizers": [
+              "zdbs.cloudzdb.io/finalizer"
+          ],
+          "generation": 1,
+          "labels": {
+              "app": "mariadb",
+              "datastore": "mariadb",
+              "release": "zdb-v2-ma-ma1"
+          },
+          "managedFields": [
+              {
+                  "apiVersion": "cloudzdb.io/v1",
+                  "fieldsType": "FieldsV1",
+                  "fieldsV1": {
+                      "f:metadata": {
+                          "f:finalizers": {
+                              ".": {},
+                              "v:\"zdbs.cloudzdb.io/finalizer\"": {}
+                          },
+                          "f:labels": {
+                              ".": {},
+                              "f:app": {},
+                              "f:datastore": {},
+                              "f:release": {}
+                          },
+                          "f:ownerReferences": {
+                              ".": {},
+                              "k:{\"uid\":\"90e16c4c-3e2a-4be9-b1de-3bd74ee6fa18\"}": {
+                                  ".": {},
+                                  "f:apiVersion": {},
+                                  "f:blockOwnerDeletion": {},
+                                  "f:controller": {},
+                                  "f:kind": {},
+                                  "f:name": {},
+                                  "f:uid": {}
+                              }
+                          }
+                      },
+                      "f:spec": {
+                          ".": {},
+                          "f:app": {},
+                          "f:datastore": {},
+                          "f:ownerResource": {
+                              ".": {},
+                              "f:dataStoreRelease": {},
+                              "f:ownerReferenceKind": {},
+                              "f:ownerReferenceName": {},
+                              "f:persistentvolumeclaims": {},
+                              "f:services": {}
+                          },
+                          "f:version": {}
+                      },
+                      "f:status": {
+                          ".": {},
+                          "f:cluster": {},
+                          "f:csp": {},
+                          "f:mariadbStatus": {
+                              ".": {},
+                              "f:connectionMax": {},
+                              "f:connectionUsed": {},
+                              "f:replicationStatus": {}
+                          },
+                          "f:memberRole": {},
+                          "f:nodeName": {},
+                          "f:podIP": {},
+                          "f:ready": {},
+                          "f:resources": {
+                              ".": {},
+                              "f:cpuUsage": {},
+                              "f:limitCpu": {},
+                              "f:limitMemory": {},
+                              "f:memoryUsage": {},
+                              "f:requestCpu": {},
+                              "f:requestMemory": {}
+                          },
+                          "f:status": {},
+                          "f:storage": {
+                              ".": {},
+                              "f:data": {},
+                              "f:dataStorages": {}
+                          },
+                          "f:workerPool": {}
+                      }
+                  },
+                  "manager": "okhttp",
+                  "operation": "Update",
+                  "time": "2021-05-07T07:19:01Z"
+              }
+          ],
+          "name": "zdb-v2-ma-ma1-mariadb-0",
+          "namespace": "zdb-v2-ma",
+          "ownerReferences": [
+              {
+                  "apiVersion": "apps/v1",
+                  "blockOwnerDeletion": true,
+                  "controller": false,
+                  "kind": "StatefulSet",
+                  "name": "zdb-v2-ma-ma1-mariadb",
+                  "uid": "90e16c4c-3e2a-4be9-b1de-3bd74ee6fa18"
+              }
+          ],
+          "resourceVersion": "306227559",
+          "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/zdbs/zdb-v2-ma-ma1-mariadb-0",
+          "uid": "7469b273-5c83-4486-8546-bc5ec1b15977"
+      },
+      "spec": {
+          "app": "mariadb",
+          "datastore": "mariadb",
+          "ownerResource": {
+              "dataStoreRelease": "zdb-v2-ma-ma1",
+              "ownerReferenceKind": "StatefulSet",
+              "ownerReferenceName": "zdb-v2-ma-ma1-mariadb",
+              "persistentvolumeclaims": [
+                  "data-zdb-v2-ma-ma1-mariadb-0"
+              ],
+              "services": [
+                  "zdb-v2-ma-ma1-mariadb"
+              ]
+          },
+          "version": "10.3.16"
+      },
+      "status": {
+          "cluster": "cloudzcp-pog-dev",
+          "csp": "iks",
+          "mariadbStatus": {
+              "connectionMax": 300,
+              "connectionUsed": 1,
+              "replicationStatus": "-"
+          },
+          "memberRole": "master",
+          "nodeName": "10.178.218.181",
+          "podIP": "172.30.85.178",
+          "ready": "2/2",
+          "resources": {
+              "cpuUsage": "7m",
+              "limitCpu": "800m",
+              "limitMemory": "768Mi",
+              "memoryUsage": "261.16Mi",
+              "requestCpu": "600m",
+              "requestMemory": "576Mi"
+          },
+          "status": "ShutDown",
+          "storage": {
+              "data": "469.33Mi/20Gi",
+              "dataStorages": [
+                  {
+                      "iops": 2,
+                      "kind": "DATA",
+                      "pod": "zdb-v2-ma-ma1-mariadb-0",
+                      "pv": "pvc-ce3af21d-ea88-4a4f-ad01-671fd3fe89c0",
+                      "pvc": "data-zdb-v2-ma-ma1-mariadb-0",
+                      "size": "20Gi",
+                      "storageClass": "ibmc-block-bronze"
+                  }
+              ]
+          },
+          "workerPool": "dev"
+      }
+    }
+  ]
+}

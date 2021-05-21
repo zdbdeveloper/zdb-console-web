@@ -41,6 +41,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'cpuUsageChart',
           zoom: { enabled: false },
@@ -86,6 +87,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'memoryUsageChart',
           zoom: { enabled: false },
@@ -112,6 +114,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'networkIOChart',
           zoom: { enabled: false },
@@ -136,6 +139,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'connectionsChart',
           zoom: { enabled: false },
@@ -160,6 +164,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'threadActivityChart',
           zoom: { enabled: false },
@@ -194,6 +199,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'tableLocksChart',
           zoom: { enabled: false },
@@ -228,6 +234,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'currentQPSChart',
           zoom: { enabled: false },
@@ -248,6 +255,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'replictionDelayChart',
           zoom: { enabled: false },
@@ -287,6 +295,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'slaveSqlThreadRunningChart',
           zoom: { enabled: false },
@@ -315,6 +324,7 @@ export class ApexChart extends ChartRequest {
     return {
       series: [],
       options: {
+        ...this.options,
         chart: {
           id: 'slaveIOThreadRunningChart',
           zoom: { enabled: false },
@@ -342,9 +352,9 @@ export class ApexChart extends ChartRequest {
   getCharts(ids) {
     let charts = {}
     if (!Array.isArray(ids) || !ids.length) return charts
-    ids.forEach((id) => {
-      charts[id] = { ...this[id] }
-    })
+    for (let id of ids) {
+      charts[id] = { ...this['_' + id] }
+    }
     return charts
   }
 }

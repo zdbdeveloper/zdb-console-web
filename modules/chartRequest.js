@@ -1,4 +1,4 @@
-export class ChartRequest {
+export default class ChartRequest {
   constructor(args) {
     this.requests = args
   }
@@ -105,7 +105,7 @@ export class ChartRequest {
     return {
       url,
       params,
-      chart
+      chart,
     }
   }
 }

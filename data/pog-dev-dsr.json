@@ -1,0 +1,1087 @@
+{
+  "items": [
+      {
+          "apiVersion": "cloudzdb.io/v1",
+          "kind": "DataStoreRelease",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-managed-dsr-mdb\",\"namespace\":\"zdb-managed\"},\"spec\":{\"backup\":false,\"chart\":\"8.3.2\",\"configMap\":\"zdb-test-dsr-mdb-values\",\"datastore\":\"mongodb\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/mongodb\",\"tag\":\"4.2.9\"},\"mongodb\":{\"arbiterEnabled\":true,\"architecture\":\"replicaset\",\"replicas\":2},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"200m\",\"requestMemory\":\"256Mi\"},\"service\":{\"endPointType\":\"private\",\"port\":27017,\"type\":\"ClusterIP\"},\"storageAutoScaling\":false,\"version\":\"4.2.9\",\"workerPool\":\"prod\"}}\n"
+              },
+              "creationTimestamp": "2021-04-08T07:22:10Z",
+              "finalizers": [
+                  "datastorereleases.cloudzdb.io/finalizer"
+              ],
+              "generation": 1,
+              "labels": {
+                  "tag/custom": "one.two.three",
+                  "tag/service": "mongodb"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:finalizers": {
+                                  ".": {},
+                                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                              }
+                          },
+                          "f:status": {
+                              ".": {},
+                              "f:architecture": {},
+                              "f:cluster": {},
+                              "f:csp": {},
+                              "f:deployStatus": {},
+                              "f:ready": {},
+                              "f:readyReplicas": {},
+                              "f:replicas": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:status": {},
+                              "f:storage": {
+                                  ".": {},
+                                  "f:backup": {},
+                                  "f:data": {},
+                                  "f:dataStorages": {}
+                              }
+                          }
+                      },
+                      "manager": "okhttp",
+                      "operation": "Update",
+                      "time": "2021-05-07T00:45:14Z"
+                  },
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:tag/custom": {},
+                                  "f:tag/service": {}
+                              }
+                          },
+                          "f:spec": {
+                              ".": {},
+                              "f:backup": {},
+                              "f:chart": {},
+                              "f:configMap": {},
+                              "f:datastore": {},
+                              "f:image": {
+                                  ".": {},
+                                  "f:registry": {},
+                                  "f:repository": {},
+                                  "f:tag": {}
+                              },
+                              "f:mongodb": {
+                                  ".": {},
+                                  "f:arbiterEnabled": {},
+                                  "f:architecture": {},
+                                  "f:replicas": {}
+                              },
+                              "f:persistence": {
+                                  ".": {},
+                                  "f:iops": {},
+                                  "f:kind": {},
+                                  "f:size": {},
+                                  "f:storageClass": {}
+                              },
+                              "f:privateEndpoint": {},
+                              "f:publicEndpoint": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:service": {
+                                  ".": {},
+                                  "f:endPointType": {},
+                                  "f:port": {},
+                                  "f:type": {}
+                              },
+                              "f:storageAutoScaling": {},
+                              "f:version": {},
+                              "f:workerPool": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-05-20T08:29:29Z"
+                  }
+              ],
+              "name": "zdb-managed-dsr-mdb",
+              "namespace": "zdb-managed",
+              "resourceVersion": "305481583",
+              "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-managed/datastorereleases/zdb-managed-dsr-mdb",
+              "uid": "79c3b557-c431-4ccb-a83e-7516d857ad35"
+          },
+          "spec": {
+              "backup": false,
+              "chart": "8.3.2",
+              "configMap": "zdb-test-dsr-mdb-values",
+              "datastore": "mongodb",
+              "image": {
+                  "registry": "registry.au-syd.bluemix.net",
+                  "repository": "cloudzdb/mongodb",
+                  "tag": "4.2.9"
+              },
+              "mongodb": {
+                  "arbiterEnabled": true,
+                  "architecture": "replicaset",
+                  "replicas": 2
+              },
+              "persistence": {
+                  "iops": 2,
+                  "kind": "DATA",
+                  "size": "20Gi",
+                  "storageClass": "ibmc-block-bronze"
+              },
+              "privateEndpoint": false,
+              "publicEndpoint": false,
+              "resources": {
+                  "limitCpu": "500m",
+                  "limitMemory": "512Mi",
+                  "requestCpu": "200m",
+                  "requestMemory": "256Mi"
+              },
+              "service": {
+                  "endPointType": "private",
+                  "port": 27017,
+                  "type": "ClusterIP"
+              },
+              "storageAutoScaling": false,
+              "version": "4.2.9",
+              "workerPool": "prod"
+          },
+          "status": {
+              "architecture": "Replicaset(P-S-A)",
+              "cluster": "cloudzcp-pog-dev",
+              "csp": "iks",
+              "deployStatus": "DEPLOYED",
+              "ready": "3/3",
+              "readyReplicas": 3,
+              "replicas": 3,
+              "resources": {
+                  "limitCpu": "1900m",
+                  "limitMemory": "2.5Gi",
+                  "requestCpu": "700m",
+                  "requestMemory": "704Mi"
+              },
+              "status": "Running",
+              "storage": {
+                  "backup": "-",
+                  "data": "20Gi/20Gi",
+                  "dataStorages": [
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-managed-dsr-mdb-mongodb-0",
+                          "pv": "pvc-90125c8e-b444-4dc5-b201-3eba5c45844c",
+                          "pvc": "data-zdb-managed-dsr-mdb-mongodb-0",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-managed-dsr-mdb-mongodb-1",
+                          "pv": "pvc-59184827-eb74-44fc-82b1-8f5615b4ddc9",
+                          "pvc": "data-zdb-managed-dsr-mdb-mongodb-1",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "apiVersion": "cloudzdb.io/v1",
+          "kind": "DataStoreRelease",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-v2-ka-ka3\",\"namespace\":\"zdb-v2-ka\"},\"spec\":{\"backup\":false,\"chart\":\"7.3.2\",\"configMap\":\"zdb-v2-ka-ka3-kafka-values\",\"datastore\":\"kafka\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/kafka\",\"tag\":\"2.4.0\"},\"kafka\":{\"architecture\":\"multi-broker\",\"brokerReplicas\":3,\"zookeeperChart\":\"5.4.3\",\"zookeeperReplicas\":3,\"zookeeperRepository\":\"cloudzdb/zookeeper\",\"zookeeperVersion\":\"3.5.7\"},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"300m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"300m\",\"requestMemory\":\"512Mi\"},\"service\":{\"endPointType\":\"private\",\"port\":9092,\"type\":\"ClusterIP\"},\"storageAutoScaling\":false,\"version\":\"2.4.0\",\"workerPool\":\"dev\"}}\n"
+              },
+              "creationTimestamp": "2021-05-09T06:19:29Z",
+              "finalizers": [
+                  "datastorereleases.cloudzdb.io/finalizer"
+              ],
+              "generation": 36,
+              "labels": {
+                  "tag/custom": "one.ktwo",
+                  "tag/ha": "ha",
+                  "tag/service": "kafka"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:finalizers": {
+                                  ".": {},
+                                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:persistence": {
+                                  "f:lastTimestamp": {},
+                                  "f:size": {}
+                              },
+                              "f:privateEndpoint": {},
+                              "f:publicEndpoint": {}
+                          },
+                          "f:status": {
+                              ".": {},
+                              "f:architecture": {},
+                              "f:connectionStrings": {},
+                              "f:deployStatus": {},
+                              "f:lastTransitionTime": {},
+                              "f:ready": {},
+                              "f:readyReplicas": {},
+                              "f:replicas": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:status": {},
+                              "f:storage": {
+                                  ".": {},
+                                  "f:backup": {},
+                                  "f:data": {},
+                                  "f:dataStorages": {}
+                              }
+                          }
+                      },
+                      "manager": "okhttp",
+                      "operation": "Update",
+                      "time": "2021-05-16T06:07:09Z"
+                  },
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:tag/custom": {},
+                                  "f:tag/ha": {},
+                                  "f:tag/service": {}
+                              }
+                          },
+                          "f:spec": {
+                              ".": {},
+                              "f:backup": {},
+                              "f:chart": {},
+                              "f:configMap": {},
+                              "f:datastore": {},
+                              "f:image": {
+                                  ".": {},
+                                  "f:registry": {},
+                                  "f:repository": {},
+                                  "f:tag": {}
+                              },
+                              "f:kafka": {
+                                  ".": {},
+                                  "f:architecture": {},
+                                  "f:brokerReplicas": {},
+                                  "f:zookeeperChart": {},
+                                  "f:zookeeperReplicas": {},
+                                  "f:zookeeperRepository": {},
+                                  "f:zookeeperVersion": {}
+                              },
+                              "f:persistence": {
+                                  ".": {},
+                                  "f:iops": {},
+                                  "f:kind": {},
+                                  "f:storageClass": {}
+                              },
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:service": {
+                                  ".": {},
+                                  "f:endPointType": {},
+                                  "f:port": {},
+                                  "f:type": {}
+                              },
+                              "f:storageAutoScaling": {},
+                              "f:version": {},
+                              "f:workerPool": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-05-20T01:20:14Z"
+                  }
+              ],
+              "name": "zdb-v2-ka-ka3",
+              "namespace": "zdb-v2-ka",
+              "resourceVersion": "305469235",
+              "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ka/datastorereleases/zdb-v2-ka-ka3",
+              "uid": "e5357f98-8aa5-441b-b52c-890fdf6fcee1"
+          },
+          "spec": {
+              "backup": false,
+              "chart": "7.3.2",
+              "configMap": "zdb-v2-ka-ka3-kafka-values",
+              "datastore": "kafka",
+              "image": {
+                  "registry": "registry.au-syd.bluemix.net",
+                  "repository": "cloudzdb/kafka",
+                  "tag": "2.4.0"
+              },
+              "kafka": {
+                  "architecture": "multi-broker",
+                  "brokerReplicas": 4,
+                  "zookeeperChart": "5.4.3",
+                  "zookeeperReplicas": 4,
+                  "zookeeperRepository": "cloudzdb/zookeeper",
+                  "zookeeperVersion": "3.5.7"
+              },
+              "persistence": {
+                  "iops": 2,
+                  "kind": "DATA",
+                  "lastTimestamp": 0,
+                  "size": "24Gi",
+                  "storageClass": "ibmc-block-bronze"
+              },
+              "privateEndpoint": false,
+              "publicEndpoint": false,
+              "resources": {
+                  "limitCpu": "500m",
+                  "limitMemory": "512Mi",
+                  "requestCpu": "100m",
+                  "requestMemory": "256Mi"
+              },
+              "service": {
+                  "endPointType": "private",
+                  "port": 9092,
+                  "type": "ClusterIP"
+              },
+              "storageAutoScaling": false,
+              "version": "2.4.0",
+              "workerPool": "prod"
+          },
+          "status": {
+              "architecture": "multi-broker",
+              "connectionStrings": [
+                  {
+                      "connectionString": "zdb-v2-ka-ka3-zookeeper.zdb-v2-ka:2181",
+                      "datastoreType": "kafka",
+                      "loadBalancerType": "private",
+                      "role": "zookeeper",
+                      "serviceType": "ClusterIP"
+                  },
+                  {
+                      "connectionString": "zdb-v2-ka-ka3-kafka.zdb-v2-ka:9092",
+                      "datastoreType": "kafka",
+                      "loadBalancerType": "private",
+                      "role": "kafka",
+                      "serviceType": "ClusterIP"
+                  }
+              ],
+              "deployStatus": "CREATING",
+              "lastTransitionTime": "2021-05-09T06:26:54Z",
+              "ready": "8/10",
+              "readyReplicas": 0,
+              "replicas": 0,
+              "resources": {
+                  "limitCpu": "2250m",
+                  "limitMemory": "2.25Gi",
+                  "requestCpu": "1050m",
+                  "requestMemory": "1.5Gi"
+              },
+              "status": "StorageInitializing",
+              "storage": {
+                  "backup": "-",
+                  "data": "30Gi/30Gi/30Gi",
+                  "dataStorages": [
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "lastTimestamp": 1620545125192,
+                          "pod": "zdb-v2-ka-ka3-kafka-0",
+                          "pv": "pvc-c70deef3-e90e-49b9-a1fa-9430d5c0c303",
+                          "pvc": "data-zdb-v2-ka-ka3-kafka-0",
+                          "size": "30Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "lastTimestamp": 1620545125823,
+                          "pod": "zdb-v2-ka-ka3-kafka-1",
+                          "pv": "pvc-aed35d56-0e00-41b1-b116-a0efda29da80",
+                          "pvc": "data-zdb-v2-ka-ka3-kafka-1",
+                          "size": "30Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "lastTimestamp": 1620545126356,
+                          "pod": "zdb-v2-ka-ka3-kafka-2",
+                          "pv": "pvc-a0a1b05a-5b98-441d-84a5-13a3a1b9af58",
+                          "pvc": "data-zdb-v2-ka-ka3-kafka-2",
+                          "size": "30Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "apiVersion": "cloudzdb.io/v1",
+          "kind": "DataStoreRelease",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-v2-ma-ma1\",\"namespace\":\"zdb-v2-ma\"},\"spec\":{\"backup\":false,\"chart\":\"6.5.5\",\"datastore\":\"mariadb\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/mariadb\",\"tag\":\"10.3.16\"},\"mariadb\":{\"autoFailover\":false,\"characterSet\":\"utf8\",\"dbName\":\"standalone\",\"replication\":false},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"500m\",\"requestMemory\":\"512Mi\"},\"version\":\"10.3.16\",\"workerPool\":\"dev\"}}\n"
+              },
+              "creationTimestamp": "2021-05-07T00:45:27Z",
+              "finalizers": [
+                  "datastorereleases.cloudzdb.io/finalizer"
+              ],
+              "generation": 2,
+              "labels": {
+                  "tag/service": "mariadb"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:finalizers": {
+                                  ".": {},
+                                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:storageAutoScaling": {}
+                          },
+                          "f:status": {
+                              ".": {},
+                              "f:architecture": {},
+                              "f:autoFailover": {},
+                              "f:cluster": {},
+                              "f:connectionStrings": {},
+                              "f:csp": {},
+                              "f:deployStatus": {},
+                              "f:failoverStatus": {},
+                              "f:lastTransitionTime": {},
+                              "f:ready": {},
+                              "f:readyReplicas": {},
+                              "f:replicas": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:status": {},
+                              "f:storage": {
+                                  ".": {},
+                                  "f:backup": {},
+                                  "f:data": {},
+                                  "f:dataStorages": {}
+                              }
+                          }
+                      },
+                      "manager": "okhttp",
+                      "operation": "Update",
+                      "time": "2021-05-07T00:48:02Z"
+                  },
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:tag/service": {}
+                              }
+                          },
+                          "f:spec": {
+                              ".": {},
+                              "f:backup": {},
+                              "f:chart": {},
+                              "f:datastore": {},
+                              "f:image": {
+                                  ".": {},
+                                  "f:registry": {},
+                                  "f:repository": {},
+                                  "f:tag": {}
+                              },
+                              "f:mariadb": {
+                                  ".": {},
+                                  "f:autoFailover": {},
+                                  "f:characterSet": {},
+                                  "f:dbName": {},
+                                  "f:replication": {}
+                              },
+                              "f:persistence": {
+                                  ".": {},
+                                  "f:iops": {},
+                                  "f:kind": {},
+                                  "f:size": {},
+                                  "f:storageClass": {}
+                              },
+                              "f:privateEndpoint": {},
+                              "f:publicEndpoint": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:version": {},
+                              "f:workerPool": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-05-20T02:53:47Z"
+                  }
+              ],
+              "name": "zdb-v2-ma-ma1",
+              "namespace": "zdb-v2-ma",
+              "resourceVersion": "305305214",
+              "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/datastorereleases/zdb-v2-ma-ma1",
+              "uid": "19444c01-4fb3-46e0-8512-4f02ea758cf9"
+          },
+          "spec": {
+              "backup": false,
+              "chart": "6.5.5",
+              "datastore": "mariadb",
+              "image": {
+                  "registry": "registry.au-syd.bluemix.net",
+                  "repository": "cloudzdb/mariadb",
+                  "tag": "10.3.16"
+              },
+              "mariadb": {
+                  "autoFailover": false,
+                  "characterSet": "utf8",
+                  "dbName": "standalone",
+                  "replication": false
+              },
+              "persistence": {
+                  "iops": 2,
+                  "kind": "DATA",
+                  "size": "20Gi",
+                  "storageClass": "ibmc-block-bronze"
+              },
+              "privateEndpoint": false,
+              "publicEndpoint": false,
+              "resources": {
+                  "limitCpu": "500m",
+                  "limitMemory": "512Mi",
+                  "requestCpu": "500m",
+                  "requestMemory": "512Mi"
+              },
+              "storageAutoScaling": false,
+              "version": "10.3.16",
+              "workerPool": "dev"
+          },
+          "status": {
+              "architecture": "Standalone",
+              "autoFailover": "Off",
+              "cluster": "cloudzcp-pog-dev",
+              "connectionStrings": [
+                  {
+                      "connectionString": "jdbc:mariadb://zdb-v2-ma-ma1-mariadb.zdb-v2-ma:3306/standalone",
+                      "datastoreType": "mariadb",
+                      "loadBalancerType": "private",
+                      "role": "master",
+                      "serviceType": "ClusterIP"
+                  }
+              ],
+              "csp": "iks",
+              "deployStatus": "DEPLOYED",
+              "failoverStatus": "-",
+              "lastTransitionTime": "2021-05-07T00:47:59Z",
+              "ready": "1/1",
+              "readyReplicas": 1,
+              "replicas": 1,
+              "resources": {
+                  "limitCpu": "800m",
+                  "limitMemory": "768Mi",
+                  "requestCpu": "600m",
+                  "requestMemory": "576Mi"
+              },
+              "status": "Running",
+              "storage": {
+                  "backup": "-",
+                  "data": "20Gi",
+                  "dataStorages": [
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-ma-ma1-mariadb-0",
+                          "pv": "pvc-ce3af21d-ea88-4a4f-ad01-671fd3fe89c0",
+                          "pvc": "data-zdb-v2-ma-ma1-mariadb-0",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "apiVersion": "cloudzdb.io/v1",
+          "kind": "DataStoreRelease",
+          "metadata": {
+              "creationTimestamp": "2021-04-27T05:41:28Z",
+              "finalizers": [
+                  "datastorereleases.cloudzdb.io/finalizer"
+              ],
+              "generation": 1,
+              "labels": {
+                  "aaa": "bbb",
+                  "tag/mariadb": "mariadb"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:finalizers": {
+                                  ".": {},
+                                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                              }
+                          },
+                          "f:spec": {
+                              ".": {},
+                              "f:backup": {},
+                              "f:chart": {},
+                              "f:datastore": {},
+                              "f:image": {
+                                  ".": {},
+                                  "f:registry": {},
+                                  "f:repository": {},
+                                  "f:tag": {}
+                              },
+                              "f:persistence": {
+                                  ".": {},
+                                  "f:iops": {},
+                                  "f:kind": {},
+                                  "f:size": {},
+                                  "f:storageClass": {}
+                              },
+                              "f:privateEndpoint": {},
+                              "f:publicEndpoint": {},
+                              "f:redis": {
+                                  ".": {},
+                                  "f:purpose": {},
+                                  "f:replicas": {},
+                                  "f:slaveEnabled": {}
+                              },
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:storageAutoScaling": {},
+                              "f:version": {},
+                              "f:workerPool": {}
+                          },
+                          "f:status": {
+                              ".": {},
+                              "f:architecture": {},
+                              "f:cluster": {},
+                              "f:connectionStrings": {},
+                              "f:csp": {},
+                              "f:deployStatus": {},
+                              "f:lastTransitionTime": {},
+                              "f:ready": {},
+                              "f:readyReplicas": {},
+                              "f:replicas": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:status": {},
+                              "f:storage": {
+                                  ".": {},
+                                  "f:backup": {},
+                                  "f:data": {},
+                                  "f:dataStorages": {}
+                              }
+                          }
+                      },
+                      "manager": "okhttp",
+                      "operation": "Update",
+                      "time": "2021-05-07T00:45:14Z"
+                  },
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:aaa": {},
+                                  "f:tag/mariadb": {}
+                              }
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-05-17T01:38:09Z"
+                  }
+              ],
+              "name": "zdb-v2-pns-test111",
+              "namespace": "zdb-v2-pns",
+              "resourceVersion": "303007840",
+              "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-pns/datastorereleases/zdb-v2-pns-test111",
+              "uid": "293fb727-6957-4fa5-9918-c2e94a55d067"
+          },
+          "spec": {
+              "backup": false,
+              "chart": "3.2.3",
+              "datastore": "redis",
+              "image": {
+                  "registry": "registry.au-syd.bluemix.net",
+                  "repository": "cloudzdb/redis-cluster",
+                  "tag": "6.0.7"
+              },
+              "persistence": {
+                  "iops": 2,
+                  "kind": "DATA",
+                  "size": "20Gi",
+                  "storageClass": "ibmc-block-bronze"
+              },
+              "privateEndpoint": false,
+              "publicEndpoint": false,
+              "redis": {
+                  "purpose": "Cluster",
+                  "replicas": 3,
+                  "slaveEnabled": false
+              },
+              "resources": {
+                  "limitCpu": "500m",
+                  "limitMemory": "512Mi",
+                  "requestCpu": "100m",
+                  "requestMemory": "128Mi"
+              },
+              "storageAutoScaling": false,
+              "version": "6.0.7",
+              "workerPool": "dev"
+          },
+          "status": {
+              "architecture": "Cluster",
+              "connectionStrings": [
+                  {
+                      "connectionString": "redis://[password]@zdb-v2-pns-test111-redis-cluster.zdb-v2-pns:6379",
+                      "datastoreType": "redis",
+                      "role": "redis-cluster",
+                      "serviceType": "ClusterIP"
+                  }
+              ],
+              "deployStatus": "DEPLOYED",
+              "lastTransitionTime": "2021-04-27T05:26:49Z",
+              "ready": "3/3",
+              "readyReplicas": 3,
+              "replicas": 3,
+              "resources": {
+                  "limitCpu": "1800m",
+                  "limitMemory": "1.69Gi",
+                  "requestCpu": "600m",
+                  "requestMemory": "576Mi"
+              },
+              "status": "Running",
+              "storage": {
+                  "backup": "-",
+                  "data": "20Gi/20Gi/20Gi",
+                  "dataStorages": [
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-pns-test111-redis-cluster-0",
+                          "pv": "pvc-eee8e500-fae8-42c4-8182-f1c936bd5087",
+                          "pvc": "data-zdb-v2-pns-test111-redis-cluster-0",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-pns-test111-redis-cluster-1",
+                          "pv": "pvc-367a98ca-4a71-49c8-83f0-fb1fa0601d38",
+                          "pvc": "data-zdb-v2-pns-test111-redis-cluster-1",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-pns-test111-redis-cluster-2",
+                          "pv": "pvc-f54b3a2d-77bb-419e-9f5f-bd5fc8c2b12d",
+                          "pvc": "data-zdb-v2-pns-test111-redis-cluster-2",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "apiVersion": "cloudzdb.io/v1",
+          "kind": "DataStoreRelease",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-v2-uzin-replica\",\"namespace\":\"zdb-v2-uzin\"},\"spec\":{\"backup\":false,\"chart\":\"5.2.5\",\"configMap\":\"zdb-v2-uzin-replica-values\",\"datastore\":\"postgresql\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/postgresql-repmgr\",\"tag\":\"11.9.0\"},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"postgresql\":{\"pgpoolEnabled\":false,\"replicas\":2},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"1000Mi\",\"requestCpu\":\"500m\",\"requestMemory\":\"1000Mi\"},\"service\":{\"endPointType\":\"public\",\"port\":5432,\"type\":\"ClusterIP\"},\"storageAutoScaling\":false,\"version\":\"11.9.0\",\"workerPool\":\"dev\"}}\n"
+              },
+              "creationTimestamp": "2021-05-17T05:57:19Z",
+              "finalizers": [
+                  "datastorereleases.cloudzdb.io/finalizer"
+              ],
+              "generation": 8,
+              "labels": {
+                  "tag/custom": "three.two.iamnew",
+                  "tag/service": "postgresql"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:tag/service": {}
+                              }
+                          },
+                          "f:spec": {
+                              ".": {},
+                              "f:backup": {},
+                              "f:chart": {},
+                              "f:configMap": {},
+                              "f:datastore": {},
+                              "f:image": {
+                                  ".": {},
+                                  "f:registry": {},
+                                  "f:repository": {},
+                                  "f:tag": {}
+                              },
+                              "f:persistence": {
+                                  ".": {},
+                                  "f:iops": {},
+                                  "f:kind": {},
+                                  "f:size": {},
+                                  "f:storageClass": {}
+                              },
+                              "f:postgresql": {
+                                  ".": {},
+                                  "f:pgpoolEnabled": {},
+                                  "f:replicas": {}
+                              },
+                              "f:privateEndpoint": {},
+                              "f:publicEndpoint": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:service": {
+                                  ".": {},
+                                  "f:endPointType": {},
+                                  "f:port": {},
+                                  "f:type": {}
+                              },
+                              "f:storageAutoScaling": {},
+                              "f:version": {},
+                              "f:workerPool": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-05-20T08:16:23Z"
+                  },
+                  {
+                      "apiVersion": "cloudzdb.io/v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:finalizers": {
+                                  ".": {},
+                                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                              },
+                              "f:labels": {
+                                  "f:tag/custom": {}
+                              }
+                          },
+                          "f:status": {
+                              ".": {},
+                              "f:architecture": {},
+                              "f:connectionStrings": {},
+                              "f:deployStatus": {},
+                              "f:lastTransitionTime": {},
+                              "f:ready": {},
+                              "f:readyReplicas": {},
+                              "f:replicas": {},
+                              "f:resources": {
+                                  ".": {},
+                                  "f:limitCpu": {},
+                                  "f:limitMemory": {},
+                                  "f:requestCpu": {},
+                                  "f:requestMemory": {}
+                              },
+                              "f:status": {},
+                              "f:storage": {
+                                  ".": {},
+                                  "f:backup": {},
+                                  "f:data": {},
+                                  "f:dataStorages": {}
+                              }
+                          }
+                      },
+                      "manager": "okhttp",
+                      "operation": "Update",
+                      "time": "2021-05-20T09:47:41Z"
+                  }
+              ],
+              "name": "zdb-v2-uzin-replica",
+              "namespace": "zdb-v2-uzin",
+              "resourceVersion": "306227563",
+              "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-uzin/datastorereleases/zdb-v2-uzin-replica",
+              "uid": "1c894fd6-3476-4cca-86e8-499dbf34b3e1"
+          },
+          "spec": {
+              "backup": false,
+              "chart": "5.2.5",
+              "configMap": "zdb-v2-uzin-replica-values",
+              "datastore": "postgresql",
+              "image": {
+                  "registry": "registry.au-syd.bluemix.net",
+                  "repository": "cloudzdb/postgresql-repmgr",
+                  "tag": "11.9.0"
+              },
+              "persistence": {
+                  "iops": 2,
+                  "kind": "DATA",
+                  "size": "20Gi",
+                  "storageClass": "ibmc-block-bronze"
+              },
+              "postgresql": {
+                  "pgpoolEnabled": false,
+                  "replicas": 2
+              },
+              "privateEndpoint": false,
+              "publicEndpoint": true,
+              "resources": {
+                  "limitCpu": "500m",
+                  "limitMemory": "1000Mi",
+                  "requestCpu": "500m",
+                  "requestMemory": "1000Mi"
+              },
+              "service": {
+                  "endPointType": "public",
+                  "port": 5432,
+                  "type": "ClusterIP"
+              },
+              "storageAutoScaling": false,
+              "version": "11.9.0",
+              "workerPool": "dev"
+          },
+          "status": {
+              "architecture": "HA",
+              "connectionStrings": [
+                  {
+                      "connectionString": "jdbc:postgresql://zdb-v2-uzin-replica-postgresql.zdb-v2-uzin:5432",
+                      "datastoreType": "postgresql",
+                      "role": "postgresql",
+                      "serviceType": "ClusterIP"
+                  },
+                  {
+                      "connectionString": "jdbc:postgresql://169.56.71.206:5432",
+                      "datastoreType": "postgresql",
+                      "loadBalancerType": "public",
+                      "role": "postgresql",
+                      "serviceType": "LoadBalancer"
+                  }
+              ],
+              "deployStatus": "DEPLOYED",
+              "lastTransitionTime": "2021-05-20T09:48:58Z",
+              "ready": "2/2",
+              "readyReplicas": 2,
+              "replicas": 2,
+              "resources": {
+                  "limitCpu": "1200m",
+                  "limitMemory": "2.08Gi",
+                  "requestCpu": "1200m",
+                  "requestMemory": "2.08Gi"
+              },
+              "status": "Running",
+              "storage": {
+                  "backup": "-",
+                  "data": "20Gi/20Gi",
+                  "dataStorages": [
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-uzin-replica-postgresql-1",
+                          "pv": "pvc-61377c6f-f794-45b8-96be-0c49c824d7a1",
+                          "pvc": "data-zdb-v2-uzin-replica-postgresql-1",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      },
+                      {
+                          "iops": 2,
+                          "kind": "DATA",
+                          "pod": "zdb-v2-uzin-replica-postgresql-0",
+                          "pv": "pvc-c630f506-1c18-4c53-a311-c19d64e945be",
+                          "pvc": "data-zdb-v2-uzin-replica-postgresql-0",
+                          "size": "20Gi",
+                          "storageClass": "ibmc-block-bronze"
+                      }
+                  ]
+              }
+          }
+      }
+  ],
+  "metadata": {
+      "resourceVersion": "",
+      "selfLink": ""
+  }
+}

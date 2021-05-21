@@ -99,15 +99,6 @@ const charts = [
   ,'slaveSqlThreadRunningChart'
   ,'slaveIOThreadRunningChart'
 ]
-const apexChart = new ApexChart({
-  server: 'https://pog-dev-prometheus.cloudzcp.io'
-  , period: 1800
-  , step: 30
-  , container: 'mariadb'
-  , service: 'backup-test-test10214-mariadb'
-  , pod: 'backup-test-test10214-mariadb-master-0'
-})
-const targetCharts = apexChart.getCharts(charts)
 
 export default {
   mixins: [dialog],
@@ -121,11 +112,20 @@ export default {
       dbservers: [],
       collapseDuration: 100,
       //Apexchart Chart
-      targetCharts,
+      targetCharts: null,
     }
   },
   created () {
-    this.fetchCharts(charts)
+    const apexChart = new ApexChart({
+      server: 'https://pog-dev-prometheus.cloudzcp.io'
+      , period: 1800
+      , step: 30
+      , container: 'mariadb'
+      , service: this.$route.query.service
+      , pod: this.$route.query.pod
+    })
+    this.targetCharts = apexChart.getCharts(charts)
+    this.fetchCharts(charts, apexChart)
   },
   methods: {
     parseChartData (rawData) {
@@ -161,20 +161,20 @@ export default {
           this.$apexcharts.exec(target.id, 'hideSeries', name)
       })
     },
-    async fetchCharts (targets) {
-      targetCharts && targets?.forEach(async id => {
+    async fetchCharts (targets, apexChart) {
+      this.targetCharts && targets?.forEach(async id => {
         let requests = apexChart.getRequests(id)
         if (!requests) return
         let url = requests.url
           , params = requests.params
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
-        let names = [], taskes = [] 
+        let names = [], tasks = [] 
         for (let [name, query] of Object.entries(queries)) {
           names.push(name)
-          taskes = [ ...taskes, this.$axios.$get(url, { params: { ...params, query }}) ]
+          tasks = [ ...tasks, this.$axios.$get(url, { params: { ...params, query }}) ]
         }
-        Promise.all(taskes).then(resolve => {
+        Promise.all(tasks).then(resolve => {
           let data = {}, i = 0
           for (let name of names) {
             data[name] = resolve[i++]
