@@ -90,14 +90,14 @@ import { ApexChart } from '~/modules/apexChart'
 const charts = [
   'cpuUsageChart'
   , 'memoryUsageChart'
-  , 'networkIOChart'
-  ,'connectionsChart'
-  ,'threadActivityChart'
-  ,'tableLocksChart'
-  ,'currentQPSChart'
-  ,'replictionDelayChart'
-  ,'slaveSqlThreadRunningChart'
-  ,'slaveIOThreadRunningChart'
+  // , 'networkIOChart'
+  // ,'connectionsChart'
+  // ,'threadActivityChart'
+  // ,'tableLocksChart'
+  // ,'currentQPSChart'
+  // ,'replictionDelayChart'
+  // ,'slaveSqlThreadRunningChart'
+  // ,'slaveIOThreadRunningChart'
 ]
 
 export default {
@@ -120,9 +120,9 @@ export default {
       server: 'https://pog-dev-prometheus.cloudzcp.io'
       , period: 1800
       , step: 30
-      , container: 'mariadb'
-      , service: this.$route.query.service
-      , pod: this.$route.query.pod
+      , name: this.$route.query.name
+      , datastore: this.$route.query.datastore
+      , namespace: this.$route.params.service
     })
     this.targetCharts = apexChart.getCharts(charts)
     this.fetchCharts(charts, apexChart)
@@ -169,6 +169,8 @@ export default {
           , params = requests.params
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
+        console.log('queries: ', queries)
+        //console.log('queries[requests.datastore]: ', queries[apexChart.datastore])
         let names = [], tasks = [] 
         for (let [name, query] of Object.entries(queries)) {
           names.push(name)

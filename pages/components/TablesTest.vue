@@ -445,11 +445,10 @@
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
           let namespace = this.tableItems[index].namespace
-            , container = this.tableItems[index].datastore
-            , service = 'backup-test-test10214-mariadb'
-            , pod = 'backup-test-test10214-mariadb-master-0'
+            , name = this.tableItems[index].name
+            , datastore = this.tableItems[index].datastore
           this.$router.push({
-            path: `/components/details/${namespace}?container=${container}&service=${service}&pod=${pod}`
+            path: `/components/details/${namespace}?name=${name}&datastore=${datastore}`
           })
         }
       },

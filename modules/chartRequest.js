@@ -8,25 +8,52 @@ export default class ChartRequest {
       this[key] = value
     })
   }
+  get name_datastore() {
+    return `${this.name}-${this.datastore}` 
+  }
   get cpuUsageChart() {
-    return {
-      queries: {
-        current: `sum by (pod)(rate(container_cpu_usage_seconds_total{pod=~"${this.pod}",container="${this.container}"}[1m]))`,
-        request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.pod}",container="${this.container}"}`,
-        limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.pod}",container="${this.container}"}`,
+    let queries = {
+      mariadb: {
+        current: `sum by (pod)(rate(container_cpu_usage_seconds_total{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}[1m]))`,
+        request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
+        limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
       },
-      exclusive: 'current',
+      mongodb: {
+        current: `sum by (pod)(rate(container_cpu_usage_seconds_total{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}[1m]))`,
+        request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
+        limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`
+      },
+      redis: {
+        current: `sum by (pod)(rate(container_cpu_usage_seconds_total{container="${this.name_datastore}"}[2m]))`,
+        request: `kube_pod_container_resource_requests_cpu_cores{container="${this.name_datastore}"}`,
+        limit: `kube_pod_container_resource_limits_cpu_cores{container="${this.name_datastore}"}`
+      }
     }
+    //queries = /(redis|mongodb)/gi.test(this.datastore) ? queries[this.datastore] : queries.others
+    queries = queries[this.datastore]
+    return { queries, exclusive: 'current' }
   }
   get memoryUsageChart() {
-    return {
-      queries: {
-        current: `avg by(pod) (container_memory_rss{pod=~"${this.pod}",container="${this.container}"})`,
-        request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.pod}",container="${this.container}"}`,
-        limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.pod}",container="${this.container}"}`,
+    let queries = {
+      mariadb: {
+        current: `avg by(pod) (container_memory_rss{pod=~"${this.name_datastore}-.*",container="${this.datastore}"})`,
+        request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
+        limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`
       },
-      exclusive: 'current',
+      mongodb: {
+        current: `avg by (pod)(container_memory_rss{pod=~"${this.name_datastore}-.*",container="${this.datastore}"})`,
+        request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
+        limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
+        virtual: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"virtual"}`,
+        resident: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"resident"}`
+      },
+      redis: {
+        used: `redis_memory_used_bytes{alias="${this.name_datastore}"}`,
+        max: `redis_config_maxmemory{alias="${this.name_datastore}"}`
+      }
     }
+    queries = queries[this.datastore]
+    return { queries, exclusive: 'current' }
   }
   get networkIOChart() {
     return {
