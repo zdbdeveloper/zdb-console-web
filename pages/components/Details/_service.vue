@@ -90,14 +90,14 @@ import { ApexChart } from '~/modules/apexChart'
 const charts = [
   'cpuUsageChart'
   , 'memoryUsageChart'
-  // , 'networkIOChart'
-  // ,'connectionsChart'
-  // ,'threadActivityChart'
-  // ,'tableLocksChart'
-  // ,'currentQPSChart'
-  // ,'replictionDelayChart'
-  // ,'slaveSqlThreadRunningChart'
-  // ,'slaveIOThreadRunningChart'
+  , 'networkIOChart'
+  , 'connectionsChart'
+  , 'threadActivityChart'
+  , 'tableLocksChart'
+  , 'currentQPSChart'
+  , 'replictionDelayChart'
+  , 'slaveSqlThreadRunningChart'
+  , 'slaveIOThreadRunningChart'
 ]
 
 export default {
@@ -123,6 +123,9 @@ export default {
       , name: this.$route.query.name
       , datastore: this.$route.query.datastore
       , namespace: this.$route.params.service
+      // , container: 'mariadb'
+      // , service: 'zdb-v2-ma-ma1-mariadb'
+      // , pod: 'zdb-v2-ma-ma1-mariadb-0'
     })
     this.targetCharts = apexChart.getCharts(charts)
     this.fetchCharts(charts, apexChart)
@@ -169,22 +172,23 @@ export default {
           , params = requests.params
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
-        console.log('queries: ', queries)
-        //console.log('queries[requests.datastore]: ', queries[apexChart.datastore])
-        let names = [], tasks = [] 
-        for (let [name, query] of Object.entries(queries)) {
-          names.push(name)
-          tasks = [ ...tasks, this.$axios.$get(url, { params: { ...params, query }}) ]
-        }
-        Promise.all(tasks).then(resolve => {
-          let data = {}, i = 0
-          for (let name of names) {
-            data[name] = resolve[i++]
+        //console.log('queries: ', queries)
+        if (queries && typeof queries === 'object') {
+          let names = [], tasks = [] 
+          for (let [name, query] of Object.entries(queries)) {
+            names.push(name)
+            tasks = [ ...tasks, this.$axios.$get(url, { params: { ...params, query }}) ]
           }
-          this.updateChart (
-            { id, exclusive }, data
-          )
-        })
+          Promise.all(tasks).then(resolve => {
+            let data = {}, i = 0
+            for (let name of names) {
+              data[name] = resolve[i++]
+            }
+            this.updateChart (
+              { id, exclusive }, data
+            )
+          })
+        }
       })
     },
     /**
