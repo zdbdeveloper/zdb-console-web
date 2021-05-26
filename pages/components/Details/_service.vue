@@ -87,19 +87,6 @@
 import { dialog } from '~/mixins'
 import { ApexChart } from '~/modules/apexChart'
 
-const charts = [
-  'cpuUsageChart'
-  , 'memoryUsageChart'
-  , 'networkIOChart'
-  , 'connectionsChart'
-  , 'threadActivityChart'
-  , 'tableLocksChart'
-  , 'currentQPSChart'
-  , 'replictionDelayChart'
-  , 'slaveSqlThreadRunningChart'
-  , 'slaveIOThreadRunningChart'
-]
-
 export default {
   mixins: [dialog],
   data () {
@@ -123,12 +110,9 @@ export default {
       , name: this.$route.query.name
       , datastore: this.$route.query.datastore
       , namespace: this.$route.params.service
-      // , container: 'mariadb'
-      // , service: 'zdb-v2-ma-ma1-mariadb'
-      // , pod: 'zdb-v2-ma-ma1-mariadb-0'
     })
-    this.targetCharts = apexChart.getCharts(charts)
-    this.fetchCharts(charts, apexChart)
+    this.targetCharts = apexChart.getCharts()
+    this.fetchCharts(apexChart)
   },
   methods: {
     parseChartData (rawData) {
@@ -164,7 +148,8 @@ export default {
           this.$apexcharts.exec(target.id, 'hideSeries', name)
       })
     },
-    async fetchCharts (targets, apexChart) {
+    async fetchCharts (apexChart) {
+      let targets = apexChart._targetCharts[this.$route.query.datastore]
       this.targetCharts && targets?.forEach(async id => {
         let requests = apexChart.getRequests(id)
         if (!requests) return
@@ -172,7 +157,6 @@ export default {
           , params = requests.params
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
-        //console.log('queries: ', queries)
         if (queries && typeof queries === 'object') {
           let names = [], tasks = [] 
           for (let [name, query] of Object.entries(queries)) {

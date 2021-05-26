@@ -1,0 +1,1561 @@
+{
+  "apiVersion": ["v1"],
+  "items": [
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-05-24T00:50:41Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.3.2",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":9092,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-kafka",
+              "namespace": "backup-test",
+              "resourceVersion": "308257912",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-kafka",
+              "uid": "bb9fb025-b502-4829-8bb6-6678fcca9a06"
+          },
+          "spec": {
+              "clusterIP": "172.21.44.30",
+              "ports": [
+                  {
+                      "name": "kafka",
+                      "port": 9092,
+                      "protocol": "TCP",
+                      "targetPort": "kafka"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-05-24T00:50:40Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.3.2",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:clusterIP": {},
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":9092,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-kafka-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "308257886",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-kafka-headless",
+              "uid": "c957e4ff-c464-455a-8568-bb5c8857b562"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "kafka",
+                      "port": 9092,
+                      "protocol": "TCP",
+                      "targetPort": "kafka"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/path": "/",
+                  "prometheus.io/port": "5556",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-05-24T00:50:41Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.3.2",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:prometheus.io/path": {},
+                                  "f:prometheus.io/port": {},
+                                  "f:prometheus.io/scrape": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":5556,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-kafka-jmx-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "308257898",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-kafka-jmx-metrics",
+              "uid": "12f2b0c1-851f-4afb-abdd-420d2b783d8f"
+          },
+          "spec": {
+              "clusterIP": "172.21.168.114",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 5556,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/path": "/metrics",
+                  "prometheus.io/port": "9308",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-05-24T00:50:41Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.3.2",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:prometheus.io/path": {},
+                                  "f:prometheus.io/port": {},
+                                  "f:prometheus.io/scrape": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":9308,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-kafka-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "308257903",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-kafka-metrics",
+              "uid": "b9e0b4b5-55c3-4d71-bcb7-eb9384dfce75"
+          },
+          "spec": {
+              "clusterIP": "172.21.91.236",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9308,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-05-24T00:50:41Z",
+              "labels": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "helm.sh/chart": "zookeeper-5.4.3",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":2181,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  },
+                                  "k:{\"port\":2888,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  },
+                                  "k:{\"port\":3888,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-zookeeper",
+              "namespace": "backup-test",
+              "resourceVersion": "308257908",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-zookeeper",
+              "uid": "1e4a99d6-4a0d-48f2-bd5e-e5b589a843b4"
+          },
+          "spec": {
+              "clusterIP": "172.21.202.174",
+              "ports": [
+                  {
+                      "name": "client",
+                      "port": 2181,
+                      "protocol": "TCP",
+                      "targetPort": "client"
+                  },
+                  {
+                      "name": "follower",
+                      "port": 2888,
+                      "protocol": "TCP",
+                      "targetPort": "follower"
+                  },
+                  {
+                      "name": "election",
+                      "port": 3888,
+                      "protocol": "TCP",
+                      "targetPort": "election"
+                  }
+              ],
+              "selector": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-05-24T00:50:41Z",
+              "labels": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "helm.sh/chart": "zookeeper-5.4.3",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":9141,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-zookeeper-exporter",
+              "namespace": "backup-test",
+              "resourceVersion": "308257891",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-zookeeper-exporter",
+              "uid": "300fbed0-68d4-4ad4-8059-f9b2d9775f8e"
+          },
+          "spec": {
+              "clusterIP": "172.21.203.247",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9141,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-05-24T00:50:40Z",
+              "labels": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "helm.sh/chart": "zookeeper-5.4.3",
+                  "release": "backup-test-kaf"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:clusterIP": {},
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":2181,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  },
+                                  "k:{\"port\":2888,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  },
+                                  "k:{\"port\":3888,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:publishNotReadyAddresses": {},
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:release": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "Go-http-client",
+                      "operation": "Update",
+                      "time": "2021-05-24T00:50:40Z"
+                  }
+              ],
+              "name": "backup-test-kaf-zookeeper-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "308257884",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-kaf-zookeeper-headless",
+              "uid": "1fd76801-cf9a-4606-9232-860c086ecf96"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "client",
+                      "port": 2181,
+                      "protocol": "TCP",
+                      "targetPort": "client"
+                  },
+                  {
+                      "name": "follower",
+                      "port": 2888,
+                      "protocol": "TCP",
+                      "targetPort": "follower"
+                  },
+                  {
+                      "name": "election",
+                      "port": 3888,
+                      "protocol": "TCP",
+                      "targetPort": "election"
+                  }
+              ],
+              "publishNotReadyAddresses": true,
+              "selector": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-kaf",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "release": "backup-test-kaf"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{\"prometheus.io/path\":\"/metrics\",\"prometheus.io/port\":\"9719\",\"prometheus.io/scrape\":\"true\"},\"labels\":{\"app\":\"pgpool\",\"app.kubernetes.io/component\":\"pgpool\",\"app.kubernetes.io/instance\":\"backup-test-pg\",\"app.kubernetes.io/managed-by\":\"Tiller\",\"app.kubernetes.io/name\":\"postgresql-ha\",\"helm.sh/chart\":\"postgresql-ha-5.2.4\",\"release\":\"backup-test-pg\"},\"name\":\"backup-test-pg-pgpool-metrics\",\"namespace\":\"backup-test\"},\"spec\":{\"ports\":[{\"name\":\"metrics\",\"port\":9719,\"protocol\":\"TCP\",\"targetPort\":9719}],\"selector\":{\"app.kubernetes.io/component\":\"pgpool\",\"app.kubernetes.io/instance\":\"backup-test-pg\",\"app.kubernetes.io/name\":\"postgresql-ha\"},\"sessionAffinity\":\"None\",\"type\":\"ClusterIP\"}}\n",
+                  "prometheus.io/path": "/metrics",
+                  "prometheus.io/port": "9719",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-01-21T07:11:19Z",
+              "labels": {
+                  "app": "pgpool",
+                  "app.kubernetes.io/component": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-pg",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-pg"
+              },
+              "name": "backup-test-pg-pgpool-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "223379219",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-pg-pgpool-metrics",
+              "uid": "c4526c40-b726-42e0-b3b5-82ff0731fff5"
+          },
+          "spec": {
+              "clusterIP": "172.21.142.94",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9719,
+                      "protocol": "TCP",
+                      "targetPort": 9719
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-pg",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-02-18T11:00:30Z",
+              "labels": {
+                  "app": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-post"
+              },
+              "name": "backup-test-post-pgpool",
+              "namespace": "backup-test",
+              "resourceVersion": "237898060",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-post-pgpool",
+              "uid": "8e0e7499-8e06-4269-9521-191dd79e93a7"
+          },
+          "spec": {
+              "clusterIP": "172.21.25.63",
+              "ports": [
+                  {
+                      "name": "postgresql",
+                      "port": 5432,
+                      "protocol": "TCP",
+                      "targetPort": "postgresql"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/path": "/metrics",
+                  "prometheus.io/port": "9719",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-02-18T11:00:30Z",
+              "labels": {
+                  "app": "pgpool",
+                  "app.kubernetes.io/component": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-post"
+              },
+              "name": "backup-test-post-pgpool-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "237898056",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-post-pgpool-metrics",
+              "uid": "89af7e44-3d4a-4d83-8e00-b71157b5a39c"
+          },
+          "spec": {
+              "clusterIP": "172.21.224.145",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9719,
+                      "protocol": "TCP",
+                      "targetPort": 9719
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "pgpool",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"postgresql\",\"app.kubernetes.io/component\":\"postgresql\",\"app.kubernetes.io/instance\":\"backup-test-post\",\"app.kubernetes.io/managed-by\":\"Tiller\",\"app.kubernetes.io/name\":\"postgresql-ha\",\"helm.sh/chart\":\"postgresql-ha-5.2.4\",\"release\":\"backup-test-post\"},\"name\":\"backup-test-post-postgresql\",\"namespace\":\"backup-test\"},\"spec\":{\"ports\":[{\"name\":\"postgresql\",\"port\":5432,\"protocol\":\"TCP\",\"targetPort\":\"postgresql\"}],\"selector\":{\"app.kubernetes.io/component\":\"postgresql\",\"app.kubernetes.io/instance\":\"backup-test-post\",\"app.kubernetes.io/name\":\"postgresql-ha\"},\"sessionAffinity\":\"None\",\"type\":\"LoadBalancer\"}}\n"
+              },
+              "creationTimestamp": "2021-02-18T11:00:30Z",
+              "finalizers": [
+                  "service.kubernetes.io/load-balancer-cleanup"
+              ],
+              "labels": {
+                  "app": "postgresql",
+                  "app.kubernetes.io/component": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-post"
+              },
+              "name": "backup-test-post-postgresql",
+              "namespace": "backup-test",
+              "resourceVersion": "257122494",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-post-postgresql",
+              "uid": "71273479-e1ad-457d-a96b-0542dd63b098"
+          },
+          "spec": {
+              "clusterIP": "172.21.73.185",
+              "externalTrafficPolicy": "Cluster",
+              "ports": [
+                  {
+                      "name": "postgresql",
+                      "nodePort": 32713,
+                      "port": 5432,
+                      "protocol": "TCP",
+                      "targetPort": "postgresql"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "LoadBalancer"
+          },
+          "status": {
+              "loadBalancer": {
+                  "ingress": [
+                      {
+                          "ip": "169.56.71.205"
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-02-18T11:00:30Z",
+              "labels": {
+                  "app": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-post"
+              },
+              "name": "backup-test-post-postgresql-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "237898044",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-post-postgresql-headless",
+              "uid": "c386f55c-78aa-49b5-b7c1-55501c87bc83"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "postgresql",
+                      "port": 5432,
+                      "protocol": "TCP",
+                      "targetPort": "postgresql"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/port": "9187",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-02-18T11:00:30Z",
+              "labels": {
+                  "app": "postgresql",
+                  "app.kubernetes.io/component": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "postgresql-ha",
+                  "helm.sh/chart": "postgresql-ha-5.2.4",
+                  "release": "backup-test-post"
+              },
+              "name": "backup-test-post-postgresql-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "237898051",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-post-postgresql-metrics",
+              "uid": "15bf2626-ca14-4623-b414-0b8135773881"
+          },
+          "spec": {
+              "clusterIP": "172.21.156.145",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9187,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/component": "postgresql",
+                  "app.kubernetes.io/instance": "backup-test-post",
+                  "app.kubernetes.io/name": "postgresql-ha"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type": "private"
+              },
+              "creationTimestamp": "2021-03-23T12:21:44Z",
+              "labels": {
+                  "app": "redis-cluster",
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "redis-cluster",
+                  "helm.sh/chart": "redis-cluster-3.2.3",
+                  "heritage": "Tiller",
+                  "loadBalancerType": "private",
+                  "release": "backup-test-scsc"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:annotations": {
+                                  ".": {},
+                                  "f:service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type": {}
+                              },
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:heritage": {},
+                                  "f:loadBalancerType": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":6379,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-03-23T12:21:44Z"
+                  }
+              ],
+              "name": "backup-test-scsc-redis-cluster",
+              "namespace": "backup-test",
+              "resourceVersion": "262667895",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-scsc-redis-cluster",
+              "uid": "fa9ce8e5-b639-4b50-9034-15cc6663433b"
+          },
+          "spec": {
+              "clusterIP": "172.21.167.90",
+              "ports": [
+                  {
+                      "name": "tcp-redis",
+                      "port": 6379,
+                      "protocol": "TCP",
+                      "targetPort": "tcp-redis"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/name": "redis-cluster"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-03-23T12:21:44Z",
+              "labels": {
+                  "app": "redis-cluster",
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "redis-cluster",
+                  "helm.sh/chart": "redis-cluster-3.2.3",
+                  "release": "backup-test-scsc"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:clusterIP": {},
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":16379,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  },
+                                  "k:{\"port\":6379,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:publishNotReadyAddresses": {},
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-03-23T12:21:44Z"
+                  }
+              ],
+              "name": "backup-test-scsc-redis-cluster-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "262667885",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-scsc-redis-cluster-headless",
+              "uid": "07708fb2-238d-42cb-893a-73ba6f2469fc"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "tcp-redis",
+                      "port": 6379,
+                      "protocol": "TCP",
+                      "targetPort": "tcp-redis"
+                  },
+                  {
+                      "name": "tcp-redis-bus",
+                      "port": 16379,
+                      "protocol": "TCP",
+                      "targetPort": "tcp-redis-bus"
+                  }
+              ],
+              "publishNotReadyAddresses": true,
+              "selector": {
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/name": "redis-cluster"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-03-23T12:21:44Z",
+              "labels": {
+                  "app": "redis-cluster",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "redis-cluster",
+                  "helm.sh/chart": "redis-cluster-3.2.3",
+                  "release": "backup-test-scsc"
+              },
+              "managedFields": [
+                  {
+                      "apiVersion": "v1",
+                      "fieldsType": "FieldsV1",
+                      "fieldsV1": {
+                          "f:metadata": {
+                              "f:labels": {
+                                  ".": {},
+                                  "f:app": {},
+                                  "f:app.kubernetes.io/component": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/managed-by": {},
+                                  "f:app.kubernetes.io/name": {},
+                                  "f:helm.sh/chart": {},
+                                  "f:release": {}
+                              }
+                          },
+                          "f:spec": {
+                              "f:ports": {
+                                  ".": {},
+                                  "k:{\"port\":9121,\"protocol\":\"TCP\"}": {
+                                      ".": {},
+                                      "f:name": {},
+                                      "f:port": {},
+                                      "f:protocol": {},
+                                      "f:targetPort": {}
+                                  }
+                              },
+                              "f:selector": {
+                                  ".": {},
+                                  "f:app.kubernetes.io/instance": {},
+                                  "f:app.kubernetes.io/name": {}
+                              },
+                              "f:sessionAffinity": {},
+                              "f:type": {}
+                          }
+                      },
+                      "manager": "kubectl",
+                      "operation": "Update",
+                      "time": "2021-03-23T12:21:44Z"
+                  }
+              ],
+              "name": "backup-test-scsc-redis-cluster-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "262667890",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-scsc-redis-cluster-metrics",
+              "uid": "6b9e038b-d1f3-4ecc-b18c-c5c979b71a2a"
+          },
+          "spec": {
+              "clusterIP": "172.21.210.84",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9121,
+                      "protocol": "TCP",
+                      "targetPort": "http-metrics"
+                  }
+              ],
+              "selector": {
+                  "app.kubernetes.io/instance": "backup-test-scsc",
+                  "app.kubernetes.io/name": "redis-cluster"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-01-08T06:29:59Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.2.9",
+                  "release": "backup-test-ulsc"
+              },
+              "name": "backup-test-ulsc-kafka",
+              "namespace": "backup-test",
+              "resourceVersion": "218303245",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-ulsc-kafka",
+              "uid": "a32fdc83-cd2d-45b7-9dde-458e219d66c2"
+          },
+          "spec": {
+              "clusterIP": "172.21.120.56",
+              "ports": [
+                  {
+                      "name": "kafka",
+                      "port": 9092,
+                      "protocol": "TCP",
+                      "targetPort": "kafka"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-ulsc"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-01-08T06:29:58Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.2.9",
+                  "release": "backup-test-ulsc"
+              },
+              "name": "backup-test-ulsc-kafka-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "218303243",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-ulsc-kafka-headless",
+              "uid": "965b040d-90f2-4ae7-a67a-4cbea6fc6ed1"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "kafka",
+                      "port": 9092,
+                      "protocol": "TCP",
+                      "targetPort": "kafka"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-ulsc"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/path": "/",
+                  "prometheus.io/port": "5556",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-01-08T06:29:59Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.2.9",
+                  "release": "backup-test-ulsc"
+              },
+              "name": "backup-test-ulsc-kafka-jmx-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "218303247",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-ulsc-kafka-jmx-metrics",
+              "uid": "f9d06495-f03d-4680-9110-fb4fb9800d42"
+          },
+          "spec": {
+              "clusterIP": "172.21.189.126",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 5556,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "kafka",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "backup-test-ulsc"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-01-08T06:29:59Z",
+              "labels": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "helm.sh/chart": "zookeeper-5.4.3",
+                  "release": "backup-test-ulsc"
+              },
+              "name": "backup-test-ulsc-zookeeper",
+              "namespace": "backup-test",
+              "resourceVersion": "218303244",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-ulsc-zookeeper",
+              "uid": "a86c0222-2abf-4dab-9c85-c5da0a1583fe"
+          },
+          "spec": {
+              "clusterIP": "172.21.45.180",
+              "ports": [
+                  {
+                      "name": "client",
+                      "port": 2181,
+                      "protocol": "TCP",
+                      "targetPort": "client"
+                  },
+                  {
+                      "name": "follower",
+                      "port": 2888,
+                      "protocol": "TCP",
+                      "targetPort": "follower"
+                  },
+                  {
+                      "name": "election",
+                      "port": 3888,
+                      "protocol": "TCP",
+                      "targetPort": "election"
+                  }
+              ],
+              "selector": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "release": "backup-test-ulsc"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "creationTimestamp": "2021-01-08T06:29:58Z",
+              "labels": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "helm.sh/chart": "zookeeper-5.4.3",
+                  "release": "backup-test-ulsc"
+              },
+              "name": "backup-test-ulsc-zookeeper-headless",
+              "namespace": "backup-test",
+              "resourceVersion": "218303242",
+              "selfLink": "/api/v1/namespaces/backup-test/services/backup-test-ulsc-zookeeper-headless",
+              "uid": "5443d479-90d0-464c-b3b3-3291399d9aab"
+          },
+          "spec": {
+              "clusterIP": "None",
+              "ports": [
+                  {
+                      "name": "client",
+                      "port": 2181,
+                      "protocol": "TCP",
+                      "targetPort": "client"
+                  },
+                  {
+                      "name": "follower",
+                      "port": 2888,
+                      "protocol": "TCP",
+                      "targetPort": "follower"
+                  },
+                  {
+                      "name": "election",
+                      "port": 3888,
+                      "protocol": "TCP",
+                      "targetPort": "election"
+                  }
+              ],
+              "publishNotReadyAddresses": true,
+              "selector": {
+                  "app": "zookeeper",
+                  "app.kubernetes.io/component": "zookeeper",
+                  "app.kubernetes.io/instance": "backup-test-ulsc",
+                  "app.kubernetes.io/name": "zookeeper",
+                  "release": "backup-test-ulsc"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      },
+      {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+              "annotations": {
+                  "prometheus.io/path": "/metrics",
+                  "prometheus.io/port": "9308",
+                  "prometheus.io/scrape": "true"
+              },
+              "creationTimestamp": "2021-01-29T02:44:27Z",
+              "labels": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "psj",
+                  "app.kubernetes.io/managed-by": "Tiller",
+                  "app.kubernetes.io/name": "kafka",
+                  "helm.sh/chart": "kafka-7.3.2",
+                  "release": "psj"
+              },
+              "name": "psj-kafka-metrics",
+              "namespace": "backup-test",
+              "resourceVersion": "227041107",
+              "selfLink": "/api/v1/namespaces/backup-test/services/psj-kafka-metrics",
+              "uid": "3ea96527-01b9-47fa-bf33-7f780d34e159"
+          },
+          "spec": {
+              "clusterIP": "172.21.72.50",
+              "ports": [
+                  {
+                      "name": "metrics",
+                      "port": 9308,
+                      "protocol": "TCP",
+                      "targetPort": "metrics"
+                  }
+              ],
+              "selector": {
+                  "app": "kafka",
+                  "app.kubernetes.io/component": "metrics",
+                  "app.kubernetes.io/instance": "psj",
+                  "app.kubernetes.io/name": "kafka",
+                  "release": "psj"
+              },
+              "sessionAffinity": "None",
+              "type": "ClusterIP"
+          },
+          "status": {
+              "loadBalancer": {}
+          }
+      }
+  ],
+  "kind": ["List"],
+  "metadata": {
+      "resourceVersion": "",
+      "selfLink": ""
+  }
+}

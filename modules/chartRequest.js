@@ -48,8 +48,8 @@ export default class ChartRequest {
         resident: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"resident"}`
       },
       redis: {
-        used: `redis_memory_used_bytes{alias="${this.name_datastore}"}`,
-        max: `redis_config_maxmemory{alias="${this.name_datastore}"}`
+        used: `redis_memory_used_bytes{alias=""}`,
+        max: `redis_config_maxmemory{alias=""}`
       }
     }
     queries = queries[this.datastore]
@@ -65,8 +65,8 @@ export default class ChartRequest {
         network: `mongodb_network_bytes_total{namespace="${this.namespace}" , release=~"${this.name}"}`,
       },
       redis: {
-        input: `rate(redis_net_input_bytes_total{alias="${this.name_datastore}"}[5m])`,
-        output: `rate(redis_net_output_bytes_total{alias="${this.name_datastore}"}[5m])`,
+        input: `rate(redis_net_input_bytes_total{alias=""}[5m])`,
+        output: `rate(redis_net_output_bytes_total{alias=""}[5m])`,
       }
     }
     queries = queries[this.datastore]
@@ -143,6 +143,165 @@ export default class ChartRequest {
     let queries = {
       mariadb: {
         slaveIOThreadRunning: `mysql_slave_status_slave_io_running{master_host="${this.name_datastore}"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get memberHealthChart() {
+    let queries = {
+      mongodb: {
+        memberNumbers: `avg by (release)(mongodb_mongod_replset_number_of_members{namespace="${this.namespace}", release="${this.name}"})`,
+        memberHealth: `avg by (state)(mongodb_mongod_replset_member_health{namespace="${this.namespace}", release="${this.name}"})`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get queryOperationsChart() {
+    let queries = {
+      mongodb: {
+        totalCounters: `rate(mongodb_op_counters_total{namespace="${this.namespace}",release="${this.name}"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get cacheChart() {
+    let queries = {
+      mongodb: {
+        cache: `mongodb_mongod_wiredtiger_cache_bytes_total{namespace="${this.namespace}",release="${this.name}"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get ticketChart() {
+    let queries = {
+      mongodb: {
+        read: `mongodb_mongod_wiredtiger_concurrent_transactions_total_tickets{namespace="${this.namespace}",release="${this.name}",type="read"}`,
+        write: `mongodb_mongod_wiredtiger_concurrent_transactions_total_tickets{namespace="${this.namespace}",release="${this.name}",type="write"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get cursorChart() {
+    let queries = {
+      mongodb: {
+        reader: `mongodb_mongod_metrics_cursor_open{namespace="${this.namespace}",release="${this.name}",state="total"}`,
+        writer: `mongodb_mongod_metrics_cursor_timed_out_total{namespace="${this.namespace}",release="${this.name}"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get queueChart() {
+    let queries = {
+      mongodb: {
+        queue: `mongodb_mongod_global_lock_current_queue{namespace="${this.namespace}",release="${this.name}"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get totalItemPerDBChart() {
+    let queries = {
+      redis: {
+        total: `sum (redis_db_keys{alias=""}) by (db)`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get expiringNotExpiringKeysChart() {
+    let queries = {
+      redis: {
+        expiring: `sum (redis_db_keys_expiring{alias=""})`,
+        notExpiring: `sum (redis_db_keys{alias=""}) - sum (redis_db_keys_expiring{alias=""})`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get expiredEvictedChart() {
+    let queries = {
+      redis: {
+        keys: `sum(rate(redis_evicted_keys_total{alias=""}[5m])) by (addr)`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get commandExecutedChart() {
+    let queries = {
+      redis: {
+        total: `rate(redis_commands_processed_total{alias=""}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get hitsMissesPerSecChart() {
+    let queries = {
+      redis: {
+        hits: `irate(redis_keyspace_hits_total{alias=""}[5m])`,
+        misses: `irate(redis_keyspace_misses_total{alias=""}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get commandCallsSecChart() {
+    let queries = {
+      redis: {
+        count: `irate(redis_command_call_duration_seconds_count{alias=""} [1m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get messageReadyConsumersChart() {
+    let queries = {
+      rabbitmq: {
+        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})
+        `,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get messagePendingConsumerAcknowledgementChart () {
+    let queries = {
+      rabbitmq: {
+        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get totalQueues  () {
+    let queries = {
+      rabbitmq: {
+        queues: `rabbitmq_queues{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get totalChannels () {
+    let queries = {
+      rabbitmq: {
+        channels: `rabbitmq_channels{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get totalConnections () {
+    let queries = {
+      rabbitmq: {
+        connections: `rabbitmq_connections{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
       },
     }
     queries = queries[this.datastore]

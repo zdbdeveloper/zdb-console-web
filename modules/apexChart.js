@@ -349,9 +349,637 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
-  getCharts(ids) {
+  get _memberHealthChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'memberHealthChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Member Health',
+          align: 'left',
+        },
+        yaxis: {
+          min: 0,
+          max: function (value) {
+            return value.toFixed()
+          }
+        },
+      },
+    }
+  }
+  get _queryOperationsChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'queryOperationsChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Query Operations',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(2)}ops`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _cacheChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'cacheChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Cache',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _ticketChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'ticketChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Ticket',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _cursorChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'cursorChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Cursor',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 1,
+          tickAmount: 5,
+          max: function(max) {
+            return max + 0.5
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _queueChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'queueChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Queue',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: function(value) {
+            return value <= 0 ? 4 : Math.floor(value + 1)
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _totalItemPerDBChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'totalItemPerDBChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Total Items per DB',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: 10,
+          labels: {
+            formatter: function (value) {
+              return `${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _expiringNotExpiringKeysChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'expiringNotExpiringKeysChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Expiring vs Not Expiring Keys',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: 1,
+          labels: {
+            formatter: function (value) {
+              return `${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _expiredEvictedChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'expiredEvictedChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Expired/Evicted',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: 1,
+          labels: {
+            formatter: function (value) {
+              return `${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _commandExecutedChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'commandExecutedChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Commands Executed/sec',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: 10,
+          labels: {
+            formatter: function (value) {
+              return `${value}.toFixed()`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _hitsMissesPerSecChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'hitsMissesPerSecChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Hits/Misses per Sec',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: 1,
+          labels: {
+            formatter: function (value) {
+              return `${value}.toFixed(2)`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _commandCallsSecChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'commandCallsSecChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Command Calls/sec',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: 1,
+          labels: {
+            formatter: function (value) {
+              return `${value}.toFixed()`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _messageReadyConsumersChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'messageReadyConsumersChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Messages ready to be delivered to consumers',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 3,
+          min: 0,
+          max: function(value) {
+            return value < 3 ? 3 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _messagePendingConsumerAcknowledgementChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'messagePendingConsumerAcknowledgementChart',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Messages pending consumer acknowledgement',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 3,
+          min: 0,
+          max: function(value) {
+            return value < 3 ? 3 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _totalQueues() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'totalQueues',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Total queues',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 3,
+          min: 0,
+          max: function(value) {
+            return value < 3 ? 3 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _totalChannels() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'totalChannels',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Total channels',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 3,
+          min: 0,
+          max: function(value) {
+            return value < 3 ? 3 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _totalConnections() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'totalConnections',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Total connections',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 3,
+          min: 0,
+          max: function(value) {
+            return value < 3 ? 3 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed()}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _targetCharts() {
+    return {
+      mariadb: [
+        'cpuUsageChart'
+        , 'memoryUsageChart'
+        , 'networkIOChart'
+        , 'connectionsChart'
+        , 'threadActivityChart'
+        , 'tableLocksChart'
+        , 'currentQPSChart'
+        , 'replictionDelayChart'
+        , 'slaveSqlThreadRunningChart'
+        , 'slaveIOThreadRunningChart'
+      ],
+      mongodb: [
+        'cpuUsageChart'
+        , 'memoryUsageChart'
+        , 'networkIOChart'
+        , 'connectionsChart'
+        , 'replictionDelayChart'
+        , 'memberHealthChart'
+        , 'queryOperationsChart'
+        , 'cacheChart'
+        , 'ticketChart'
+        , 'cursorChart'
+        , 'queueChart'
+      ] ,
+      redis: [
+        'cpuUsageChart'
+        , 'memoryUsageChart'
+        , 'networkIOChart'
+        , 'totalItemPerDBChart'
+        , 'expiringNotExpiringKeysChart'
+        , 'expiredEvictedChart'
+        , 'commandExecutedChart'
+        , 'hitsMissesPerSecChart'
+        , 'commandCallsSecChart'
+      ] ,
+      rabbitmq: [
+        'messageReadyConsumersChart'
+        , 'messagePendingConsumerAcknowledgementChart'
+        , 'totalQueues'
+        , 'totalChannels'
+        , 'totalConnections'
+      ]
+    }
+  }
+  getCharts() {
     let charts = {}
-    if (!Array.isArray(ids) || !ids.length) return charts
+      , ids = this._targetCharts[this.datastore]
+    if (!ids) return charts
     for (let id of ids) {
       charts[id] = { ...this['_' + id] }
     }

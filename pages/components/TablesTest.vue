@@ -292,7 +292,11 @@
        */
       fetchTables () {
         const url = 'http://localhost:3008/items'
+        //const url = 'http://169.56.71.206:8082/v2/namespace/-/dsrs'
+        //http://169.56.71.206:8082/v2/namespace/zdb-v2-ra/dsrs
+        //const url = 'http://localhost:9999/v2/namespace/-/dsrs'
         this.$axios.$get(url, {}).then(res => {
+          console.log('res:', res)
           res = this.parseTableItems(res)
           this.tableFields = res.tableFields
           this.tableItems = res.tableItems.map((item, id) => {
@@ -368,7 +372,7 @@
               message: '',
               age: getAge(item.metadata.creationTimestamp),
               //
-              pod: item.status.storage.dataStorages[0]?.pod,
+              //pod: item.status.storage.dataStorages[0]?.pod,
             }
           ]
         })
