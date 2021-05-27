@@ -107,9 +107,10 @@ export default {
       server: 'https://pog-dev-prometheus.cloudzcp.io'
       , period: 1800
       , step: 30
+      , namespace: this.$route.params.service
       , name: this.$route.query.name
       , datastore: this.$route.query.datastore
-      , namespace: this.$route.params.service
+      , architecture: this.$route.query.architecture
     })
     this.targetCharts = apexChart.getCharts()
     this.fetchCharts(apexChart)
@@ -119,7 +120,7 @@ export default {
       let series = [], categories = [], names = []
       if(rawData) {
         for (let [key, content] of Object.entries(rawData)) {
-          content.data.result.forEach((result, idx) => {
+          content.data.result.forEach(async (result, idx) => {
             //if (1 < idx) return
             let pod = result.metric.pod
               , name = pod ? `${key}/${pod}` : key
@@ -128,8 +129,9 @@ export default {
             series = [ ...series, item ]
             names = [ ...names, name ]
 
-            if (1 === Object.keys(series).length)
+            if (1 === series.length) {
               categories = data.map(arr => arr[0])        
+            }
           });
         }
       }
@@ -149,8 +151,7 @@ export default {
       })
     },
     async fetchCharts (apexChart) {
-      let targets = apexChart._targetCharts[this.$route.query.datastore]
-      this.targetCharts && targets?.forEach(async id => {
+      this.targetCharts && Object.keys(this.targetCharts)?.forEach(async id => {
         let requests = apexChart.getRequests(id)
         if (!requests) return
         let url = requests.url
@@ -229,8 +230,6 @@ export default {
           ? item.status.resources.requestCpu
           : item.status.resources.requestMemory        
           maximum = getByteSize(maximum)
-        //console.log('####### usage', usage)
-        //console.log('####### maximum', maximum)
         return Math.round((usage/maximum) * 100)
       }
       let table_items = []
@@ -252,7 +251,6 @@ export default {
             storage: item.status.storage.data || ''
           }
         ]
-        //console.log('table_items: ', table_items)    
       })
       return { table_fields, table_items }
     },

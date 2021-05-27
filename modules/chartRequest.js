@@ -48,8 +48,8 @@ export default class ChartRequest {
         resident: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"resident"}`
       },
       redis: {
-        used: `redis_memory_used_bytes{alias=""}`,
-        max: `redis_config_maxmemory{alias=""}`
+        used: `redis_memory_used_bytes{release="${this.name}"}`,
+        max: `redis_config_maxmemory{release="${this.name}"}`
       }
     }
     queries = queries[this.datastore]
@@ -65,8 +65,8 @@ export default class ChartRequest {
         network: `mongodb_network_bytes_total{namespace="${this.namespace}" , release=~"${this.name}"}`,
       },
       redis: {
-        input: `rate(redis_net_input_bytes_total{alias=""}[5m])`,
-        output: `rate(redis_net_output_bytes_total{alias=""}[5m])`,
+        input: `rate(redis_net_input_bytes_total{release="${this.name}"}[5m])`,
+        output: `rate(redis_net_output_bytes_total{release="${this.name}"}[5m])`,
       }
     }
     queries = queries[this.datastore]
@@ -208,7 +208,7 @@ export default class ChartRequest {
   get totalItemPerDBChart() {
     let queries = {
       redis: {
-        total: `sum (redis_db_keys{alias=""}) by (db)`,
+        total: `sum (redis_db_keys{release="${this.name}"}) by (db)`,
       },
     }
     queries = queries[this.datastore]
@@ -217,8 +217,8 @@ export default class ChartRequest {
   get expiringNotExpiringKeysChart() {
     let queries = {
       redis: {
-        expiring: `sum (redis_db_keys_expiring{alias=""})`,
-        notExpiring: `sum (redis_db_keys{alias=""}) - sum (redis_db_keys_expiring{alias=""})`,
+        expiring: `sum (redis_db_keys_expiring{release="${this.name}"})`,
+        notExpiring: `sum (redis_db_keys{release="${this.name}"}) - sum (redis_db_keys_expiring{release="${this.name}"})`,
       },
     }
     queries = queries[this.datastore]
@@ -227,7 +227,7 @@ export default class ChartRequest {
   get expiredEvictedChart() {
     let queries = {
       redis: {
-        keys: `sum(rate(redis_evicted_keys_total{alias=""}[5m])) by (addr)`,
+        keys: `sum(rate(redis_evicted_keys_total{release="${this.name}"}[5m])) by (addr)`,
       },
     }
     queries = queries[this.datastore]
@@ -236,7 +236,7 @@ export default class ChartRequest {
   get commandExecutedChart() {
     let queries = {
       redis: {
-        total: `rate(redis_commands_processed_total{alias=""}[5m])`,
+        total: `rate(redis_commands_processed_total{release="${this.name}"}[5m])`,
       },
     }
     queries = queries[this.datastore]
@@ -245,8 +245,8 @@ export default class ChartRequest {
   get hitsMissesPerSecChart() {
     let queries = {
       redis: {
-        hits: `irate(redis_keyspace_hits_total{alias=""}[5m])`,
-        misses: `irate(redis_keyspace_misses_total{alias=""}[5m])`,
+        hits: `irate(redis_keyspace_hits_total{release="${this.name}"}[5m])`,
+        misses: `irate(redis_keyspace_misses_total{release="${this.name}"}[5m])`,
       },
     }
     queries = queries[this.datastore]
@@ -255,7 +255,7 @@ export default class ChartRequest {
   get commandCallsSecChart() {
     let queries = {
       redis: {
-        count: `irate(redis_command_call_duration_seconds_count{alias=""} [1m])`,
+        count: `irate(redis_command_call_duration_seconds_count{release="${this.name}"} [1m])`,
       },
     }
     queries = queries[this.datastore]
@@ -264,8 +264,7 @@ export default class ChartRequest {
   get messageReadyConsumersChart() {
     let queries = {
       rabbitmq: {
-        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})
-        `,
+        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
       },
     }
     queries = queries[this.datastore]

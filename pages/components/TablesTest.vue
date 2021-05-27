@@ -9,7 +9,7 @@
       :disabled="!Boolean(stompClient)">DISCONNECT SOCKET</button>
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button>
-    <button @click="allColumm">COLUMN</button>
+    <!-- <button @click="allColumm">COLUMN</button> -->
     <CDataTable
       :items="tableItems"
       :fields="FilteredFields"
@@ -147,46 +147,43 @@
         subscription: null,
         systemStates: [],
 
-      selected: [
-        '1',
-        // '1', 'group option 2', '5'
-      ],
-      options: [
-        {
-          value: 0,
-          text: 'enhancement'
-        },
-        {
-          value: 1,
-          text: 'bug',
-          // selected: true
-        },
-        {
-          value: 2,
-          text: 'duplicate',
-          // selected: true
-        },
-        {
-          value: 3,
-          text: 'invalid'
-        },
-        {
-          label: 'group',
-          options: [
-            {
-              value: 4,
-              text: 'enhancement2'
-            },
-            {
-              value: 5,
-              text: 'bug2'
-            }
-          ]
-        }
-      ],
-
-
-
+        selected: [
+          '1',
+          // '1', 'group option 2', '5'
+        ],
+        options: [
+          {
+            value: 0,
+            text: 'enhancement'
+          },
+          {
+            value: 1,
+            text: 'bug',
+            // selected: true
+          },
+          {
+            value: 2,
+            text: 'duplicate',
+            // selected: true
+          },
+          {
+            value: 3,
+            text: 'invalid'
+          },
+          {
+            label: 'group',
+            options: [
+              {
+                value: 4,
+                text: 'enhancement2'
+              },
+              {
+                value: 5,
+                text: 'bug2'
+              }
+            ]
+          }
+        ],
       };
     },
     created() {
@@ -214,7 +211,6 @@
       allColumm() {
         this.filteringFields = []
       },
-
       /**
        * Connect Socket
        */      
@@ -222,7 +218,6 @@
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
         //if (!this.stompClient.connected) return false
-        
         this.stompClient.connect({}, (frame) => {
           console.log('Connected.frame: ' + frame)
           this.subscribe()
@@ -265,8 +260,6 @@
           this.stompClient.disconnect()
           this.stompClient = null
         }
-        console.log('disconnect.subscription:', this.subscription)
-        console.log('disconnect.stompClient:', this.stompClient)
       },
       /** 
        * Handle the system usages in the tables
@@ -291,12 +284,9 @@
        * Fetch data for the tables
        */
       fetchTables () {
-        const url = 'http://localhost:3008/items'
-        //const url = 'http://169.56.71.206:8082/v2/namespace/-/dsrs'
-        //http://169.56.71.206:8082/v2/namespace/zdb-v2-ra/dsrs
-        //const url = 'http://localhost:9999/v2/namespace/-/dsrs'
+        //const url = 'http://localhost:3008/items'
+        const url = '/v2/namespace/-/dsrs'
         this.$axios.$get(url, {}).then(res => {
-          console.log('res:', res)
           res = this.parseTableItems(res)
           this.tableFields = res.tableFields
           this.tableItems = res.tableItems.map((item, id) => {
@@ -311,12 +301,13 @@
        */
       fetchDetails (item) {
         let namespace = item.namespace
-        //Check the opened children
+          , name = item.name
         if (this.tableDetails && this.tableDetails[namespace].tableItems) {
           this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
           return false
         }
-        const url = `http://localhost:3009/${namespace}`
+        //const url = `http://localhost:3009/${namespace}`
+        const url = `/v2/namespace/${namespace}/${name}/zdbs`
         this.$axios.$get(url, {}).then(res => {
           if (!res) return this.toastError()
           res = this.parseTableDetails(res)
@@ -354,7 +345,7 @@
           return `${ days }d`
         }
         let tableItems = []
-        console.log('items:', items)
+        //console.log('items:', items)
         items.map(item => {
           tableItems = [ ...tableItems,
             {
@@ -371,8 +362,6 @@
               storage: item.status.storage.data || '',
               message: '',
               age: getAge(item.metadata.creationTimestamp),
-              //
-              //pod: item.status.storage.dataStorages[0]?.pod,
             }
           ]
         })
@@ -401,7 +390,7 @@
         let getByteSize = (size) => {
           return (  
             ! /\D?(g|m)/gi.test(size)
-            ? size.replace(/\D/g, '') || 0
+            ? size?.replace(/\D/g, '') || 0
             : ( /\D?g/gi.test(size)
                 ? size.replace(/\D/g, '') * 1024 * 1024
                 : size.replace(/\D/g, '') * 1024 
@@ -419,7 +408,8 @@
             ? item.status.resources.requestCpu
             : item.status.resources.requestMemory        
             maximum = getByteSize(maximum)
-          return !usage || !maximum ? 0 : Math.round((usage/maximum) * 100)
+          let rate = 'cpu' == type ? 100 : 1
+          return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
         }
         let tableItems = []
         items.map(item => {
@@ -451,8 +441,9 @@
           let namespace = this.tableItems[index].namespace
             , name = this.tableItems[index].name
             , datastore = this.tableItems[index].datastore
+            , architecture = this.tableItems[index].architecture
           this.$router.push({
-            path: `/components/details/${namespace}?name=${name}&datastore=${datastore}`
+            path: `/components/details/${namespace}?name=${name}&datastore=${datastore}&architecture=${architecture}`
           })
         }
       },

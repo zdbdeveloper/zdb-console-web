@@ -930,6 +930,8 @@ export class ApexChart extends ChartRequest {
     }
   }
   get _targetCharts() {
+    let mariadbOptionalCharts = ('standalone' == this.architecture?.toLowerCase())
+        ? [] : ['replictionDelayChart', 'slaveSqlThreadRunningChart', 'slaveIOThreadRunningChart']
     return {
       mariadb: [
         'cpuUsageChart'
@@ -939,9 +941,7 @@ export class ApexChart extends ChartRequest {
         , 'threadActivityChart'
         , 'tableLocksChart'
         , 'currentQPSChart'
-        , 'replictionDelayChart'
-        , 'slaveSqlThreadRunningChart'
-        , 'slaveIOThreadRunningChart'
+        , ...mariadbOptionalCharts
       ],
       mongodb: [
         'cpuUsageChart'
@@ -976,9 +976,12 @@ export class ApexChart extends ChartRequest {
       ]
     }
   }
-  getCharts() {
+  getCharts(targetIds) {
     let charts = {}
-      , ids = this._targetCharts[this.datastore]
+      , targets = this._targetCharts[this.datastore]
+      , ids = targetIds && Array.isArray(targetIds)
+            ? targetIds?.filter(id => targets.includes(id))
+            : targets
     if (!ids) return charts
     for (let id of ids) {
       charts[id] = { ...this['_' + id] }
