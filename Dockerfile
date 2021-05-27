@@ -1,3 +1,6 @@
+## 참고
+# https://kr.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
+
 # build stage
 FROM node:12-alpine AS BUILD_IMAGE
 

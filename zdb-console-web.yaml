@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: zdb-console-web
+  name: zdb-console-web
+  namespace: zdb-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zdb-console-web
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: zdb-console-web
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+              - key: role
+                operator: In
+                values:
+                  - management
+      containers:
+      - image: registry.au-syd.bluemix.net/cloudzdb/zdb-console-web:pilot
+        imagePullPolicy: Always
+        name: zdb-console-web
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1500Mi
+          requests:
+            cpu: 300m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: zdb-system-secret
+      serviceAccount: zdb-system-account
+      serviceAccountName: zdb-system-account
+      tolerations:
+      - effect: NoSchedule
+        key: management
+        operator: Equal
+        value: "true"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: zdb-console-web
+  name: zdb-console-web-service
+  namespace: zdb-system
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: zdb-console-web
+  sessionAffinity: None
+  type: ClusterIP
