@@ -20,6 +20,16 @@ $ npm run start
 
 # generate static project
 $ npm run generate
+
+# build
+$ docker build -t registry.au-syd.bluemix.net/cloudzdb/zdb-console-web:pilot .
+$ docker image push registry.au-syd.bluemix.net/cloudzdb/zdb-console-web:pilot
+
+
+# apply deployment
+$ kubectl apply -f zdb-console-web.yaml
+$ kubectl -n zdb-system scale deploy zdb-console-web --replicas 0
+$ kubectl -n zdb-system scale deploy zdb-console-web --replicas 1
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
