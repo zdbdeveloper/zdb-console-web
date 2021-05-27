@@ -54,8 +54,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
-    "@nuxtjs/proxy",
     "@nuxtjs/dayjs",
+    "@nuxtjs/proxy",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -63,11 +63,11 @@ export default {
     proxy: true,
   },
   proxy: {
-    "/v2": {
-      target: "http://localhost:9999/",     
+    '/v2': {
+      target: 'http://169.56.71.206:8082/',   
+      //target: 'http://localhost:9999/',   
       ws: true,
-    },
-    //'/v2/': { target: 'http://localhost:9999/', pathRewrite: {'^/v2/': ''}, changeOrigin: true }
+    }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
