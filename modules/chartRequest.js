@@ -27,11 +27,18 @@ export default class ChartRequest {
         current: `sum by (pod)(rate(container_cpu_usage_seconds_total{container="${this.datastore}"}[2m]))`,
         request: `kube_pod_container_resource_requests_cpu_cores{container="${this.datastore}"}`,
         limit: `kube_pod_container_resource_limits_cpu_cores{container="${this.datastore}"}`
+      },
+      kafka: {
+        current: `sum by (pod) (rate(container_cpu_usage_seconds_total{pod=~"${this.name}-.*",container="kafka"}[1m]))`,
+        request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name}-.*", container="kafka"}`,
+        limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name}-.*", container="kafka"}`,
+        currentZookeeper: `sum by (pod) (rate(container_cpu_usage_seconds_total{pod=~"${this.name}-.*",container="zookeeper"}[1m]))`,
+        requestZzookeeper: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name}-.*", container="zookeeper"}`,
+        LimitZookeeper: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name}-.*", container="zookeeper"}`
       }
     }
-    //queries = /(redis|mongodb)/gi.test(this.datastore) ? queries[this.datastore] : queries.others
     queries = queries[this.datastore]
-    return { queries, exclusive: 'current' }
+    return { queries, exclusive: 'current currentZookeeper' }
   }
   get memoryUsageChart() {
     let queries = {
@@ -50,10 +57,18 @@ export default class ChartRequest {
       redis: {
         used: `redis_memory_used_bytes{release="${this.name}"}`,
         max: `redis_config_maxmemory{release="${this.name}"}`
+      },
+      kafka: {
+        current: `avg by(pod) (container_memory_rss{pod=~"${this.name}-.*", container="kafka"})`,
+        request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name}-.*", container="kafka"}`,
+        limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name}-.*", container="kafka"}`,
+        currentZookeeper: `avg by(pod) (container_memory_rss{pod=~"${this.name}-.*", container="zookeeper"})`,
+        requestZookeeper: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name}-.*", container="zookeeper"}`,
+        limitZookeeper: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name}-.*", container="zookeeper"}`
       }
     }
     queries = queries[this.datastore]
-    return { queries, exclusive: 'current' }
+    return { queries, exclusive: 'current currentZookeeper' }
   }
   get networkIOChart() {
     let queries = {
@@ -67,6 +82,10 @@ export default class ChartRequest {
       redis: {
         input: `rate(redis_net_input_bytes_total{release="${this.name}"}[5m])`,
         output: `rate(redis_net_output_bytes_total{release="${this.name}"}[5m])`,
+      },
+      kafka: {
+        transmit: `rate (container_network_transmit_bytes_total{pod=~"${this.name}-.*", pod!~".*exporter.*", interface="eth0"}[5m])`,
+        receive: `rate (container_network_receive_bytes_total{pod=~"${this.name}-.*", pod!~".*exporter.*", interface="eth0"}[5m])`
       }
     }
     queries = queries[this.datastore]
@@ -208,7 +227,7 @@ export default class ChartRequest {
   get totalItemPerDBChart() {
     let queries = {
       redis: {
-        total: `sum (redis_db_keys{release="${this.name}"}) by (db)`,
+        db: `sum (redis_db_keys{release="${this.name}"}) by (db)`,
       },
     }
     queries = queries[this.datastore]
@@ -227,7 +246,7 @@ export default class ChartRequest {
   get expiredEvictedChart() {
     let queries = {
       redis: {
-        keys: `sum(rate(redis_evicted_keys_total{release="${this.name}"}[5m])) by (addr)`,
+        evicted: `sum(rate(redis_evicted_keys_total{release="${this.name}"}[5m])) by (addr)`,
       },
     }
     queries = queries[this.datastore]
@@ -301,6 +320,65 @@ export default class ChartRequest {
     let queries = {
       rabbitmq: {
         connections: `rabbitmq_connections{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get topics () {
+    let queries = {
+      kafka: {
+        count: `count(sum by(topic) (kafka_topic_partitions{service=~"${this.name}.*"}))`,
+        sum: `sum(kafka_topic_partitions{service=~"${this.name}.*"})`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get replicas () {
+    let queries = {
+      kafka: {
+        replicas: `sum(kafka_topic_partition_replicas{service=~"${this.name}.*"})`,
+        syncReplicas: `sum(kafka_topic_partition_in_sync_replica{service=~"${this.name}.*"})`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get partitions () {
+    let queries = {
+      kafka: {
+        replicated: `sum(kafka_topic_partition_under_replicated_partition{service=~"${this.name}.*"})`,
+        atminisr: `sum(kafka_cluster_partition_atminisr{service=~"${this.name}.*"})`,
+        underminisr: `sum(kafka_cluster_partition_underminisr{service=~"${this.name}.*"})`,
+        preferred: `count(kafka_topic_partition_leader_is_preferred{service=~"${this.name}.*"}<1)`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get messagesInPerSecond () {
+    let queries = {
+      kafka: {
+        current: `sum(rate(kafka_topic_partition_current_offset{service=~"${this.name}.*"}[1m])) by (topic)`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get messageConsumedPerSecond () {
+    let queries = {
+      kafka: {
+        current: `sum(delta(kafka_consumergroup_current_offset{service=~"${this.name}.*"}[1m])/60) by (consumergroup, topic)`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get lagByConsumerGroup () {
+    let queries = {
+      kafka: {
+        current: `sum(kafka_consumergroup_lag{service=~"${this.name}.*"}) by (consumergroup, topic)`,
       },
     }
     queries = queries[this.datastore]

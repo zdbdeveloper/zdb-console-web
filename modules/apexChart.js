@@ -55,28 +55,32 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (max) {
-            if (max > 0.09) {
-              return max + 0.1
-            } else if (max > 0.009) {
-              return max + 0.01
-            } else if (max > 0.0009) {
-              return max + 0.001
-            }
-            return max + 1
+            // if (max > 0.09) {
+            //   return max + 0.1
+            // } else if (max > 0.009) {
+            //   return max + 0.01
+            // } else if (max > 0.0009) {
+            //   return max + 0.001
+            // }
+            // return max + 1
+            return max * 1.1 < 100 ? max * 1.1 : max
           },
           labels: {
             formatter: function (value, index) {
-              if (value > 0.09) {
-                return value.toFixed(1)
-              } else if (value > 0.009) {
-                return value.toFixed(2)
-              } else if (value > 0.0009) {
-                return value.toFixed(3)
-              } else if (value > 0.009) {
-                return value.toFixed(4)
-              } else if (value >= 0) {
-                return value.toFixed(0)
-              }
+              // if (value > 0.09) {
+              //   return value.toFixed(1)
+              // } else if (value > 0.009) {
+              //   return value.toFixed(2)
+              // } else if (value > 0.0009) {
+              //   return value.toFixed(3)
+              // } else if (value > 0.009) {
+              //   return value.toFixed(4)
+              // } else if (value >= 0) {
+              //   return value.toFixed(0)
+              // }
+              let digit = Number(value).toFixed(4)
+                , idx = digit.indexOf(digit.replace(/[^1-9]/g, '')) || 1
+              return value.toFixed(idx)
             },
           },
         }        
@@ -128,7 +132,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           labels: {
             formatter: function (value) {
-              return `${(value / 1024).toFixed(1)}KBps`
+              return `${(value / 1024).toFixed(1)} KBps`
             },
           },
         },
@@ -314,7 +318,7 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           min: 0,
           max: function (value) {
-            return value.toFixed()
+            return Number(value).toFixed()
           }
         },
       },
@@ -343,7 +347,7 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           min: 0,
           max: function (value) {
-            return value.toFixed()
+            return Number(value).toFixed()
           }
         },
       },
@@ -372,7 +376,7 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           min: 0,
           max: function (value) {
-            return value.toFixed()
+            return Number(value).toFixed()
           }
         },
       },
@@ -674,7 +678,7 @@ export class ApexChart extends ChartRequest {
           max: 10,
           labels: {
             formatter: function (value) {
-              return `${value}.toFixed()`
+              return `${value.toFixed(2)}`
             },
           },
         },
@@ -708,7 +712,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value}.toFixed(2)`
+              return `${value.toFixed(2)}`
             },
           },
         },
@@ -742,7 +746,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value}.toFixed()`
+              return `${value.toFixed(1)}`
             },
           },
         },
@@ -929,9 +933,227 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  get _topics() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'topics',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Topics',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _replicas() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'replicas',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Replicas',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _partitions() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'partitions',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Partitions',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _messagesInPerSecond() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'messagesInPerSecond',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Messages in per second',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _messageConsumedPerSecond() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'messageConsumedPerSecond',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Message consumed per second',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
+  get _lagByConsumerGroup() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'lagByConsumerGroup',
+          zoom: { enabled: false },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          width: 1,
+          curve: 'smooth',
+        },
+        title: {
+          text: 'Lag by Consumer Group',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return `${value.toFixed(1)}`
+            },
+          },
+        },
+      },
+    }
+  }
   get _targetCharts() {
     let mariadbOptionalCharts = ('standalone' == this.architecture?.toLowerCase())
-        ? [] : ['replictionDelayChart', 'slaveSqlThreadRunningChart', 'slaveIOThreadRunningChart']
+        ? [] : [ 'replictionDelayChart'
+          , 'slaveSqlThreadRunningChart'
+          , 'slaveIOThreadRunningChart' ]
     return {
       mariadb: [
         'cpuUsageChart'
@@ -973,6 +1195,17 @@ export class ApexChart extends ChartRequest {
         , 'totalQueues'
         , 'totalChannels'
         , 'totalConnections'
+      ],
+      kafka: [
+        'cpuUsageChart'
+        , 'memoryUsageChart'
+        , 'networkIOChart'
+        , 'topics'
+        , 'replicas'
+        , 'partitions'
+        , 'messagesInPerSecond'
+        , 'messageConsumedPerSecond'
+        , 'lagByConsumerGroup'
       ]
     }
   }

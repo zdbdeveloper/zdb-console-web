@@ -221,16 +221,17 @@ export default {
       }
       //Build a percentage number as rate 
       let getUsageRate = (item, type) => {
-        if (!/(cpu|memory)/i.test(type)) return 0
-        let usage = 'cpu' == type
-          ? item.status.resources.cpuUsage
-          : item.status.resources.memoryUsage
-          usage = getByteSize(usage)
-        let maximum = 'cpu' == type
-          ? item.status.resources.requestCpu
-          : item.status.resources.requestMemory        
-          maximum = getByteSize(maximum)
-        return Math.round((usage/maximum) * 100)
+          if (!/(cpu|memory)/i.test(type)) return 0
+          let usage = 'cpu' == type
+            ? item.status.resources.cpuUsage
+            : item.status.resources.memoryUsage
+            usage = getByteSize(usage)
+          let maximum = 'cpu' == type
+            ? item.status.resources.requestCpu
+            : item.status.resources.requestMemory        
+            maximum = getByteSize(maximum)
+          let rate = 'cpu' == type ? 100 : 1
+          return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
       }
       let table_items = []
       items.map(item => {
