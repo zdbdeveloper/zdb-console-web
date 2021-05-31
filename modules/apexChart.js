@@ -78,9 +78,10 @@ export class ApexChart extends ChartRequest {
               // } else if (value >= 0) {
               //   return value.toFixed(0)
               // }
-              let digit = Number(value).toFixed(4)
-                , idx = digit.indexOf(digit.replace(/[^1-9]/g, '')) || 1
-              return value.toFixed(idx)
+              value = Number(value)              
+              let digits = value.toFixed(4)
+                , idx = digits.indexOf(digits.replace(/[^1-9]/g, ''))
+              return value.toFixed(0 > idx ? 0 : idx)
             },
           },
         }        
@@ -132,7 +133,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           labels: {
             formatter: function (value) {
-              return `${(value / 1024).toFixed(1)} KBps`
+              return `${(Number(value) / 1024).toFixed(1)} KBps`
             },
           },
         },
@@ -255,24 +256,17 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
-  get _replictionDelayChart() {
+  get _replicationDelayChart() {
     return {
       series: [],
       options: {
         ...this.options,
         chart: {
-          id: 'replictionDelayChart',
+          id: 'replicationDelayChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
-          text: 'Repliction Delay',
+          text: 'Replication Delay',
           align: 'left',
         },
         yaxis: {
@@ -280,7 +274,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (max) {
-            return max <= 0 ? max + 1 : max
+            return max < 1 ? 1 : max + (max / 4)
           },
           labels: {
             formatter: function (value) {
@@ -289,6 +283,7 @@ export class ApexChart extends ChartRequest {
                 re = Number(value).toFixed(0)
               }
               return re
+              //return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
             },
           },
         },
@@ -303,13 +298,6 @@ export class ApexChart extends ChartRequest {
         chart: {
           id: 'slaveSqlThreadRunningChart',
           zoom: { enabled: false },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
         },
         title: {
           text: 'Slave Sql Thread Running',
@@ -333,13 +321,6 @@ export class ApexChart extends ChartRequest {
           id: 'slaveIOThreadRunningChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Slave IO Thread Running',
           align: 'left',
@@ -362,13 +343,6 @@ export class ApexChart extends ChartRequest {
           id: 'memberHealthChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Member Health',
           align: 'left',
@@ -390,13 +364,6 @@ export class ApexChart extends ChartRequest {
         chart: {
           id: 'queryOperationsChart',
           zoom: { enabled: false },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
         },
         title: {
           text: 'Query Operations',
@@ -423,13 +390,6 @@ export class ApexChart extends ChartRequest {
           id: 'cacheChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Cache',
           align: 'left',
@@ -439,7 +399,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -455,13 +415,6 @@ export class ApexChart extends ChartRequest {
           id: 'ticketChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Ticket',
           align: 'left',
@@ -471,7 +424,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -487,13 +440,6 @@ export class ApexChart extends ChartRequest {
           id: 'cursorChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Cursor',
           align: 'left',
@@ -506,7 +452,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -522,13 +468,6 @@ export class ApexChart extends ChartRequest {
           id: 'queueChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Queue',
           align: 'left',
@@ -538,11 +477,11 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function(value) {
-            return value <= 0 ? 4 : Math.floor(value + 1)
+            return value <= 0 ? 5 : Math.floor(value + 1)
           },
           labels: {
             formatter: function (value) {
-              return `${value}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -558,13 +497,6 @@ export class ApexChart extends ChartRequest {
           id: 'totalItemPerDBChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Total Items per DB',
           align: 'left',
@@ -576,7 +508,7 @@ export class ApexChart extends ChartRequest {
           max: 10,
           labels: {
             formatter: function (value) {
-              return `${value}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -592,13 +524,6 @@ export class ApexChart extends ChartRequest {
           id: 'expiringNotExpiringKeysChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Expiring vs Not Expiring Keys',
           align: 'left',
@@ -610,7 +535,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -626,13 +551,6 @@ export class ApexChart extends ChartRequest {
           id: 'expiredEvictedChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Expired/Evicted',
           align: 'left',
@@ -644,7 +562,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -660,13 +578,6 @@ export class ApexChart extends ChartRequest {
           id: 'commandExecutedChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Commands Executed/sec',
           align: 'left',
@@ -678,7 +589,7 @@ export class ApexChart extends ChartRequest {
           max: 10,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(2)}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -694,13 +605,6 @@ export class ApexChart extends ChartRequest {
           id: 'hitsMissesPerSecChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Hits/Misses per Sec',
           align: 'left',
@@ -712,7 +616,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(2)}`
+              return Number(value).toFixed(2)
             },
           },
         },
@@ -728,13 +632,6 @@ export class ApexChart extends ChartRequest {
           id: 'commandCallsSecChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Command Calls/sec',
           align: 'left',
@@ -746,7 +643,7 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -762,13 +659,6 @@ export class ApexChart extends ChartRequest {
           id: 'messageReadyConsumersChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Messages ready to be delivered to consumers',
           align: 'left',
@@ -782,7 +672,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -798,13 +688,6 @@ export class ApexChart extends ChartRequest {
           id: 'messagePendingConsumerAcknowledgementChart',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Messages pending consumer acknowledgement',
           align: 'left',
@@ -818,7 +701,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -834,13 +717,6 @@ export class ApexChart extends ChartRequest {
           id: 'totalQueues',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Total queues',
           align: 'left',
@@ -854,7 +730,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -870,13 +746,6 @@ export class ApexChart extends ChartRequest {
           id: 'totalChannels',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Total channels',
           align: 'left',
@@ -890,7 +759,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed()
             },
           },
         },
@@ -906,13 +775,6 @@ export class ApexChart extends ChartRequest {
           id: 'totalConnections',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Total connections',
           align: 'left',
@@ -926,7 +788,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed()}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -942,13 +804,6 @@ export class ApexChart extends ChartRequest {
           id: 'topics',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Topics',
           align: 'left',
@@ -962,7 +817,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -978,13 +833,6 @@ export class ApexChart extends ChartRequest {
           id: 'replicas',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Replicas',
           align: 'left',
@@ -998,7 +846,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -1014,13 +862,6 @@ export class ApexChart extends ChartRequest {
           id: 'partitions',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Partitions',
           align: 'left',
@@ -1034,7 +875,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -1050,13 +891,6 @@ export class ApexChart extends ChartRequest {
           id: 'messagesInPerSecond',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Messages in per second',
           align: 'left',
@@ -1070,7 +904,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -1086,13 +920,6 @@ export class ApexChart extends ChartRequest {
           id: 'messageConsumedPerSecond',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Message consumed per second',
           align: 'left',
@@ -1106,7 +933,7 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
@@ -1122,13 +949,6 @@ export class ApexChart extends ChartRequest {
           id: 'lagByConsumerGroup',
           zoom: { enabled: false },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 1,
-          curve: 'smooth',
-        },
         title: {
           text: 'Lag by Consumer Group',
           align: 'left',
@@ -1142,16 +962,480 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(1)}`
+              return Number(value).toFixed(1)
             },
           },
         },
       },
     }
   }
-  get _targetCharts() {
-    let mariadbOptionalCharts = ('standalone' == this.architecture?.toLowerCase())
-        ? [] : [ 'replictionDelayChart'
+  get _openFileDescriptors() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'openFileDescriptors',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Open File Descriptors',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 6,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 7 : value + 3
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed()
+            },
+          },
+        },
+      },
+    }
+  }
+  get _pgPoolNodeStatusChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'pgPoolNodeStatusChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'PGPool Node Status',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 0.25
+          },
+          labels: {
+            formatter: function (value) {
+              return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _pgPoolFrontendChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'pgPoolFrontendChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'PGPool Frontend',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 6,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 300 : value + 50
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed()
+            },
+          },
+        },
+      },
+    }
+  }
+  get _scrapeDurationChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'scrapeDurationChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Scrape Duration',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 0.05 ? 0.05 : value + 0.01
+          },
+          labels: {
+            formatter: function (value) {
+              return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _activeSessionsChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'activeSessionsChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Active Sessions',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 4,
+          min: 0,
+          max: function(value) {
+            return value < 4 ? 4 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed()
+            },
+          },
+        },
+      },
+    }
+  }
+  get _transactionsChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'transactionsChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Transactions',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _updateDataChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'updateDataChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Update data',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _fetchDataChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'fetchDataChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Fetch data(SELECT)',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _insertDataChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'insertDataChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Insert data',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _returnDataChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'returnDataChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Return data',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _deleteDataChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'deleteDataChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Delete data',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _buffersChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'buffersChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'buffers(bgwriter)',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _conflictsDeadlocksChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'conflictsDeadlocksChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Conflicts/Deadlocks',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _tempFileChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'tempFileChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'TempFile(Bytes)',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _checkpointStatsChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'checkpointStatsChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Checkpoint Stats',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get _replicationLSNDiffChart() {
+    return {
+      series: [],
+      options: {
+        ...this.options,
+        chart: {
+          id: 'replicationLSNDiffChart',
+          zoom: { enabled: false },
+        },
+        title: {
+          text: 'Replication LSN Diff',
+          align: 'left',
+        },
+        yaxis: {
+          decimalsInFloat: 0,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 1 ? 1 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              return Number(value).toFixed(1)
+            },
+          },
+        },
+      },
+    }
+  }
+  get targetCharts() {
+    let mariadbOptionalCharts = this.standalone
+        ? [] : [ 'replicationDelayChart'
           , 'slaveSqlThreadRunningChart'
           , 'slaveIOThreadRunningChart' ]
     return {
@@ -1170,7 +1454,7 @@ export class ApexChart extends ChartRequest {
         , 'memoryUsageChart'
         , 'networkIOChart'
         , 'connectionsChart'
-        , 'replictionDelayChart'
+        , 'replicationDelayChart'
         , 'memberHealthChart'
         , 'queryOperationsChart'
         , 'cacheChart'
@@ -1206,15 +1490,36 @@ export class ApexChart extends ChartRequest {
         , 'messagesInPerSecond'
         , 'messageConsumedPerSecond'
         , 'lagByConsumerGroup'
+      ],
+      postgresql: [
+        'cpuUsageChart'
+        , 'memoryUsageChart'
+        , 'openFileDescriptors'
+        , 'replicationDelayChart'
+        , 'pgPoolNodeStatusChart'
+        , 'pgPoolFrontendChart'
+        , 'scrapeDurationChart'
+        , 'activeSessionsChart'
+        , 'transactionsChart'
+        , 'insertDataChart'
+        , 'updateDataChart'
+        , 'fetchDataChart'
+        , 'deleteDataChart'
+        , 'tableLocksChart'
+        , 'cacheChart'
+        , 'buffersChart'
+        , 'conflictsDeadlocksChart'
+        , 'tempFileChart'
+        , 'checkpointStatsChart'
+        , 'replicationLSNDiffChart'
       ]
     }
   }
   getCharts(targetIds) {
     let charts = {}
-      , targets = this._targetCharts[this.datastore]
       , ids = targetIds && Array.isArray(targetIds)
-            ? targetIds?.filter(id => targets.includes(id))
-            : targets
+            ? targetIds.filter(id => this.targetCharts[this.datastore].includes(id))
+            : this.targetCharts[this.datastore]
     if (!ids) return charts
     for (let id of ids) {
       charts[id] = { ...this['_' + id] }

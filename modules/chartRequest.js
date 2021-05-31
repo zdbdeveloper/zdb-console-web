@@ -11,6 +11,9 @@ export default class ChartRequest {
   get name_datastore() {
     return `${this.name}-${this.datastore}` 
   }
+  get whole() {
+    return '.*'
+  }
   get cpuUsageChart() {
     let queries = {
       mariadb: {
@@ -33,8 +36,13 @@ export default class ChartRequest {
         request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name}-.*", container="kafka"}`,
         limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name}-.*", container="kafka"}`,
         currentZookeeper: `sum by (pod) (rate(container_cpu_usage_seconds_total{pod=~"${this.name}-.*",container="zookeeper"}[1m]))`,
-        requestZzookeeper: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name}-.*", container="zookeeper"}`,
+        requestZookeeper: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name}-.*", container="zookeeper"}`,
         LimitZookeeper: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name}-.*", container="zookeeper"}`
+      },
+      postgresql: {
+        current: `sum by (pod)( rate(container_cpu_usage_seconds_total{pod=~"${this.name_datastore}.*", container=~"postgresql.*"}[1m]))`,
+        request: `kube_pod_container_resource_requests_cpu_cores{pod=~"${this.name_datastore}.*", container=~"postgresql.*"}`,
+        limit: `kube_pod_container_resource_limits_cpu_cores{pod=~"${this.name_datastore}.*", container=~"postgresql.*"}`,
       }
     }
     queries = queries[this.datastore]
@@ -65,6 +73,11 @@ export default class ChartRequest {
         currentZookeeper: `avg by(pod) (container_memory_rss{pod=~"${this.name}-.*", container="zookeeper"})`,
         requestZookeeper: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name}-.*", container="zookeeper"}`,
         limitZookeeper: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name}-.*", container="zookeeper"}`
+      },
+      postgresql: {
+        current: `avg by(pod) (container_memory_rss{pod=~"${this.name_datastore}-.*", container="postgresql"} / 1024 / 1024)`,
+        request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name_datastore}-.*", container="postgresql"}/ 1024 / 1024`,
+        limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name_datastore}-.*", container="postgresql"}/ 1024 / 1024`
       }
     }
     queries = queries[this.datastore]
@@ -86,7 +99,7 @@ export default class ChartRequest {
       kafka: {
         transmit: `rate (container_network_transmit_bytes_total{pod=~"${this.name}-.*", pod!~".*exporter.*", interface="eth0"}[5m])`,
         receive: `rate (container_network_receive_bytes_total{pod=~"${this.name}-.*", pod!~".*exporter.*", interface="eth0"}[5m])`
-      }
+      },
     }
     queries = queries[this.datastore]
     return { queries }
@@ -120,8 +133,11 @@ export default class ChartRequest {
   get tableLocksChart() {
     let queries = {
       mariadb: {
-        tableLocksImmediate: `rate(mysql_global_status_table_locks_immediate{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_table_locks_immediate{service="${this.name_datastore}"}[5m])`,
-        tableLocksWaited: `rate(mysql_global_status_table_locks_waited{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_table_locks_waited{service="${this.name_datastore}"}[5m])`,
+        immediate: `rate(mysql_global_status_table_locks_immediate{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_table_locks_immediate{service="${this.name_datastore}"}[5m])`,
+        waited: `rate(mysql_global_status_table_locks_waited{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_table_locks_waited{service="${this.name_datastore}"}[5m])`,
+      },
+      postgresql: {
+        pglock: `pg_locks_count{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", mode=~"${this.whole}"}`,
       },
     }
     queries = queries[this.datastore]
@@ -136,7 +152,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get replictionDelayChart() {
+  get replicationDelayChart() {
     let queries = {
       mariadb: {
         replicationDelay: `mysql_slave_status_seconds_behind_master{master_host="${this.name_datastore}"}`,
@@ -144,6 +160,9 @@ export default class ChartRequest {
       mongodb: {
         operational: `mongodb_mongod_replset_member_operational_lag{namespace="${this.namespace}", release="${this.name}"}`,
         replication: `mongodb_mongod_replset_member_replication_lag{namespace="${this.namespace}", release="${this.name}"}`,
+      },
+      postgresql: {
+        delay: `pgpool2_pool_nodes_replication_delay{release=~"${this.name}.*"}`,
       }
     }
     queries = queries[this.datastore]
@@ -190,6 +209,9 @@ export default class ChartRequest {
     let queries = {
       mongodb: {
         cache: `mongodb_mongod_wiredtiger_cache_bytes_total{namespace="${this.namespace}",release="${this.name}"}`,
+      },
+      postgresql: {
+        cache: `pg_stat_database_blks_hit{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"} / (pg_stat_database_blks_read{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"} + pg_stat_database_blks_hit{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"})`,
       },
     }
     queries = queries[this.datastore]
@@ -289,7 +311,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get messagePendingConsumerAcknowledgementChart () {
+  get messagePendingConsumerAcknowledgementChart() {
     let queries = {
       rabbitmq: {
         message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
@@ -298,7 +320,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get totalQueues  () {
+  get totalQueues () {
     let queries = {
       rabbitmq: {
         queues: `rabbitmq_queues{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
@@ -307,7 +329,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get totalChannels () {
+  get totalChannels() {
     let queries = {
       rabbitmq: {
         channels: `rabbitmq_channels{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
@@ -316,7 +338,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get totalConnections () {
+  get totalConnections() {
     let queries = {
       rabbitmq: {
         connections: `rabbitmq_connections{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
@@ -325,7 +347,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get topics () {
+  get topics() {
     let queries = {
       kafka: {
         count: `count(sum by(topic) (kafka_topic_partitions{service=~"${this.name}.*"}))`,
@@ -335,7 +357,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get replicas () {
+  get replicas() {
     let queries = {
       kafka: {
         replicas: `sum(kafka_topic_partition_replicas{service=~"${this.name}.*"})`,
@@ -345,7 +367,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get partitions () {
+  get partitions() {
     let queries = {
       kafka: {
         replicated: `sum(kafka_topic_partition_under_replicated_partition{service=~"${this.name}.*"})`,
@@ -357,7 +379,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get messagesInPerSecond () {
+  get messagesInPerSecond() {
     let queries = {
       kafka: {
         current: `sum(rate(kafka_topic_partition_current_offset{service=~"${this.name}.*"}[1m])) by (topic)`,
@@ -366,7 +388,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get messageConsumedPerSecond () {
+  get messageConsumedPerSecond() {
     let queries = {
       kafka: {
         current: `sum(delta(kafka_consumergroup_current_offset{service=~"${this.name}.*"}[1m])/60) by (consumergroup, topic)`,
@@ -375,7 +397,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
-  get lagByConsumerGroup () {
+  get lagByConsumerGroup() {
     let queries = {
       kafka: {
         current: `sum(kafka_consumergroup_lag{service=~"${this.name}.*"}) by (consumergroup, topic)`,
@@ -384,9 +406,160 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
+  get openFileDescriptors() {
+    let queries = {
+      postgresql: {
+        fds: `process_open_fds{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get pgPoolNodeStatusChart() {
+    let queries = {
+      postgresql: {
+        status: `pgpool2_pool_nodes_status{release=~"${this.name}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get pgPoolFrontendChart() {
+    let queries = {
+      postgresql: {
+        total: `pgpool2_frontend_total{release=~"${this.name}.*"}`,
+        used: `pgpool2_frontend_used{release=~"${this.name}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get scrapeDurationChart() {
+    let queries = {
+      postgresql: {
+        seconds: `pgpool2_last_scrape_duration_seconds{release=~"${this.name}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get activeSessionsChart() {
+    let queries = {
+      postgresql: {
+        count: `pg_stat_activity_count{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", state="active"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get transactionsChart() {
+    let queries = {
+      postgresql: {
+        commit: `irate(pg_stat_database_xact_commit{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get updateDataChart() {
+    let queries = {
+      postgresql: {
+        updated: `pg_stat_database_tup_updated{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get fetchDataChart() {
+    let queries = {
+      postgresql: {
+        fetched: `pg_stat_database_tup_fetched{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get insertDataChart() {
+    let queries = {
+      postgresql: {
+        inserted: `pg_stat_database_tup_inserted{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get returnDataChart() {
+    let queries = {
+      postgresql: {
+        returned: `pg_stat_database_tup_returned{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get deleteDataChart() {
+    let queries = {
+      postgresql: {
+        deleted: `pg_stat_database_tup_deleted{datname=~"${this.whole}", statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get buffersChart() {
+    let queries = {
+      postgresql: {
+        backend: `irate(pg_stat_bgwriter_buffers_backend{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+        alloc: `irate(pg_stat_bgwriter_buffers_alloc{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+        fsync: `irate(pg_stat_bgwriter_buffers_backend_fsync{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+        checkpoint: `irate(pg_stat_bgwriter_buffers_checkpoint{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+        clean: `irate(pg_stat_bgwriter_buffers_clean{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get conflictsDeadlocksChart() {
+    let queries = {
+      postgresql: {
+        conflicts: `irate(pg_stat_database_conflicts{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"}[5m])`,
+        deadlocks: `irate(pg_stat_database_deadlocks{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get tempFileChart() {
+    let queries = {
+      postgresql: {
+        bytes: `irate(pg_stat_database_temp_bytes{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*", datname=~"${this.whole}"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get checkpointStatsChart() {
+    let queries = {
+      postgresql: {
+        syncTime: `irate(pg_stat_bgwriter_checkpoint_sync_time{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+        writeTime: `irate(pg_stat_bgwriter_checkpoint_write_time{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}[5m])`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
+  get replicationLSNDiffChart() {
+    let queries = {
+      postgresql: {
+        diff: `pg_stat_replication_pg_wal_lsn_diff{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+      },
+    }
+    queries = queries[this.datastore]
+    return { queries }
+  }
   getRequests(id) {
     let now = Math.floor(new Date().getTime() / 1000)
-    let url = `${this.server}/api/v1/query_range`,
+    let url = `${this.server}`,
       params = {
         end: now,
         start: now - this.period,

@@ -5,15 +5,7 @@
     variant='pills'
   >
     <br/>
-    <CTab title="ApexChart">
-      <div v-for="(chart, idx) in targetCharts" :key="idx" class="chart-wrap">
-        <apexchart type="area" height="350"
-          :series="chart.series"
-          :options="chart.options">
-        </apexchart>
-      </div>
-    </CTab>
-    <CTab :title="namespace">
+    <CTab title="서비스정보">
       <CDataTable
         :items="table_items"
         :fields="table_fields"
@@ -58,8 +50,8 @@
       </template>          
       </CDataTable>
     </CTab>
-    <CTab title="환경설정">
-      <CRow class="card-dash-group">
+    <CTab title="스케일">
+      <!-- <CRow class="card-dash-group">
         <CCol lg="12" xl="10" class="card-dash-icon-group">
           <CRow>
             <CCol v-for="(v, k) in dbservers" :key="k"
@@ -75,11 +67,20 @@
             </CCol>
           </CRow>
         </CCol>
-      </CRow>
+      </CRow> -->
     </CTab>
-    <CTab title="Disabled" disabled>
-      Text will not be shown.
+    <CTab title="모니터링">
+      <div v-for="(chart, idx) in targetCharts" :key="idx" class="chart-wrap">
+        <apexchart type="area" height="350"
+          :series="chart.series"
+          :options="chart.options">
+        </apexchart>
+      </div>
     </CTab>
+    <CTab title="백업" />
+    <CTab title="이벤트" />
+    <CTab title="로그" />
+    <CTab title="관리" />    
   </CTabs>
 </template>
 
@@ -103,19 +104,23 @@ export default {
     }
   },
   created () {
-    const apexChart = new ApexChart({
-      server: 'https://pog-dev-prometheus.cloudzcp.io'
-      , period: 1800
-      , step: 30
-      , namespace: this.$route.params.service
-      , name: this.$route.query.name
-      , datastore: this.$route.query.datastore
-      , architecture: this.$route.query.architecture
-    })
-    this.targetCharts = apexChart.getCharts()
-    this.fetchCharts(apexChart)
+    //this.fetchDetails(this.$route.params.service, this.$route.params.name)
   },
   methods: {
+    createChart () {
+      if (this.targetCharts) return
+      const apexChart = new ApexChart({
+        server: 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
+        , period: 1800
+        , step: 30
+        , namespace: this.$route.params.service
+        , name: this.$route.params.name
+        , datastore: this.$route.params.datastore
+        , standalone: this.$route.params.standalone
+      })
+      this.targetCharts = apexChart.getCharts()
+      this.fetchCharts(apexChart)
+    },
     parseChartData (rawData) {
       let series = [], categories = [], names = []
       if(rawData) {
@@ -179,9 +184,8 @@ export default {
     /**
      * Fetch the detail data and toggleing its items
      */
-    fetchDetails (namespace) {
-      //Fetch data
-      let url = `http://localhost:3005/${namespace}`
+    fetchDetails (namespace, name) {
+      let url = `/v2/namespace/${namespace}/${name}/zdbs`
       this.$axios.$get(url, {}).then(res => {
         if (!res) return this._toast_err('error: fetchDetails')
         //Parse data
@@ -212,16 +216,18 @@ export default {
       let getByteSize = (size) => {
         return (  
           ! /\D?(g|m)/gi.test(size)
-          ? size.replace(/\D/g, '') || 0
+          ? size?.replace(/\D/g, '') || 0
           : ( /\D?g/gi.test(size)
-              ? size.replace(/\D/g, '') * 1024 * 1024
-              : size.replace(/\D/g, '') * 1024 
+              ? size?.replace(/\D/g, '') * 1024 * 1024
+              : size?.replace(/\D/g, '') * 1024 
             )
         )
       }
       //Build a percentage number as rate 
       let getUsageRate = (item, type) => {
-          if (!/(cpu|memory)/i.test(type)) return 0
+          if (!/(cpu|memory)/i.test(type)
+            || !item.status.resources?.cpuUsage
+            || !item.status.resources?.cpuUsage) return 0
           let usage = 'cpu' == type
             ? item.status.resources.cpuUsage
             : item.status.resources.memoryUsage
@@ -245,11 +251,11 @@ export default {
             nodeName: item.status.nodeName || '',
             podIP: item.status.podIP || '',
             workrPool: item.status.workerPool || '',
-            requestCpu: item.status.resources.requestCpu || '',
-            requestMemory: item.status.resources.requestMemory || '',
-            cpuUsage: { value: getUsageRate(item, 'cpu'), usage: item.status.resources.cpuUsage } || {},
-            memoryUsage: { value: getUsageRate(item, 'memory'), usage: item.status.resources.memoryUsage } || '',
-            storage: item.status.storage.data || ''
+            requestCpu: item.status.resources?.requestCpu || '',
+            requestMemory: item.status.resources?.requestMemory || '',
+            cpuUsage: { value: getUsageRate(item, 'cpu'), usage: item.status.resources?.cpuUsage } || {},
+            memoryUsage: { value: getUsageRate(item, 'memory'), usage: item.status.resources?.memoryUsage } || '',
+            storage: item.status.storage?.data || ''
           }
         ]
       })
@@ -297,11 +303,10 @@ export default {
   },
   watch: {
     activeTab (value) {
-      if (1 === value) {
-        this.fetchDetails(this.namespace)
-      } else if (2 === value) {
-        this.fetchConfiguration()
-      } 
+      switch(value) {
+        case 2: return this.createChart()
+        default: return console.log('tab:', value)
+      }
     }
   }
 }
