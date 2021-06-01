@@ -35,7 +35,7 @@ export class ApexChart extends ChartRequest {
       showForNullSeries: true,
       showForZeroSeries: true,
     },
-    noData: { text: 'No Data', align: 'center', verticalAlign: 'top' }
+    noData: { text: 'Loading...', align: 'center', verticalAlign: 'top' }
   }
   get _cpuUsageChart() {
     return {
@@ -273,8 +273,8 @@ export class ApexChart extends ChartRequest {
           decimalsInFloat: 0,
           tickAmount: 4,
           min: 0,
-          max: function (max) {
-            return max < 1 ? 1 : max + (max / 4)
+          max: function (value) {
+            return value < 4 ? 4 : value + 1
           },
           labels: {
             formatter: function (value) {
@@ -283,7 +283,6 @@ export class ApexChart extends ChartRequest {
                 re = Number(value).toFixed(0)
               }
               return re
-              //return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
             },
           },
         },

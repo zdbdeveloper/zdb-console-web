@@ -47,7 +47,7 @@
             class="progress-xs"
           />
         </td>
-      </template>          
+      </template>
       </CDataTable>
     </CTab>
     <CTab title="스케일">
@@ -80,7 +80,7 @@
     <CTab title="백업" />
     <CTab title="이벤트" />
     <CTab title="로그" />
-    <CTab title="관리" />    
+    <CTab title="관리" />
   </CTabs>
 </template>
 
@@ -92,7 +92,6 @@ export default {
   mixins: [dialog],
   data () {
     return {
-      namespace: this.$route.params.service,
       activeTab: 0,
       table_fields: [],
       table_items: [],
@@ -100,11 +99,19 @@ export default {
       dbservers: [],
       collapseDuration: 100,
       //Apexchart Chart
+      zdb: {
+        namespace: this.$route.params.service,
+        // name: (this.$route.params.name).split('_')[0],
+        // standalone: (this.$route.params.name).split('_')[1] || null,
+        name: this.$route.params.name,
+        standalone: null,
+        datastore: null,
+      },
       targetCharts: null,
     }
   },
   created () {
-    //this.fetchDetails(this.$route.params.service, this.$route.params.name)
+    this.fetchDetails()    
   },
   methods: {
     createChart () {
@@ -113,13 +120,15 @@ export default {
         server: 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
         , period: 1800
         , step: 30
-        , namespace: this.$route.params.service
-        , name: this.$route.params.name
-        , datastore: this.$route.params.datastore
-        , standalone: this.$route.params.standalone
+        , namespace: this.zdb.namespace
+        , name: this.zdb.name
+        , datastore: this.zdb.datastore
+        , standalone: this.zdb.standalone
       })
       this.targetCharts = apexChart.getCharts()
-      this.fetchCharts(apexChart)
+      setTimeout(() => {
+        this.fetchCharts(apexChart)
+      }, 300)
     },
     parseChartData (rawData) {
       let series = [], categories = [], names = []
@@ -130,12 +139,12 @@ export default {
             let pod = result.metric.pod
               , name = pod ? `${key}/${pod}` : key
               , data = result.values
-              , item = { name, data } 
+              , item = { name, data }
             series = [ ...series, item ]
             names = [ ...names, name ]
 
             if (1 === series.length) {
-              categories = data.map(arr => arr[0])        
+              categories = data.map(arr => arr[0])
             }
           });
         }
@@ -147,7 +156,8 @@ export default {
       contents = this.parseChartData(contents)
       targetChart.series = contents.series
       targetChart.options = await { ...targetChart.options, ...{
-        xaxis: { ...targetChart.options.xaxis, categories: contents.categories }
+        xaxis: { ...targetChart.options.xaxis, categories: contents.categories },
+        noData: { ...targetChart.options.noData, text: 'No Data' }
       }}
 
       target.exclusive && contents.names?.forEach(name => {
@@ -164,16 +174,16 @@ export default {
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
         if (queries && typeof queries === 'object') {
-          let names = [], tasks = [] 
+          let names = [], tasks = []
           for (let [name, query] of Object.entries(queries)) {
             names.push(name)
             tasks = [ ...tasks, this.$axios.$get(url, { params: { ...params, query }}) ]
           }
           Promise.all(tasks).then(resolve => {
-            let data = {}, i = 0
-            for (let name of names) {
-              data[name] = resolve[i++]
-            }
+            let data = {}
+            names.forEach((name, idx) => {
+              data[name] = resolve[idx]
+            })
             this.updateChart (
               { id, exclusive }, data
             )
@@ -181,17 +191,32 @@ export default {
         }
       })
     },
+    getStandalone () {
+      const url = `/v2/namespace/${this.zdb.namespace}/dsrs`
+      this.$axios.$get(url, {}).then(res => {
+        res?.forEach(item => {
+          if (this.zdb.name == item.metadata.name) {
+            let architecture = item.status?.architecture || ''
+            //console.log('architecture:', architecture)
+            this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
+          } 
+        })
+      })
+    },
     /**
      * Fetch the detail data and toggleing its items
      */
-    fetchDetails (namespace, name) {
-      let url = `/v2/namespace/${namespace}/${name}/zdbs`
+    fetchDetails () {
+      let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
       this.$axios.$get(url, {}).then(res => {
         if (!res) return this._toast_err('error: fetchDetails')
-        //Parse data
         res = this.parseTableDetails(res)
         this.table_fields = res.table_fields
         this.table_items = res.table_items.map((item, id) => {
+          if (0 === id) {
+            this.zdb.datastore = item.datastore
+            if ('mariadb' == item.datastore.toLowerCase()) this.getStandalone()
+          }
           return { ...item, id }
         })
       })
@@ -214,16 +239,16 @@ export default {
       ]
       //Translate size into byte type
       let getByteSize = (size) => {
-        return (  
+        return (
           ! /\D?(g|m)/gi.test(size)
           ? size?.replace(/\D/g, '') || 0
           : ( /\D?g/gi.test(size)
               ? size?.replace(/\D/g, '') * 1024 * 1024
-              : size?.replace(/\D/g, '') * 1024 
+              : size?.replace(/\D/g, '') * 1024
             )
         )
       }
-      //Build a percentage number as rate 
+      //Build a percentage number as rate
       let getUsageRate = (item, type) => {
           if (!/(cpu|memory)/i.test(type)
             || !item.status.resources?.cpuUsage
@@ -234,7 +259,7 @@ export default {
             usage = getByteSize(usage)
           let maximum = 'cpu' == type
             ? item.status.resources.requestCpu
-            : item.status.resources.requestMemory        
+            : item.status.resources.requestMemory
             maximum = getByteSize(maximum)
           let rate = 'cpu' == type ? 100 : 1
           return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
@@ -242,7 +267,7 @@ export default {
       let table_items = []
       items.map(item => {
         table_items = [ ...table_items,
-          { 
+          {
             namespace: item.metadata.namespace || '',
             name: item.metadata.name || '',
             memberRole: item.status.memberRole || '',
@@ -255,13 +280,14 @@ export default {
             requestMemory: item.status.resources?.requestMemory || '',
             cpuUsage: { value: getUsageRate(item, 'cpu'), usage: item.status.resources?.cpuUsage } || {},
             memoryUsage: { value: getUsageRate(item, 'memory'), usage: item.status.resources?.memoryUsage } || '',
-            storage: item.status.storage?.data || ''
+            storage: item.status.storage?.data || '',
+            datastore: item.spec.datastore || '',
           }
         ]
       })
       return { table_fields, table_items }
     },
-    
+
     /**
      * Click Event for the tab of Configuration
      */

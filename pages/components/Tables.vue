@@ -217,19 +217,18 @@
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
-        //if (!this.stompClient.connected) return false
-        this.stompClient.connect({}, (frame) => {
-          console.log('Connected.frame: ' + frame)
+        this.stompClient?.connect({}, (frame) => {
+          //console.log('frame:', frame)
+          this.stompClient.send('/states', {}, 'connectSocket')
           this.subscribe()
         })
       },
       /**
        * Receive data via the socket
        */
-      subscribe () {
-        this.subscription = this.stompClient.subscribe('/topic/states', (res) => {
-          let systemStates = JSON.parse(res.body || '[]')
-          console.log('###### subscribe: ', systemStates)
+      async subscribe () {
+        this.subscription = this.stompClient.subscribe('/topic/states', async res => {
+          let systemStates = await JSON.parse(res.body) || []
           this.handleTablesSystemUsage(systemStates)
         })
       },
@@ -237,14 +236,14 @@
        * Start and Restart the socket
        */
       startSocket () {
-        this.stompClient.send("/topic/states", {}, "socket-stop")
+        this.stompClient.send('/states', {}, 'socket-start')
         this.subscribe()
       },
       /**
        * Stop the socket
        */ 
       stopSocket () {
-        this.stompClient.send("/topic/states", {}, "socket-stop")
+        this.stompClient.send('/states', {}, 'socket-stop')
         this.subscription.unsubscribe()
         this.subscription = null
       },
@@ -268,15 +267,13 @@
         if (!Array.isArray(mysystemStates) || !mysystemStates.length) return false
         Object.keys(this.tableDetails).forEach(namespace => {
           let tableItems = this.tableDetails[namespace].tableItems
-          if (!tableItems) return false
-          tableItems.forEach((tableItem, tableItemIdx) => {
+          tableItems?.forEach((tableItem, tableItemIdx) => {
             mysystemStates.forEach(systemState => {
               if (systemState.name == tableItem.name) {
                 tableItem.cpuUsage.rate = systemState.cpuRate
                 tableItem.memoryUsage.rate = systemState.memoryRate
               }
             })
-            //
           })
         })
       },
@@ -442,12 +439,9 @@
             , name = this.tableItems[index].name
             , datastore = this.tableItems[index].datastore
             , architecture = this.tableItems[index].architecture
-            , standalone = 'standalone' == architecture?.toLowerCase() ? '/1' : ''
-          // this.$router.push({
-          //   path: `/components/details/${namespace}?name=${name}&datastore=${datastore}&architecture=${architecture}`
-          // })
+          //name = 'standalone' == architecture?.toLowerCase() ? `${name}_1` : name
           this.$router.push({
-            path: `/components/details/${namespace}/${name}/${datastore}${standalone}`
+            path: `/components/details/${namespace}/${name}`
           })
         }
       },
