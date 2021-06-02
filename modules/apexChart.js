@@ -31,9 +31,9 @@ export class ApexChart extends ChartRequest {
       height: 50,
       horizontalAlign: 'left',
       show: true,
-      showForSingleSeries: true,
-      showForNullSeries: true,
-      showForZeroSeries: true,
+      //showForSingleSeries: true,
+      //showForNullSeries: true,
+      //showForZeroSeries: true,
     },
     noData: { text: 'Loading...', align: 'center', verticalAlign: 'top' }
   }
@@ -63,7 +63,8 @@ export class ApexChart extends ChartRequest {
             //   return max + 0.001
             // }
             // return max + 1
-            return max * 1.1 < 100 ? max * 1.1 : max
+            max = Number(max)
+            return max * 1.1 < 100 ? max * 1.1 : 100
           },
           labels: {
             formatter: function (value, index) {
@@ -78,7 +79,7 @@ export class ApexChart extends ChartRequest {
               // } else if (value >= 0) {
               //   return value.toFixed(0)
               // }
-              value = Number(value)              
+              value = Number(value)
               let digits = value.toFixed(4)
                 , idx = digits.indexOf(digits.replace(/[^1-9]/g, ''))
               return value.toFixed(0 > idx ? 0 : idx)
@@ -108,7 +109,10 @@ export class ApexChart extends ChartRequest {
           max: 1073741824,
           labels: {
             formatter: function (value) {
-              return `${value / (1024 * 1024)} MB`
+              value = Number(value / (1024 * 1024))
+              return 1024 <= value
+                ? `${(value / 1024).toFixed(1)} GB`
+                : `${value.toFixed()} MB`
             },
           },
         },
@@ -133,7 +137,12 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           labels: {
             formatter: function (value) {
-              return `${(Number(value) / 1024).toFixed(1)} KBps`
+              value = Number(value)
+              return 1024 * 1024 <= value
+                ? `${(value / (1024 * 1024)).toFixed(2)} MBps`
+                : ( 1024 <= value
+                    ? `${(value / 1024).toFixed(1)} KBps`
+                    : `${value.toFixed()} Bps` )
             },
           },
         },
@@ -155,10 +164,14 @@ export class ApexChart extends ChartRequest {
         },
         yaxis: {
           decimalsInFloat: 0,
-          tickAmount: 4,
+          tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 5 ? 5 : Math.floor(value + 50)
+          },
           labels: {
             formatter: function (value) {
-              return `${(value / 1024).toFixed(1)}KBps`
+              return Math.floor(Number(value)).toFixed()
             },
           },
         },
@@ -181,19 +194,24 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 0,
           tickAmount: 5,
+          min: 0,
+          max: function(value) {
+            return value < 5 ? 5 : Math.floor(value + 1)
+          },
           labels: {
             formatter: function (value) {
-              let re = Number(value).toFixed(3)
-              if (Number(value) == 0) {
-                re = Number(value).toFixed(0)
-              } else if (Number(value) > 10) {
-                re = Number(value).toFixed(0)
-              } else if (Number(value) > 0.9) {
-                re = Number(value).toFixed(1)
-              } else if (Number(value) > 0.1) {
-                re = Number(value).toFixed(2)
-              }
-              return re
+              // let re = Number(value).toFixed(3)
+              // if (Number(value) == 0) {
+              //   re = Number(value).toFixed(0)
+              // } else if (Number(value) > 10) {
+              //   re = Number(value).toFixed(0)
+              // } else if (Number(value) > 0.9) {
+              //   re = Number(value).toFixed(1)
+              // } else if (Number(value) > 0.1) {
+              //   re = Number(value).toFixed(2)
+              // }
+              // return re
+              return Math.floor(Number(value)).toFixed()
             },
           },
         },
@@ -218,7 +236,8 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(max) {
-           return max <= 0 ? max + 1 : max
+            max = Number(max)
+            return max <= 0 ? 1 : max * 1.1
           },						
           labels: {
             formatter: function(value, index) {
@@ -278,11 +297,15 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              let re = Number(value).toFixed(1)
-              if (Number(value) <= 0) {
-                re = Number(value).toFixed(0)
-              }
-              return re
+              // let re = Number(value).toFixed(1)
+              // if (Number(value) <= 0) {
+              //   re = Number(value).toFixed(0)
+              // }
+              // return re
+              value = Number(value)
+              return 1000000000 <= value
+                ? `${(value / 1000000000).toFixed(1)} s`
+                : value.toFixed()
             },
           },
         },
@@ -396,9 +419,15 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 0,
           tickAmount: 4,
+          min: 0,
+          max: function (value) {
+            value = Number(value)
+            console.log('value', value)
+            return 4 > value ? 4 : value * 1.1
+          },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              return Number(value).toFixed()
             },
           },
         },

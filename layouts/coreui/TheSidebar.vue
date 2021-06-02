@@ -39,11 +39,11 @@
             </CLink>
           </li>
         </template>
-        <li>
+        <!-- <li>
           <CLink to="/home/projects">
             New Project
           </CLink>
-        </li>
+        </li> -->
       </ul>
     </div>
     <!-- Menus -->
@@ -98,7 +98,8 @@ const Icons = {
   logging: { icon: "cil-spreadsheet" },
   workloads: { icon: "cil-blur-circular" },
   networking: { icon: "cil-lan" },
-  storages: { icon: "cil-storage" },
+  // storages: { icon: "cil-storage" },
+  datastore: { icon: "cil-storage" },
   administrator: { icon: "cil-settings" },
   projects: { icon: "cil-featured-playlist" },
   tools: { icon: "cil-calculator" },
@@ -135,34 +136,34 @@ const sideMenus = [
     link: "/system/clusters",
     target: "_self",
     mainMenu: "",
-    subMenu: "Dashboard"
-  },
-  {
-    index: 300,
-    title: "Components",
-    category: "components",
-    link: "/components",
-    target: "_self",
-    mainMenu: "",
-    subMenu: ""
+    subMenu: "Clusters"
   },
   {
     index: 301,
     title: "Components",
     category: "components",
-    link: "/components/components",
+    link: "/components",
     target: "_self",
-    mainMenu: "Components",
-    subMenu: "components"
+    mainMenu: "",
+    subMenu: "Components"
   },
   {
     index: 302,
-    title: "Tables",
+    title: "Components",
     category: "components",
-    link: "/components/tables",
+    link: "/components/components",
     target: "_self",
-    mainMenu: "Components",
-    subMenu: "tables"
+    mainMenu: "",
+    subMenu: "Components"
+  },
+  {
+    index: 400,
+    title: "Datastore",
+    category: "datastore",
+    link: "/projects/prj1/datastore",
+    target: "_self",
+    mainMenu: "Datastore",
+    subMenu: ""
   },  
 ]
 export default {

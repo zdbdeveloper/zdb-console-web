@@ -183,6 +183,11 @@ export default {
         { key: 'projects-id-admin-roles-id', text: 'Details', label: 'Roles' },
         { key: 'projects-id-admin-settings', to: `${projects}/admin/settings`, text: 'Administrator - Settings', label: 'Project Settings' },
         //
+        { key: 'projects-id-datastore', to: `${projects}/datastore`, text: 'Datastore' },
+        { key: 'projects-id-datastore-name', text: 'Details', label: 'Datastore' },
+
+
+        //
         //
         { key: 'system', to: `${systems}/dashboard`, text: 'Home', label: 'Dashboard' },
         //

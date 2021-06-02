@@ -1,14 +1,14 @@
 <template>
   <div>
     <h2>Tables</h2>
-    <button@click="stopSocket"
+    <!-- <button@click="stopSocket"
       :disabled="!Boolean(subscription)">STOP SOCKET</button@click=>
     <button @click="startSocket"
       :disabled="Boolean(subscription) || !Boolean(stompClient)">START SOCKET</button>
     <button @click="disconnectSocket"
       :disabled="!Boolean(stompClient)">DISCONNECT SOCKET</button>
     <button @click="connectSocket"
-      :disabled="Boolean(stompClient)">CONNECT SOCKET</button>
+      :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
     <!-- <button @click="allColumm">COLUMN</button> -->
     <CDataTable
       :items="tableItems"
@@ -438,7 +438,7 @@
           let namespace = this.tableItems[index].namespace
             , name = this.tableItems[index].name
           this.$router.push({
-            path: `/components/details/${namespace}/${name}`
+            path: `/projects/prj1/datastore/${namespace}/${name}`
           })
         }
       },

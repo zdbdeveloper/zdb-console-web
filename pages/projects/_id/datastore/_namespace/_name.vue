@@ -100,7 +100,7 @@ export default {
       collapseDuration: 100,
       //Apexchart Chart
       zdb: {
-        namespace: this.$route.params.service,
+        namespace: this.$route.params.namespace,
         name: this.$route.params.name,
         standalone: null,
         datastore: null,
@@ -207,8 +207,14 @@ export default {
       console.log('this.zdb.namespace:', this.zdb.namespace)
       console.log('this.zdb.name:', this.zdb.name)
       let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
+      //let url = `/v2/namespace/-/${this.zdb.name}/zdbs`
       this.$axios.$get(url, {}).then(res => {
         if (!res || !res.length) return console.log('No data')
+        // res = res.filter(item => {
+        //   console.log('item:', item)
+        //   item.metadata.name == this.zdb.name
+        // })
+        //console.log('res:', res)
         res = this.parseTableDetails(res)
         this.table_fields = res.table_fields
         this.table_items = res.table_items.map((item, id) => {

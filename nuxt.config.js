@@ -13,7 +13,11 @@ export default {
    ** Nuxt server
    ** See https://nuxtjs.org/api/configuration-server/
    */
-  server: { host: "0.0.0.0" },
+  server: {
+    port: 8000, // default: 3000
+    host: '0.0.0.0', // default: localhost,
+    timing: false
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "zdb-console-web",
