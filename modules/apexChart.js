@@ -54,17 +54,16 @@ export class ApexChart extends ChartRequest {
           decimalsInFloat: 4,
           tickAmount: 4,
           min: 0,
-          max: function (max) {
-            // if (max > 0.09) {
-            //   return max + 0.1
-            // } else if (max > 0.009) {
-            //   return max + 0.01
-            // } else if (max > 0.0009) {
-            //   return max + 0.001
+          max: function (value) {
+            // if (value > 0.09) {
+            //   return value + 0.1
+            // } else if (value > 0.009) {
+            //   return value + 0.01
+            // } else if (value > 0.0009) {
+            //   return value + 0.001
             // }
-            // return max + 1
-            max = Number(max)
-            return max * 1.1 < 100 ? max * 1.1 : 100
+            // return value + 1
+            return 0 < value ? value * 1.1 : 100
           },
           labels: {
             formatter: function (value, index) {
@@ -135,14 +134,17 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 0,
           tickAmount: 6,
+          min: 0,
           labels: {
             formatter: function (value) {
               value = Number(value)
-              return 1024 * 1024 <= value
-                ? `${(value / (1024 * 1024)).toFixed(2)} MBps`
-                : ( 1024 <= value
-                    ? `${(value / 1024).toFixed(1)} KBps`
-                    : `${value.toFixed()} Bps` )
+              return 1024 * 1024 * 1024 <= value
+                ? `${(value / (1024 * 1024 * 1024)).toFixed(2)} GBps`
+                : ( 1024 * 1024 <= value
+                    ? `${(value / (1024 * 1024)).toFixed(1)} MBps`
+                    : (1024 <= value
+                        ? `${(value / 1024).toFixed(1)} KBps`
+                        : `${value.toFixed()} Bps`) )
             },
           },
         },
@@ -167,7 +169,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
-            return value < 5 ? 5 : Math.floor(value + 50)
+            return 5 > value ? 5 : Math.floor(value + 50)
           },
           labels: {
             formatter: function (value) {
@@ -196,7 +198,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
-            return value < 5 ? 5 : Math.floor(value + 1)
+            return 5 > value ? 5 : Math.floor(value + 1)
           },
           labels: {
             formatter: function (value) {
@@ -235,9 +237,9 @@ export class ApexChart extends ChartRequest {
           decimalsInFloat: 0,
           tickAmount: 5,
           min: 0,
-          max: function(max) {
-            max = Number(max)
-            return max <= 0 ? 1 : max * 1.1
+          max: function(value) {
+            value = Number(value)
+            return 0 < value ? value * 1.1 : 1
           },						
           labels: {
             formatter: function(value, index) {
@@ -270,7 +272,16 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 1,
           tickAmount: 4,
-          min: 0
+          min: 0,
+          max: function (value) {
+            return 4 > value ? 4 : value + 1
+          },
+          labels: {
+            formatter: function (value) {
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
+            },
+          },
         },
       },
     }
@@ -293,7 +304,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (value) {
-            return value < 4 ? 4 : value + 1
+            return 4 > value ? 4 : value + 1
           },
           labels: {
             formatter: function (value) {
@@ -303,9 +314,7 @@ export class ApexChart extends ChartRequest {
               // }
               // return re
               value = Number(value)
-              return 1000000000 <= value
-                ? `${(value / 1000000000).toFixed(1)} s`
-                : value.toFixed()
+              return 0 >= value ? 0 : value.toFixed()
             },
           },
         },
@@ -394,9 +403,11 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 0,
           tickAmount: 4,
+          min: 0,
           labels: {
             formatter: function (value) {
-              return `${value.toFixed(2)}ops`
+              value = Number(value)
+              return 0 >= value ? 0 : `${value.toFixed(2)} ops`
             },
           },
         },
@@ -422,7 +433,6 @@ export class ApexChart extends ChartRequest {
           min: 0,
           max: function (value) {
             value = Number(value)
-            console.log('value', value)
             return 4 > value ? 4 : value * 1.1
           },
           labels: {
@@ -450,9 +460,10 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 0,
           tickAmount: 4,
+          min: 0,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              return Number(value).toFixed()
             },
           },
         },
@@ -475,12 +486,14 @@ export class ApexChart extends ChartRequest {
         yaxis: {
           decimalsInFloat: 1,
           tickAmount: 5,
+          min: 0,
           max: function(max) {
             return max + 0.5
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -563,7 +576,8 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(2)
             },
           },
         },
@@ -590,7 +604,8 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(2)
             },
           },
         },
@@ -617,7 +632,8 @@ export class ApexChart extends ChartRequest {
           max: 10,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(2)
             },
           },
         },
@@ -644,7 +660,8 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(2)
             },
           },
         },
@@ -671,7 +688,8 @@ export class ApexChart extends ChartRequest {
           max: 1,
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -816,7 +834,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -845,7 +864,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -874,7 +894,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -903,7 +924,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -932,7 +954,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -961,7 +984,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -990,7 +1014,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1044,11 +1069,12 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
-            return value < 1 ? 1 : value + 0.25
+            return value < 5 ? 5 : (50 <= value ?  value + 50 : value + 1)
           },
           labels: {
             formatter: function (value) {
-              return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed()
             },
           },
         },
@@ -1073,11 +1099,12 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           min: 0,
           max: function(value) {
-            return value < 1 ? 300 : value + 50
+            return value < 5 ? 5 : (50 <= value ?  value + 50 : value + 1)
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed()
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed()
             },
           },
         },
@@ -1102,11 +1129,12 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
-            return value < 0.05 ? 0.05 : value + 0.01
+            return 0 < value ? value * 1.1 : 0
           },
           labels: {
             formatter: function (value) {
-              return value <= 0 ? Number(value).toFixed() : Number(value).toFixed(2)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(2)
             },
           },
         },
@@ -1164,7 +1192,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1193,7 +1222,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1222,7 +1252,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed()
             },
           },
         },
@@ -1251,7 +1282,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1280,7 +1312,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1309,7 +1342,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1338,7 +1372,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1367,7 +1402,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1396,7 +1432,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1425,7 +1462,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },
@@ -1454,7 +1492,8 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              return Number(value).toFixed(1)
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             },
           },
         },

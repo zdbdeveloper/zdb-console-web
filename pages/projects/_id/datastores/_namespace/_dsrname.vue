@@ -2,10 +2,11 @@
   <CTabs @update:activeTab="activeTab = $event"
     fill
     justified
-    variant='pills'
+    variant='tabs'
   >
     <br/>
     <CTab title="서비스정보">
+      <CScrollbar class="scroll-area" :settings="psSettings" @ps-scroll-x="scrollHandle">
       <CDataTable
         :items="table_items"
         :fields="table_fields"
@@ -49,6 +50,7 @@
         </td>
       </template>
       </CDataTable>
+      </CScrollbar>
     </CTab>
     <CTab title="스케일">
       <!-- <CRow class="card-dash-group">
@@ -85,11 +87,11 @@
 </template>
 
 <script>
-import { dialog } from '~/mixins'
+import { dialog, scrollbar } from '~/mixins'
 import { ApexChart } from '~/modules/apexChart'
 
 export default {
-  mixins: [dialog],
+  mixins: [dialog, scrollbar],
   data () {
     return {
       activeTab: 0,
@@ -100,8 +102,8 @@ export default {
       collapseDuration: 100,
       //Apexchart Chart
       zdb: {
-        namespace: this.$route.params.service,
-        name: this.$route.params.name,
+        namespace: this.$route.params.namespace,
+        name: this.$route.params.dsrname,
         standalone: null,
         datastore: null,
       },
@@ -134,9 +136,9 @@ export default {
         for (let [key, content] of Object.entries(rawData)) {
           content.data.result.forEach(async (result, idx) => {
             //if (1 < idx) return
-            let pod = result.metric.pod
-              , service = result.metric.service || result.metric.release || result.metric.state || key
-              , name = pod ? `${key}/${pod}` : service
+            let originName = result.metric.pod || result.metric.service || result.metric.release
+              || result.metric.state || result.metric.db || result.metric.statefulset_kubernetes_io_pod_name
+              , name = originName ? `${key}/${originName}` : `${key}`
               , data = result.values
               , item = { name, data }
             series = [ ...series, item ]
@@ -158,8 +160,11 @@ export default {
         noData: { ...targetChart.options.noData, text: 'No Data' }
       }}
       target.exclusive && contents.names?.forEach(name => {
-        if (!target.exclusive.includes(name.split('/')[0]))
+        let splitedName = name.split('/')
+          , hasKey = splitedName?.[1]
+        if (hasKey && !target.exclusive.includes(splitedName[0])) {
           this.$apexcharts.exec(target.id, 'hideSeries', name)
+        }
       })
     },
     async fetchCharts (apexChart) {
@@ -194,7 +199,6 @@ export default {
         res?.forEach(item => {
           if (this.zdb.name == item.metadata.name) {
             let architecture = item.status?.architecture || ''
-            //console.log('architecture:', architecture)
             this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
           } 
         })
@@ -204,9 +208,8 @@ export default {
      * Fetch the detail data and toggleing its items
      */
     fetchDetails () {
-      console.log('this.zdb.namespace:', this.zdb.namespace)
-      console.log('this.zdb.name:', this.zdb.name)
       let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
+      //let url = `/v2/namespace/-/${this.zdb.name}/zdbs`
       this.$axios.$get(url, {}).then(res => {
         if (!res || !res.length) return console.log('No data')
         res = this.parseTableDetails(res)
@@ -337,4 +340,5 @@ export default {
 
 <style>
 .chart-wrap {float:left;width:33.3%;padding:1%;margin:0 0 30px}
+
 </style>

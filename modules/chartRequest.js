@@ -46,7 +46,7 @@ export default class ChartRequest {
       }
     }
     queries = queries[this.datastore]
-    return { queries, exclusive: 'current currentZookeeper' }
+    return { queries, exclusive: 'current' }
   }
   get memoryUsageChart() {
     let queries = {
@@ -59,8 +59,8 @@ export default class ChartRequest {
         current: `avg by (pod)(container_memory_rss{pod=~"${this.name_datastore}-.*",container="${this.datastore}"})`,
         request: `kube_pod_container_resource_requests_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
         limit: `kube_pod_container_resource_limits_memory_bytes{pod=~"${this.name_datastore}-.*",container="${this.datastore}"}`,
-        virtual: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"virtual"}`,
-        resident: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"resident"}`
+        // virtual: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"virtual"}`,
+        // resident: `mongodb_memory{namespace="${this.namespace}" , release=~"${this.name}",type=~"resident"}`
       },
       redis: {
         used: `redis_memory_used_bytes{release="${this.name}"}`,
@@ -81,7 +81,7 @@ export default class ChartRequest {
       }
     }
     queries = queries[this.datastore]
-    return { queries, exclusive: 'current currentZookeeper' }
+    return { queries, exclusive: 'current used' }
   }
   get networkIOChart() {
     let queries = {
@@ -107,28 +107,28 @@ export default class ChartRequest {
   get connectionsChart() {
     let queries = {
       mariadb: {
-        connections: `max(max_over_time(mysql_global_status_threads_connected{service="${this.name_datastore}"}[5m]) or mysql_global_status_threads_connected{service="${this.name_datastore}"})`,
-        maxUsedConnections: `mysql_global_status_max_used_connections{service="${this.name_datastore}"}`,
-        maxConnections: `mysql_global_variables_max_connections{service="${this.name_datastore}"}`
+        connected: `max(max_over_time(mysql_global_status_threads_connected{service="${this.name_datastore}"}[5m]) or mysql_global_status_threads_connected{service="${this.name_datastore}"})`,
+        used: `mysql_global_status_max_used_connections{service="${this.name_datastore}"}`,
+        max: `mysql_global_variables_max_connections{service="${this.name_datastore}"}`
       },
       mongodb: {
-        connections: `mongodb_connections{namespace="${this.namespace}" , release="${this.name}",state=~"current"}`,
-        maxUsedConnections: `mongodb_connections{namespace="${this.namespace}" , release="${this.name}",state=~"available"}`,
+        connected: `mongodb_connections{namespace="${this.namespace}" , release="${this.name}",state=~"current"}`,
+        max: `mongodb_connections{namespace="${this.namespace}" , release="${this.name}",state=~"available"}`,
       }
     }
     queries = queries[this.datastore]
-    return { queries, exclusive: 'connections' }
+    return { queries, exclusive: 'connected' }
   }
   get threadActivityChart() {
     let queries = {
       mariadb: {
-        peakThreadsConnected: `max_over_time(mysql_global_status_threads_connected{service="${this.name_datastore}"}[5m])`,
-        peakThreadsRunning: `max_over_time(mysql_global_status_threads_running{service="${this.name_datastore}"}[5m])`,
-        avgThreadsRunning: `avg_over_time(mysql_global_status_threads_running{service="${this.name_datastore}"}[5m])`
+        connected: `max_over_time(mysql_global_status_threads_connected{service="${this.name_datastore}"}[5m])`,
+        running: `max_over_time(mysql_global_status_threads_running{service="${this.name_datastore}"}[5m])`,
+        avg: `avg_over_time(mysql_global_status_threads_running{service="${this.name_datastore}"}[5m])`
       },
     }
     queries = queries[this.datastore]
-    return { queries, exclusive: 'peakThreadsConnected' }
+    return { queries, exclusive: 'connected' }
   }
   get tableLocksChart() {
     let queries = {
@@ -146,7 +146,7 @@ export default class ChartRequest {
   get currentQPSChart() {
     let queries = {
       mariadb: {
-        currentQPS: `rate(mysql_global_status_queries{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_queries{service="${this.name_datastore}"}[5m])`,
+        current: `rate(mysql_global_status_queries{service="${this.name_datastore}"}[5m]) or irate(mysql_global_status_queries{service="${this.name_datastore}"}[5m])`,
       },
     }
     queries = queries[this.datastore]
@@ -155,7 +155,7 @@ export default class ChartRequest {
   get replicationDelayChart() {
     let queries = {
       mariadb: {
-        replicationDelay: `mysql_slave_status_seconds_behind_master{master_host="${this.name_datastore}"}`,
+        delay: `mysql_slave_status_seconds_behind_master{master_host="${this.name_datastore}"}`,
       },
       mongodb: {
         operational: `mongodb_mongod_replset_member_operational_lag{namespace="${this.namespace}", release="${this.name}"}`,
@@ -171,7 +171,7 @@ export default class ChartRequest {
   get slaveSqlThreadRunningChart() {
     let queries = {
       mariadb: {
-        slaveSqlThreadRunning: `mysql_slave_status_slave_sql_running{master_host="${this.name_datastore}"}`,
+        running: `mysql_slave_status_slave_sql_running{master_host="${this.name_datastore}"}`,
       },
     }
     queries = queries[this.datastore]
@@ -180,7 +180,7 @@ export default class ChartRequest {
   get slaveIOThreadRunningChart() {
     let queries = {
       mariadb: {
-        slaveIOThreadRunning: `mysql_slave_status_slave_io_running{master_host="${this.name_datastore}"}`,
+        running: `mysql_slave_status_slave_io_running{master_host="${this.name_datastore}"}`,
       },
     }
     queries = queries[this.datastore]
@@ -189,8 +189,8 @@ export default class ChartRequest {
   get memberHealthChart() {
     let queries = {
       mongodb: {
-        memberNumbers: `avg by (release)(mongodb_mongod_replset_number_of_members{namespace="${this.namespace}", release="${this.name}"})`,
-        memberHealth: `avg by (state)(mongodb_mongod_replset_member_health{namespace="${this.namespace}", release="${this.name}"})`,
+        members: `avg by (release)(mongodb_mongod_replset_number_of_members{namespace="${this.namespace}", release="${this.name}"})`,
+        health: `avg by (state)(mongodb_mongod_replset_member_health{namespace="${this.namespace}", release="${this.name}"})`,
       },
     }
     queries = queries[this.datastore]
@@ -199,7 +199,7 @@ export default class ChartRequest {
   get queryOperationsChart() {
     let queries = {
       mongodb: {
-        totalCounters: `rate(mongodb_op_counters_total{namespace="${this.namespace}",release="${this.name}"}[5m])`,
+        total: `rate(mongodb_op_counters_total{namespace="${this.namespace}",release="${this.name}"}[5m])`,
       },
     }
     queries = queries[this.datastore]
@@ -249,7 +249,7 @@ export default class ChartRequest {
   get totalItemPerDBChart() {
     let queries = {
       redis: {
-        db: `sum (redis_db_keys{release="${this.name}"}) by (db)`,
+        item: `sum (redis_db_keys{release="${this.name}"}) by (db)`,
       },
     }
     queries = queries[this.datastore]
@@ -305,7 +305,7 @@ export default class ChartRequest {
   get messageReadyConsumersChart() {
     let queries = {
       rabbitmq: {
-        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
+        item: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
       },
     }
     queries = queries[this.datastore]
@@ -314,7 +314,7 @@ export default class ChartRequest {
   get messagePendingConsumerAcknowledgementChart() {
     let queries = {
       rabbitmq: {
-        message: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
+        item: `sum by (statefulset_kubernetes_io_pod_name)(rabbitmq_queue_messages_ready{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"})`,
       },
     }
     queries = queries[this.datastore]
@@ -323,7 +323,7 @@ export default class ChartRequest {
   get totalQueues () {
     let queries = {
       rabbitmq: {
-        queues: `rabbitmq_queues{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+        item: `rabbitmq_queues{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
       },
     }
     queries = queries[this.datastore]
@@ -332,7 +332,7 @@ export default class ChartRequest {
   get totalChannels() {
     let queries = {
       rabbitmq: {
-        channels: `rabbitmq_channels{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+        item: `rabbitmq_channels{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
       },
     }
     queries = queries[this.datastore]
@@ -341,7 +341,7 @@ export default class ChartRequest {
   get totalConnections() {
     let queries = {
       rabbitmq: {
-        connections: `rabbitmq_connections{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
+        item: `rabbitmq_connections{statefulset_kubernetes_io_pod_name=~"${this.name_datastore}.*"}`,
       },
     }
     queries = queries[this.datastore]

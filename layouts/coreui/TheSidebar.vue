@@ -99,7 +99,7 @@ const Icons = {
   workloads: { icon: "cil-blur-circular" },
   networking: { icon: "cil-lan" },
   // storages: { icon: "cil-storage" },
-  datastore: { icon: "cil-storage" },
+  datastores: { icon: "cil-storage" },
   administrator: { icon: "cil-settings" },
   projects: { icon: "cil-featured-playlist" },
   tools: { icon: "cil-calculator" },
@@ -158,11 +158,11 @@ const sideMenus = [
   },
   {
     index: 400,
-    title: "Datastore",
-    category: "datastore",
-    link: "/projects/prj1/datastore",
+    title: "Datastores",
+    category: "datastores",
+    link: "/projects/prj1/datastores",
     target: "_self",
-    mainMenu: "Datastore",
+    mainMenu: "",
     subMenu: ""
   },  
 ]

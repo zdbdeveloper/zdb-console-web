@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <h2>Tables</h2>
@@ -10,6 +11,7 @@
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
     <!-- <button @click="allColumm">COLUMN</button> -->
+    <CScrollbar class="scroll-area" :settings="psSettings" @ps-scroll-x="scrollHandle">
     <CDataTable
       :items="tableItems"
       :fields="FilteredFields"
@@ -104,7 +106,8 @@
           <font-awesome-icon v-else icon="question-circle" class="c-icon mt-1 text-secondary"/>
         </td>
       </template>
-    </CDataTable><br/><br/>
+    </CDataTable>
+    </CScrollbar>
     <!-- <h2>Cards</h2>
     <CRow class="card-dash-group">
       <CCol lg="12" xl="10" class="card-dash-icon-group">
@@ -128,10 +131,10 @@
 <script>
   import SockJS from 'sockjs-client'
   import Stomp from 'webstomp-client'
-  import {dialog} from "~/mixins";
+  import {dialog, scrollbar} from "~/mixins";
 
   export default {
-    mixins: [dialog],
+    mixins: [dialog, scrollbar],
     data() {
       return {
         //For Tables
@@ -205,7 +208,7 @@
         return this.computedFields.filter(field => {
           return !this.filteringFields.includes(field.key)
         })
-      }
+      },
     },
     methods: {
       allColumm() {
@@ -340,7 +343,6 @@
           return `${ days }d`
         }
         let tableItems = []
-        //console.log('items:', items)
         items.map(item => {
           tableItems = [ ...tableItems,
             {
@@ -438,7 +440,7 @@
           let namespace = this.tableItems[index].namespace
             , name = this.tableItems[index].name
           this.$router.push({
-            path: `/projects/prj1/datastore/${namespace}/${name}`
+            path: `/projects/prj1/datastores/${namespace}/${name}`
           })
         }
       },
