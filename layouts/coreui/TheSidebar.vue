@@ -98,8 +98,7 @@ const Icons = {
   logging: { icon: "cil-spreadsheet" },
   workloads: { icon: "cil-blur-circular" },
   networking: { icon: "cil-lan" },
-  // storages: { icon: "cil-storage" },
-  datastores: { icon: "cil-storage" },
+  storages: { icon: "cil-storage" },
   administrator: { icon: "cil-settings" },
   projects: { icon: "cil-featured-playlist" },
   tools: { icon: "cil-calculator" },
@@ -108,6 +107,7 @@ const Icons = {
   roles: { icon: "cil-asterisk-circle" },
   platform: { icon: "cil-applications-settings" },
   components: { icon: "cil-applications-settings" },
+  datastores: { icon: "cib-docker" },
 }
 
 const sideMenus = [
@@ -160,7 +160,7 @@ const sideMenus = [
     index: 400,
     title: "Datastores",
     category: "datastores",
-    link: "/projects/prj1/datastores",
+    link: "/projects/pjt1/datastores",
     target: "_self",
     mainMenu: "",
     subMenu: ""

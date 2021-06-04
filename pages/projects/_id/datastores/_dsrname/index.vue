@@ -1,6 +1,5 @@
 <template>
   <CTabs @update:activeTab="activeTab = $event"
-    fill
     justified
     variant='tabs'
   >
@@ -14,6 +13,7 @@
         pagination
         sorter
         striped
+        @row-clicked="handleRowClick"
       >
       <template #cpuUsage="{item}">
         <td>
@@ -94,6 +94,15 @@ export default {
   mixins: [dialog, scrollbar],
   data () {
     return {
+      //Parameters
+      zdb: {
+        projectid: this.$route.params.id,
+        name: this.$route.params.dsrname,
+        namespace: null,
+        standalone: null,
+        datastore: null,
+      },
+      //Tables
       activeTab: 0,
       table_fields: [],
       table_items: [],
@@ -101,17 +110,11 @@ export default {
       dbservers: [],
       collapseDuration: 100,
       //Apexchart Chart
-      zdb: {
-        namespace: this.$route.params.namespace,
-        name: this.$route.params.dsrname,
-        standalone: null,
-        datastore: null,
-      },
       targetCharts: null,
     }
   },
   created () {
-    this.fetchDetails()    
+    this.fetchDsrChildren()    
   },
   methods: {
     createChart () {
@@ -193,10 +196,10 @@ export default {
         }
       })
     },
-    getStandalone () {
-      const url = `/v2/namespace/${this.zdb.namespace}/dsrs`
+    fetchDsr () {
+      const url = `/api/v2/projects/pjt1/datastorereleases`
       this.$axios.$get(url, {}).then(res => {
-        res?.forEach(item => {
+        res && typeof res === 'object' && res.forEach(item => {
           if (this.zdb.name == item.metadata.name) {
             let architecture = item.status?.architecture || ''
             this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
@@ -207,23 +210,25 @@ export default {
     /**
      * Fetch the detail data and toggleing its items
      */
-    fetchDetails () {
-      let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
-      //let url = `/v2/namespace/-/${this.zdb.name}/zdbs`
+    fetchDsrChildren () {
+      // let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
+      let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
       this.$axios.$get(url, {}).then(res => {
         if (!res || !res.length) return console.log('No data')
-        res = this.parseTableDetails(res)
+        res = this.parseDsrChildren(res)
+        if (!res) return console.log('Parsing error')
         this.table_fields = res.table_fields
         this.table_items = res.table_items.map((item, id) => {
           if (0 === id) {
             this.zdb.datastore = item.datastore
-            if ('mariadb' == item.datastore.toLowerCase()) this.getStandalone()
+            if ('mariadb' == item.datastore.toLowerCase()) this.fetchDsr()
           }
           return { ...item, id }
         })
       })
     },
-    parseTableDetails (items) {
+    parseDsrChildren (items) {
+      if (!items || typeof items !== 'object') return
       let table_fields = [
         {key: "namespace", label: "NAMESPACE"},
         {key: "name", label: "NAME", _style:'min-width:140px'},
@@ -290,14 +295,15 @@ export default {
       return { table_fields, table_items }
     },
     /**
-     * Click Event for the tab of Configuration
+     * Click Event on the table rows
      */
-    fetchConfiguration() {
-      let url = 'http://localhost:3003/dbservers'
-      this.$axios.$get(url, {}).then(res => {
-        if (!res) return this._toast_err("Fail to fetch data from the server")
-        this.dbservers = res
-      })
+    handleRowClick (item, index, columnName, event) {
+      if (columnName === 'name') {
+        console.log('item:', item.name)
+        this.$router.push({
+          path: `/projects/${this.zdb.projectid}/datastores/${this.zdb.name}/${item.name}`
+        })
+      }
     },
     /**
      * Bage color

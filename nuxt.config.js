@@ -67,9 +67,14 @@ export default {
     proxy: true,
   },
   proxy: {
-    '/v2': {
-      target: 'http://169.56.71.206:8082/',   
-      //target: 'http://localhost:9999/',   
+    // '/v2': {
+    //   target: 'http://169.56.71.206:8082/',   
+    //   target: 'http://localhost:9999/',   
+    //   ws: true,
+    // },
+    '/api/v2': {
+      target: 'https://zdb.mcm-dev.cloudzcp.com/',   
+      //target: 'http://localhost:8080/',   
       ws: true,
     }
   },

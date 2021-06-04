@@ -38,13 +38,14 @@ function afterErr(store) {
 
     // Handle Unautorization (Redirect)
     if (status === 401) {
+      console.log('401 data: ', data, '\n401 headers:', headers)
       if (data.location) {
         location.href = data.location
       } else if (headers.location) {
         location.href = headers.location || '/'
       } else {
         debugger
-        location.href = '/'
+        //location.href = '/'
       }
       return
     }

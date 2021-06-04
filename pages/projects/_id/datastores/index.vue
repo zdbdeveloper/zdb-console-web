@@ -137,6 +137,10 @@
     mixins: [dialog, scrollbar],
     data() {
       return {
+        //Parameters
+        zdb: {
+          projectid: this.$route.params.id,
+        },
         //For Tables
         tableFields: [],
         tableItems: [],
@@ -284,7 +288,8 @@
        * Fetch data for the tables
        */
       fetchTables () {
-        const url = '/v2/namespace/-/dsrs'
+        // const url = '/v2/namespace/-/dsrs'
+        const url = '/api/v2/projects/pjt1/datastorereleases'
         this.$axios.$get(url, {}).then(res => {
           res = this.parseTableItems(res)
           this.tableFields = res.tableFields
@@ -305,7 +310,8 @@
           this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
           return false
         }
-        const url = `/v2/namespace/${namespace}/${name}/zdbs`
+        // const url = `/v2/namespace/${namespace}/${name}/zdbs`
+        const url = `/api/v2/projects/pjt1/datastorereleases/${name}/datastores?cluster=cloudzcp-pog-dev`
         this.$axios.$get(url, {}).then(res => {
           if (!res) return this.toastError()
           res = this.parseTableDetails(res)
@@ -440,7 +446,8 @@
           let namespace = this.tableItems[index].namespace
             , name = this.tableItems[index].name
           this.$router.push({
-            path: `/projects/prj1/datastores/${namespace}/${name}`
+            // path: `/projects/prj1/datastores/${namespace}/${name}`
+            path: `/projects/${this.zdb.projectid}/datastores/${name}`
           })
         }
       },
