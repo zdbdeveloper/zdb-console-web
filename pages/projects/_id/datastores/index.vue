@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
     <h2>Tables</h2>
     <!-- <button@click="stopSocket"
       :disabled="!Boolean(subscription)">STOP SOCKET</button@click=>
@@ -289,12 +290,12 @@
        */
       fetchTables () {
         // const url = '/v2/namespace/-/dsrs'
-        const url = '/api/v2/projects/pjt1/datastorereleases'
+        const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
         this.$axios.$get(url, {}).then(res => {
+          if (!res || !res.length) return console.log('No data')
           res = this.parseTableItems(res)
           this.tableFields = res.tableFields
           this.tableItems = res.tableItems.map((item, id) => {
-            //Assign tableDetails
             this.tableDetails[item.namespace] = {}
             return { ...item, id }
           })
@@ -310,10 +311,9 @@
           this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
           return false
         }
-        // const url = `/v2/namespace/${namespace}/${name}/zdbs`
-        const url = `/api/v2/projects/pjt1/datastorereleases/${name}/datastores?cluster=cloudzcp-pog-dev`
+        const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${name}/datastores?cluster=cloudzcp-pog-dev`
         this.$axios.$get(url, {}).then(res => {
-          if (!res) return this.toastError()
+          if (!res || !res.length) return console.log('No data')
           res = this.parseTableDetails(res)
           let tableFields = res.tableFields
           let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
@@ -443,10 +443,8 @@
        */
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
-          let namespace = this.tableItems[index].namespace
-            , name = this.tableItems[index].name
+          let name = this.tableItems[index].name
           this.$router.push({
-            // path: `/projects/prj1/datastores/${namespace}/${name}`
             path: `/projects/${this.zdb.projectid}/datastores/${name}`
           })
         }

@@ -9,6 +9,7 @@ export const state = {
   pageTitle: "",
   locale: "en",
   locales: ["en", "kr"],
+  spinner: false
 };
 
 export const mutations = {
@@ -34,6 +35,9 @@ export const mutations = {
   PAGE_TITLE(state, title) {
     state.pageTitle = title;
   },
+  SPINNER(state, value) {
+    state.spinner = value
+  }
 };
 
 export const actions = {
@@ -55,4 +59,7 @@ export const actions = {
   pageTitle({ commit }, value) {
     commit("PAGE_TITLE", value);
   },
+  spinner({ commit }, value) {
+    commit('SPINNER', value)
+  }
 };

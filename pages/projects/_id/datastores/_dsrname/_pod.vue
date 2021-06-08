@@ -4,6 +4,7 @@
   >
     <br/>
     <CTab title="Overview">
+      <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
       <CScrollbar class="scroll-area" :settings="psSettings" @ps-scroll-x="scrollHandle">
       <CDataTable
         :items="table_items"
@@ -165,7 +166,6 @@ export default {
 }
 </script>
 
-<style>
-.chart-wrap {float:left;width:33.3%;padding:1%;margin:0 0 30px}
-
+<style scoped>
+.chart-wrap {float:left; width:33.3%; padding:1%; margin:0 0 30px}
 </style>

@@ -7,7 +7,6 @@
  *
  * https://auth.nuxtjs.org/guide/scheme.html#creating-your-own-scheme
  */
-
 function beforeReq(config) {
   console.debug(`axios :: ${config.method} ${config.url}`)
 }
@@ -33,9 +32,10 @@ function afterRes(store) {
 
 function afterErr(store) {
   return function(err) {
+    store.dispatch('spinner', false);
+    if (/timeout/gi.test(err)) return store.dispatch('dialog/toast_err', 'Connection Timeout!!')
     const { status, headers, data } = err.response || {}
     console.debug('[plugins/axios.js] - onError', status, data, err)
-
     // Handle Unautorization (Redirect)
     if (status === 401) {
       console.log('401 data: ', data, '\n401 headers:', headers)
@@ -64,4 +64,5 @@ export default function({ store, $axios }) {
   $axios.onRequest(beforeReq)
   $axios.onResponse(afterRes(store))
   $axios.onError(afterErr(store))
+  $axios.defaults.timeout = 10000
 }

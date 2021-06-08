@@ -5,6 +5,7 @@
   >
     <br/>
     <CTab title="서비스정보">
+      <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
       <CScrollbar class="scroll-area" :settings="psSettings" @ps-scroll-x="scrollHandle">
       <CDataTable
         :items="table_items"
@@ -72,7 +73,7 @@
       </CRow> -->
     </CTab>
     <CTab title="모니터링">
-      <div v-for="(chart, idx) in targetCharts" :key="idx" class="chart-wrap">
+      <div v-for="(chart, key, idx) in targetCharts" :key="key" class="chart-wrap">
         <apexchart type="area" height="350"
           :series="chart.series"
           :options="chart.options">
@@ -197,7 +198,7 @@ export default {
       })
     },
     fetchDsr () {
-      const url = `/api/v2/projects/pjt1/datastorereleases`
+      const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
       this.$axios.$get(url, {}).then(res => {
         res && typeof res === 'object' && res.forEach(item => {
           if (this.zdb.name == item.metadata.name) {
@@ -299,7 +300,6 @@ export default {
      */
     handleRowClick (item, index, columnName, event) {
       if (columnName === 'name') {
-        console.log('item:', item.name)
         this.$router.push({
           path: `/projects/${this.zdb.projectid}/datastores/${this.zdb.name}/${item.name}`
         })

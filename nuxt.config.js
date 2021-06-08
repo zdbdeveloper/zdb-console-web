@@ -73,8 +73,9 @@ export default {
     //   ws: true,
     // },
     '/api/v2': {
-      target: 'https://zdb.mcm-dev.cloudzcp.com/',   
-      //target: 'http://localhost:8080/',   
+      //target: 'http://localhost:8080/',  
+      target: process.env.CONSOLE_ZDB_API_URL || 'https://zdb.mcm-dev.cloudzcp.com/',   
+      secure: false,
       ws: true,
     }
   },
