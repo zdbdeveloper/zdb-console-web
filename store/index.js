@@ -1,15 +1,18 @@
-export const state = {
-  sidebarShow: "responsive",
-  sidebarMinimize: false,
-  asideShow: false,
-  localAsideShow: false,
-  localAsideShow2: false,
-  darkMode: false,
-  hidePane2: false,
-  pageTitle: "",
-  locale: "en",
-  locales: ["en", "kr"],
-  spinner: false
+export const state = () => {
+  return {
+    sidebarShow: "responsive",
+    sidebarMinimize: false,
+    asideShow: false,
+    localAsideShow: false,
+    localAsideShow2: false,
+    darkMode: false,
+    hidePane2: false,
+    pageTitle: "",
+    locale: "en",
+    locales: ["en", "kr"],
+    spinner: false,
+    cookie: {}
+  }
 };
 
 export const mutations = {
@@ -37,6 +40,9 @@ export const mutations = {
   },
   SPINNER(state, value) {
     state.spinner = value
+  },
+  COOKIE(state, value) {
+    state.cookie = { ...state.cookie, ...value }
   }
 };
 
@@ -61,5 +67,8 @@ export const actions = {
   },
   spinner({ commit }, value) {
     commit('SPINNER', value)
+  },
+  cookie({ commit }, value) {
+    commit('COOKIE', value)
   }
 };

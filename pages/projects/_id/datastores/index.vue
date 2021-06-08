@@ -289,6 +289,7 @@
        * Fetch data for the tables
        */
       fetchTables () {
+        this.$store.dispatch('spinner', true);
         // const url = '/v2/namespace/-/dsrs'
         const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
         this.$axios.$get(url, {}).then(res => {
@@ -299,6 +300,7 @@
             this.tableDetails[item.namespace] = {}
             return { ...item, id }
           })
+          this.$store.dispatch('spinner', false);
         })
       },
       /**
@@ -444,6 +446,9 @@
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
           let name = this.tableItems[index].name
+            , architecture = this.tableItems[index].architecture
+            , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
+          this.$store.dispatch('cookie', { standalone: standalone });
           this.$router.push({
             path: `/projects/${this.zdb.projectid}/datastores/${name}`
           })

@@ -64,5 +64,5 @@ export default function({ store, $axios }) {
   $axios.onRequest(beforeReq)
   $axios.onResponse(afterRes(store))
   $axios.onError(afterErr(store))
-  $axios.defaults.timeout = 10000
+  $axios.defaults.timeout = 13000
 }

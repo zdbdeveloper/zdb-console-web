@@ -100,8 +100,8 @@ export default {
         projectid: this.$route.params.id,
         name: this.$route.params.dsrname,
         namespace: null,
-        standalone: null,
         datastore: null,
+        standalone: this.$store.state.cookie.standalone ?? null,
       },
       //Tables
       activeTab: 0,
@@ -115,10 +115,10 @@ export default {
     }
   },
   created () {
-    this.fetchDsrChildren()    
+    this.fetchDsrChildren()
   },
   methods: {
-    createChart () {
+    async createChart () {
       if (this.targetCharts) return
       const apexChart = new ApexChart({
         server: 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
@@ -132,7 +132,7 @@ export default {
       this.targetCharts = apexChart.getCharts()
       setTimeout(() => {
         this.fetchCharts(apexChart)
-      }, 500)
+      }, 300)
     },
     parseChartData (rawData) {
       let series = [], categories = [], names = []
@@ -197,14 +197,14 @@ export default {
         }
       })
     },
-    fetchDsr () {
+    async fetchDsr () {
       const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
       this.$axios.$get(url, {}).then(res => {
         res && typeof res === 'object' && res.forEach(item => {
           if (this.zdb.name == item.metadata.name) {
             let architecture = item.status?.architecture || ''
             this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
-          } 
+          }
         })
       })
     },
@@ -212,6 +212,7 @@ export default {
      * Fetch the detail data and toggleing its items
      */
     fetchDsrChildren () {
+      this.$store.dispatch('spinner', true);
       // let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
       let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
       this.$axios.$get(url, {}).then(res => {
@@ -222,10 +223,13 @@ export default {
         this.table_items = res.table_items.map((item, id) => {
           if (0 === id) {
             this.zdb.datastore = item.datastore
-            if ('mariadb' == item.datastore.toLowerCase()) this.fetchDsr()
+            if (null == this.zdb.standalone && 'mariadb' == item.datastore.toLowerCase()) {
+              this.fetchDsr()
+            }
           }
           return { ...item, id }
         })
+        this.$store.dispatch('spinner', false);
       })
     },
     parseDsrChildren (items) {
