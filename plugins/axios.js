@@ -32,8 +32,10 @@ function afterRes(store) {
 
 function afterErr(store) {
   return function(err) {
-    store.dispatch('spinner', false);
-    if (/timeout/gi.test(err)) return store.dispatch('dialog/toast_err', 'Connection Timeout!!')
+    store.dispatch('spinner', false)
+    if (/timeout/gi.test(err)) {
+      return store.dispatch('dialog/toast_err', 'Connection Timeout!!')
+    }
     const { status, headers, data } = err.response || {}
     console.debug('[plugins/axios.js] - onError', status, data, err)
     // Handle Unautorization (Redirect)

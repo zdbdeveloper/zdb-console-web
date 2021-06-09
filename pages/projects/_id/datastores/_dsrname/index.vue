@@ -83,7 +83,13 @@
     <CTab title="백업" />
     <CTab title="이벤트" />
     <CTab title="로그" />
-    <CTab title="관리" />
+    <CTab title="관리">
+      <div
+        v-for="(variable, idx) in managements[Object.keys(managements)[0]]"
+        :key="idx" class="management-wrap">
+        {{ variable[0] }} : {{ variable[1] }}
+      </div>
+    </CTab>
   </CTabs>
 </template>
 
@@ -102,6 +108,7 @@ export default {
         namespace: null,
         datastore: null,
         standalone: this.$store.state.cookie.standalone ?? null,
+        pod: null,
       },
       //Tables
       activeTab: 0,
@@ -112,7 +119,15 @@ export default {
       collapseDuration: 100,
       //Apexchart Chart
       targetCharts: null,
+      //Mnanagements
+      managements: {
+        statusVariables: null,
+        systemVariables: null,
+        processList: null,
+      },
     }
+  },
+  computed: {
   },
   created () {
     this.fetchDsrChildren()
@@ -222,6 +237,8 @@ export default {
         this.table_fields = res.table_fields
         this.table_items = res.table_items.map((item, id) => {
           if (0 === id) {
+            this.zdb.namespace = item.namespace
+            this.zdb.pod = item.name
             this.zdb.datastore = item.datastore
             if (null == this.zdb.standalone && 'mariadb' == item.datastore.toLowerCase()) {
               this.fetchDsr()
@@ -299,6 +316,9 @@ export default {
       })
       return { table_fields, table_items }
     },
+    async fetchManagement () {
+      console.log('name:', this.zdb.name, ' pod:', this.zdb.pod)
+    },
     /**
      * Click Event on the table rows
      */
@@ -341,6 +361,7 @@ export default {
     activeTab (value) {
       switch(value) {
         case 2: return this.createChart()
+        case 6: return this.fetchManagement()
         default: return console.log('tab:', value)
       }
     }

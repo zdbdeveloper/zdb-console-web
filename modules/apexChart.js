@@ -243,13 +243,15 @@ export class ApexChart extends ChartRequest {
           },						
           labels: {
             formatter: function(value, index) {
-              let re = Number(value).toFixed(2)
-              if(Number(value) == 0  ){							    		  
-                re = Number(value).toFixed(0)
-              } else if(Number(value) > 10  ){
-                re = Number(value).toFixed(0)
-              }
-              return re
+              // let re = Number(value).toFixed(2)
+              // if(Number(value) == 0  ){							    		  
+              //   re = Number(value).toFixed(0)
+              // } else if(Number(value) > 10  ){
+              //   re = Number(value).toFixed(0)
+              // }
+              // return re
+              value = Number(value)
+              return 0 >= value ? 0 : value.toFixed(1)
             }
           },
         },
