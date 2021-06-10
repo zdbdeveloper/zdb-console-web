@@ -50,17 +50,15 @@ export default {
      * Fetch the detail data and toggleing its items
      */
     fetchDsrChildren () {
-      this.$store.dispatch('spinner', true);
       let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
       this.$axios.$get(url, {}).then(res => {
-        if (!res || !res.length) return console.log('No data')
+        if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
         res = this.parseDsrChildren(res)
         if (!res) return console.log('Parsing error')
         this.table_fields = res.table_fields
         this.table_items = res.table_items.filter((item, id) => {
           return item.name == this.zdb.pod
         })
-        this.$store.dispatch('spinner', false);
       })
     },
     parseDsrChildren (items) {

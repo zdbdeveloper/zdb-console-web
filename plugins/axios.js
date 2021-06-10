@@ -7,12 +7,17 @@
  *
  * https://auth.nuxtjs.org/guide/scheme.html#creating-your-own-scheme
  */
-function beforeReq(config) {
-  console.debug(`axios :: ${config.method} ${config.url}`)
+function beforeReq(store) {
+  return function(config) {
+    if (null != store.state.spinner)
+      store.dispatch('spinner', true)
+    console.debug(`axios :: ${config.method} ${config.url}`)
+  }
 }
 
 function afterRes(store) {
   return function(res) {
+    store.dispatch('spinner', false)
     const {
       config: { method, toast = true },
       status
@@ -22,9 +27,9 @@ function afterRes(store) {
     // Show Response Toast
     if (toast && status === 200) {
       if (['put', 'post'].includes(method)) {
-        store.commit('dialog/toast', 'Saved')
+        store.dispatch('dialog/toast', 'Saved')
       } else if (method === 'delete') {
-        store.commit('dialog/toast', 'Removed')
+        store.dispatch('dialog/toast', 'Removed')
       }
     }
   }
@@ -57,13 +62,13 @@ function afterErr(store) {
       config: { toast = true }
     } = err
     console.debug(`[plugins/axios.js] - err.config.toast = ${toast}`)
-    toast && store.commit('dialog/toast_err', 'Request Failed')
+    toast && store.dispatch('dialog/toast_err', 'Request Failed')
   }
 }
 
 export default function({ store, $axios }) {
   console.debug('[plugins/axios.js] - Setup...')
-  $axios.onRequest(beforeReq)
+  $axios.onRequest(beforeReq(store))
   $axios.onResponse(afterRes(store))
   $axios.onError(afterErr(store))
   $axios.defaults.timeout = 13000

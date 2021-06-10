@@ -108,7 +108,7 @@ export class ApexChart extends ChartRequest {
           max: 1073741824,
           labels: {
             formatter: function (value) {
-              value = Number(value / (1024 * 1024))
+              value = Number(value) / (1024 * 1024)
               return 1024 <= value
                 ? `${(value / 1024).toFixed(1)} GB`
                 : `${value.toFixed()} MB`

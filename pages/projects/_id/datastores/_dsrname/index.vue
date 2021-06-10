@@ -84,11 +84,7 @@
     <CTab title="이벤트" />
     <CTab title="로그" />
     <CTab title="관리">
-      <div
-        v-for="(variable, idx) in managements[Object.keys(managements)[0]]"
-        :key="idx" class="management-wrap">
-        {{ variable[0] }} : {{ variable[1] }}
-      </div>
+      <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
     </CTab>
   </CTabs>
 </template>
@@ -121,9 +117,25 @@ export default {
       targetCharts: null,
       //Mnanagements
       managements: {
-        statusVariables: null,
-        systemVariables: null,
-        processList: null,
+        statusVariables: {
+          title: '상태변수',
+          content: {
+              variables: {
+                tableFields: [],
+                tableItems: [],
+              }
+          }
+        },
+        systemVariables: {
+          title: '시스템변수',
+          content: {
+              variables: {
+                tableFields: [],
+                tableItems: [],
+              }
+          }
+        },
+        //processList: null,
       },
     }
   },
@@ -133,6 +145,45 @@ export default {
     this.fetchDsrChildren()
   },
   methods: {
+    handleManagementCategory (id) {
+      console.log('id:', id)
+      this.fetchManagementContent(id)
+    },
+    async fetchManagementContent (id = Object.keys(this.managements)[0]) {
+      console.log('name: ', this.zdb.name, ' pod:', this.zdb.pod)
+      if (!this.zdb.name || !this.zdb.pod)
+        this.$store.dispatch('dialog/toast_err', 'no pod')
+      let target = this.managements[id]
+      //if (target.content.variables.tableItems) return
+      let urls = {
+        processList: '',
+        statusVariables: `/api/v2/projects/pjt1/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/statusVariables?cluster=cloudzcp-pog-dev`,
+        systemVariables: `/api/v2/projects/pjt1/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/systemVariables?cluster=cloudzcp-pog-dev`,
+      }
+      let res = await this.$axios.$get(urls[id])
+      if (!res || !Object.keys(res).length) return this.$store.dispatch('dialog/toast_err', 'No Data')
+      this.makeTable(res, target)
+    },
+    makeTable (data, target) {
+      if (!data || typeof data !== 'object') return
+      data = Object.entries(data).sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+      let fields = [
+        {key: "variable", label: "변수"},
+        {key: "value", label: "값"},
+      ]
+      let items = []
+      data.map(item => {
+        items = [ ...items,
+          {
+            variable: item[0] || '',
+            value: item[1] || '',
+          }
+        ]
+      })
+      target.content.variables.tableFields = fields
+      target.content.variables.tableItems = items
+      //return { fields, items }
+    },
     async createChart () {
       if (this.targetCharts) return
       const apexChart = new ApexChart({
@@ -227,11 +278,10 @@ export default {
      * Fetch the detail data and toggleing its items
      */
     fetchDsrChildren () {
-      this.$store.dispatch('spinner', true);
       // let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
       let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
       this.$axios.$get(url, {}).then(res => {
-        if (!res || !res.length) return console.log('No data')
+        if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
         res = this.parseDsrChildren(res)
         if (!res) return console.log('Parsing error')
         this.table_fields = res.table_fields
@@ -246,7 +296,6 @@ export default {
           }
           return { ...item, id }
         })
-        this.$store.dispatch('spinner', false);
       })
     },
     parseDsrChildren (items) {
@@ -316,9 +365,6 @@ export default {
       })
       return { table_fields, table_items }
     },
-    async fetchManagement () {
-      console.log('name:', this.zdb.name, ' pod:', this.zdb.pod)
-    },
     /**
      * Click Event on the table rows
      */
@@ -361,7 +407,7 @@ export default {
     activeTab (value) {
       switch(value) {
         case 2: return this.createChart()
-        case 6: return this.fetchManagement()
+        case 6: return this.fetchManagementContent()
         default: return console.log('tab:', value)
       }
     }

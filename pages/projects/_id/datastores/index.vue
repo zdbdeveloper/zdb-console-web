@@ -289,18 +289,16 @@
        * Fetch data for the tables
        */
       fetchTables () {
-        this.$store.dispatch('spinner', true);
         // const url = '/v2/namespace/-/dsrs'
         const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
         this.$axios.$get(url, {}).then(res => {
-          if (!res || !res.length) return console.log('No data')
+          if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
           res = this.parseTableItems(res)
           this.tableFields = res.tableFields
           this.tableItems = res.tableItems.map((item, id) => {
             this.tableDetails[item.namespace] = {}
             return { ...item, id }
           })
-          this.$store.dispatch('spinner', false);
         })
       },
       /**
@@ -315,7 +313,7 @@
         }
         const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${name}/datastores?cluster=cloudzcp-pog-dev`
         this.$axios.$get(url, {}).then(res => {
-          if (!res || !res.length) return console.log('No data')
+          if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
           res = this.parseTableDetails(res)
           let tableFields = res.tableFields
           let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
