@@ -169,6 +169,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return 5 > value ? 5 : Math.floor(value + 50)
           },
           labels: {
@@ -198,6 +199,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return 5 > value ? 5 : Math.floor(value + 1)
           },
           labels: {
@@ -306,6 +308,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (value) {
+            value = Number(value)
             return 4 > value ? 4 : value + 1
           },
           labels: {
@@ -520,6 +523,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value <= 0 ? 5 : Math.floor(value + 1)
           },
           labels: {
@@ -716,6 +720,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 3,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 3 ? 3 : value + 1
           },
           labels: {
@@ -745,6 +750,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 3,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 3 ? 3 : value + 1
           },
           labels: {
@@ -774,6 +780,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 3,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 3 ? 3 : value + 1
           },
           labels: {
@@ -803,6 +810,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 3,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 3 ? 3 : value + 1
           },
           labels: {
@@ -832,6 +840,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 3,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 3 ? 3 : value + 1
           },
           labels: {
@@ -862,6 +871,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -892,6 +902,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -922,6 +933,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -952,6 +964,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -982,6 +995,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1012,6 +1026,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1042,6 +1057,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 7 : value + 3
           },
           labels: {
@@ -1071,6 +1087,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 5 ? 5 : (50 <= value ?  value + 50 : value + 1)
           },
           labels: {
@@ -1101,6 +1118,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 6,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 5 ? 5 : (50 <= value ?  value + 50 : value + 1)
           },
           labels: {
@@ -1131,6 +1149,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return 0 < value ? value * 1.1 : 0
           },
           labels: {
@@ -1161,6 +1180,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 4 ? 4 : value + 1
           },
           labels: {
@@ -1190,6 +1210,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1220,6 +1241,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1250,6 +1272,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1280,6 +1303,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1310,6 +1334,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1340,6 +1365,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1370,6 +1396,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1400,6 +1427,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1430,6 +1458,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1460,6 +1489,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {
@@ -1490,6 +1520,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 5,
           min: 0,
           max: function(value) {
+            value = Number(value)
             return value < 1 ? 1 : value + 1
           },
           labels: {

@@ -1,5 +1,5 @@
 <template>
-  <CTabs @update:activeTab="activeTab = $event"
+  <CTabs @update:activeTab="activeTab=$event"
     justified
     variant='tabs'
   >
@@ -84,11 +84,27 @@
     <CTab title="이벤트" />
     <CTab title="로그" />
     <CTab title="관리">
-      <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
+      <MySpinner width="4rem" height="4rem" color="success" :grow="true" /> 
+      <div>
+        <div>
+          <CLink v-for="(v , k) in Object.entries(managements.sectors).map(v => v)"
+            :key="k"
+            href="#"
+            target="_self"
+            @click.prevent="handleManagementCategory(v[0])"
+          >
+            {{ v[1].title }}&nbsp;&nbsp;
+          </CLink>
+        </div><br/>
+        <div
+          v-for="(item, idx) in managements.sectors[managements.active].contents.variables.tableItems"
+          :key="idx" class="management-wrap">
+          {{ item.variable }} : {{ item.value }}
+        </div>
+      </div>
     </CTab>
   </CTabs>
 </template>
-
 <script>
 import { dialog, scrollbar } from '~/mixins'
 import { ApexChart } from '~/modules/apexChart'
@@ -116,26 +132,30 @@ export default {
       //Apexchart Chart
       targetCharts: null,
       //Mnanagements
+      activeTab: null,
       managements: {
-        statusVariables: {
-          title: '상태변수',
-          content: {
+        active: 'statusVariables',
+        sectors: {
+          statusVariables: {
+            title: '상태변수',
+            contents: {
               variables: {
                 tableFields: [],
                 tableItems: [],
               }
-          }
-        },
-        systemVariables: {
-          title: '시스템변수',
-          content: {
+            }
+          },
+          systemVariables: {
+            title: '시스템변수',
+            contents: {
               variables: {
                 tableFields: [],
                 tableItems: [],
               }
-          }
-        },
-        //processList: null,
+            }
+          },
+          //processList: null,
+        }
       },
     }
   },
@@ -149,12 +169,10 @@ export default {
       console.log('id:', id)
       this.fetchManagementContent(id)
     },
-    async fetchManagementContent (id = Object.keys(this.managements)[0]) {
-      console.log('name: ', this.zdb.name, ' pod:', this.zdb.pod)
+    async fetchManagementContent (id = this.managements.active) {
       if (!this.zdb.name || !this.zdb.pod)
         this.$store.dispatch('dialog/toast_err', 'no pod')
-      let target = this.managements[id]
-      //if (target.content.variables.tableItems) return
+      let target = this.managements.sectors[id]
       let urls = {
         processList: '',
         statusVariables: `/api/v2/projects/pjt1/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/statusVariables?cluster=cloudzcp-pog-dev`,
@@ -162,10 +180,11 @@ export default {
       }
       let res = await this.$axios.$get(urls[id])
       if (!res || !Object.keys(res).length) return this.$store.dispatch('dialog/toast_err', 'No Data')
-      this.makeTable(res, target)
+      this.makeManagementTable(res, target)
+      this.managements.active = id
     },
-    makeTable (data, target) {
-      if (!data || typeof data !== 'object') return
+    makeManagementTable (data, target) {
+      if (!data || typeof data !== 'object') return false
       data = Object.entries(data).sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
       let fields = [
         {key: "variable", label: "변수"},
@@ -180,9 +199,9 @@ export default {
           }
         ]
       })
-      target.content.variables.tableFields = fields
-      target.content.variables.tableItems = items
-      //return { fields, items }
+      target.contents.variables.tableFields = fields
+      target.contents.variables.tableItems = items
+      return true
     },
     async createChart () {
       if (this.targetCharts) return
@@ -407,7 +426,10 @@ export default {
     activeTab (value) {
       switch(value) {
         case 2: return this.createChart()
-        case 6: return this.fetchManagementContent()
+        case 6: {
+          //return this.activeTab='management'
+          return this.fetchManagementContent()
+        }
         default: return console.log('tab:', value)
       }
     }
