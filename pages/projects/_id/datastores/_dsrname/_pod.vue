@@ -17,51 +17,122 @@
       </CDataTable>
       </CScrollbar>
     </CTab>
+    <CTab title="관리">
+      <template v-if="'mariadb' == zdb.datastore && 'management' == activeTab">
+      <MySpinner width="4rem" height="4rem" color="success" :grow="true" /> 
+      <div>
+        <div>
+          <CLink v-for="(v , k) in Object.entries(managements.sectors).map(v => v)"
+            :key="k"
+            href="#"
+            target="_self"
+            @click.prevent="handleManagementCategory(v[0])"
+          >
+            {{ v[1].title }}
+          </CLink>
+        </div><br/>
+        <div
+          v-for="(item, idx) in managements.sectors[managements.active].contents.variables.tableItems"
+          :key="idx" class="management-wrap">
+          {{ item.variable }} : {{ item.value }}
+        </div><br/>
+      </div>
+      </template>
+    </CTab>
   </CTabs>
 </template>
 
 <script>
 import { dialog, scrollbar } from '~/mixins'
 
+const managements = {
+  active: 'statusVariables',
+  sectors: {
+    statusVariables: {
+      title: '상태변수',
+      contents: {}
+    },
+    systemVariables: {
+      title: '시스템변수',
+     contents: {}
+    },
+    connections: {
+      title: '클라이언트 커넥션',
+      contents: {}
+    },
+  }
+}
+
 export default {
   mixins: [dialog, scrollbar],
   data () {
     return {
-      //Parameters
       zdb: {
         projectid: this.$route.params.id,
         name: this.$route.params.dsrname,
+        namespace: null,
+        datastore: null,
         pod: this.$route.params.pod,
+        standalone: this.$store.state.cookie.standalone ?? null,
+        cluster: this.$store.state.cookie.cluster || null,
       },
-      //tables
       activeTab: 0,
+      
       table_fields: [],
       table_items: [],
       table_details: [],
       dbservers: [],
       collapseDuration: 100,
+      
+      managements: managements
     }
+    
   },
   created () {
-    this.fetchDsrChildren()    
+    this.fetchChildren()
+    //console.log('active: ', this.managements.active)
   },
-  methods: {
+  methods: { 
     /**
      * Fetch the detail data and toggleing its items
      */
-    fetchDsrChildren () {
-      let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
-      this.$axios.$get(url, {}).then(res => {
-        if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
-        res = this.parseDsrChildren(res)
+    async fetchParents () {
+      // const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
+      // let res = await this.$axios.$get(url, {})
+      let res = await this.$fetcher.set(this.zdb).get('datastore_parents')
+      if (!res || !Object.keys(res).length) return console.log('NO response')
+      for (let item of res) {
+        if (this.zdb.name == item.metadata.name) {
+          let architecture = item.status?.architecture || ''
+          this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
+          this.zdb.cluster = await item.status?.cluster || ''
+        }
+      }
+      return this.zdb.cluster ? true : false
+    },
+    async fetchChildren () {
+      if (!this.zdb.cluster || !this.zdb.name || !this.zdb.pod) {
+        if (!await this.fetchParents()) return console.log('NO response')
+      }
+      this.$fetcher.set(this.zdb).get('datastore_children').then(res => {
+        if (!res || !Object.keys(res).length) return console.log('NO response')
+        res = this.parseChildren(res)
         if (!res) return console.log('Parsing error')
         this.table_fields = res.table_fields
         this.table_items = res.table_items.filter((item, id) => {
+          if (0 === id) {
+            this.zdb.namespace = item.namespace
+            this.zdb.pod = item.name
+            this.zdb.datastore = item.datastore
+            console.log('namespace:', this.zdb.namespace)
+            console.log('pod:', this.zdb.pod)
+            console.log('datastore:', this.zdb.datastore)
+          }
           return item.name == this.zdb.pod
         })
       })
     },
-    parseDsrChildren (items) {
+    parseChildren (items) {
       if (!items || typeof items !== 'object') return
       let table_fields = [
         {key: "namespace", label: "NAMESPACE"},
@@ -128,6 +199,48 @@ export default {
       })
       return { table_fields, table_items }
     },
+    handleManagementCategory (id) {
+      console.log('categoryId:', id)
+      this.fetchManagement(id)
+    },
+    async fetchManagement (id = this.managements.active) {
+      let target = this.managements.sectors[id]
+      //if (target.contents.variables.tableItems) return
+      let ids = { [id]: [`mariadb_${id}`] }
+      if ('connections' == id)
+        ids[id] = [ ...ids[id], 'mariadb_processes' ]
+      let tasks = []
+      ids[id].forEach(id => {
+        tasks = [ ...tasks, this.$fetcher.get(id) ]
+      })
+      let resolves = await Promise.all(tasks)
+      target.contents.variables = {}
+      resolves.forEach((resolve, idx) => {
+        resolve = this.parseVariables(resolve)
+        target.contents.variables.tableFields = resolve.fields
+        target.contents.variables.tableItems = resolve.items
+      })
+      this.managements.active = id
+      this.activeTab='management'
+    },
+    parseVariables(data, target) {
+      if (!data || typeof data !== 'object') return false
+      data = Object.entries(data).sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+      let fields = [
+        {key: "variable", label: "변수"},
+        {key: "value", label: "값"},
+      ]
+      let items = []
+      data.map(item => {
+        items = [ ...items,
+          {
+            variable: item[0] || '',
+            value: item[1] || '',
+          }
+        ]
+      })
+      return { fields, items }
+    },
     /**
      * Bage color
      */
@@ -159,6 +272,11 @@ export default {
   watch: {
     activeTab (value) {
       switch(value) {
+        case 1: {
+          if ('mariadb' == this.zdb.datastore?.toLowerCase())
+          //return this.activeTab='management'
+            return this.fetchManagement()
+        }
         default: return console.log('tab:', value)
       }
     }

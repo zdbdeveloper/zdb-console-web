@@ -62,7 +62,7 @@ function afterErr(store) {
       config: { toast = true }
     } = err
     console.debug(`[plugins/axios.js] - err.config.toast = ${toast}`)
-    toast && store.dispatch('dialog/toast_err', 'Request Failed')
+    return toast && store.dispatch('dialog/toast_err', 'Request Failed')
   }
 }
 

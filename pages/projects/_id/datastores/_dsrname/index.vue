@@ -83,28 +83,11 @@
     <CTab title="백업" />
     <CTab title="이벤트" />
     <CTab title="로그" />
-    <CTab title="관리">
-      <MySpinner width="4rem" height="4rem" color="success" :grow="true" /> 
-      <div>
-        <div>
-          <CLink v-for="(v , k) in Object.entries(managements.sectors).map(v => v)"
-            :key="k"
-            href="#"
-            target="_self"
-            @click.prevent="handleManagementCategory(v[0])"
-          >
-            {{ v[1].title }}&nbsp;&nbsp;
-          </CLink>
-        </div><br/>
-        <div
-          v-for="(item, idx) in managements.sectors[managements.active].contents.variables.tableItems"
-          :key="idx" class="management-wrap">
-          {{ item.variable }} : {{ item.value }}
-        </div>
-      </div>
+    <CTab title="관리" />
     </CTab>
   </CTabs>
 </template>
+
 <script>
 import { dialog, scrollbar } from '~/mixins'
 import { ApexChart } from '~/modules/apexChart'
@@ -119,8 +102,9 @@ export default {
         name: this.$route.params.dsrname,
         namespace: null,
         datastore: null,
-        standalone: this.$store.state.cookie.standalone ?? null,
         pod: null,
+        standalone: this.$store.state.cookie.standalone ?? null,
+        cluster: this.$store.state.cookie.cluster || null,
       },
       //Tables
       activeTab: 0,
@@ -154,7 +138,18 @@ export default {
               }
             }
           },
-          //processList: null,
+          processList: {
+            title: '클라이언트 커넥션',
+            contents: {
+              connections: {
+
+              },
+              processes: {
+                tableFields: [],
+                tableItems: [],
+              }
+            }
+          },
         }
       },
     }
@@ -162,7 +157,7 @@ export default {
   computed: {
   },
   created () {
-    this.fetchDsrChildren()
+    this.fetchChildren()
   },
   methods: {
     handleManagementCategory (id) {
@@ -170,18 +165,24 @@ export default {
       this.fetchManagementContent(id)
     },
     async fetchManagementContent (id = this.managements.active) {
+      console.log('name: ', this.zdb.name, ' pod:', this.zdb.pod)
       if (!this.zdb.name || !this.zdb.pod)
         this.$store.dispatch('dialog/toast_err', 'no pod')
       let target = this.managements.sectors[id]
+      //if (target.contents.variables.tableItems) return
       let urls = {
         processList: '',
-        statusVariables: `/api/v2/projects/pjt1/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/statusVariables?cluster=cloudzcp-pog-dev`,
-        systemVariables: `/api/v2/projects/pjt1/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/systemVariables?cluster=cloudzcp-pog-dev`,
+        statusVariables: `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/statusVariables?cluster=${this.zdb.cluster}`,
+        systemVariables: `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores/${this.zdb.pod}/systemVariables?cluster=${this.zdb.cluster}`,
+        // statusVariables: `http://localhost:4000/statusVariables`,
+        // systemVariables: `http://localhost:4000/systemVariables`,
       }
       let res = await this.$axios.$get(urls[id])
-      if (!res || !Object.keys(res).length) return this.$store.dispatch('dialog/toast_err', 'No Data')
+      //console.log('res:', res)
+      if (!res || !Object.keys(res).length) return console.log('NO response')
       this.makeManagementTable(res, target)
       this.managements.active = id
+      console.log('variables:', target.contents.variables)
     },
     makeManagementTable (data, target) {
       if (!data || typeof data !== 'object') return false
@@ -202,6 +203,7 @@ export default {
       target.contents.variables.tableFields = fields
       target.contents.variables.tableItems = items
       return true
+      //return { fields, items }
     },
     async createChart () {
       if (this.targetCharts) return
@@ -282,42 +284,42 @@ export default {
         }
       })
     },
-    async fetchDsr () {
-      const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
-      this.$axios.$get(url, {}).then(res => {
-        res && typeof res === 'object' && res.forEach(item => {
-          if (this.zdb.name == item.metadata.name) {
-            let architecture = item.status?.architecture || ''
-            this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
-          }
-        })
-      })
-    },
     /**
      * Fetch the detail data and toggleing its items
      */
-    fetchDsrChildren () {
-      // let url = `/v2/namespace/${this.zdb.namespace}/${this.zdb.name}/zdbs`
-      let url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${this.zdb.name}/datastores?cluster=cloudzcp-pog-dev`
-      this.$axios.$get(url, {}).then(res => {
-        if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
-        res = this.parseDsrChildren(res)
-        if (!res) return console.log('Parsing error')
-        this.table_fields = res.table_fields
-        this.table_items = res.table_items.map((item, id) => {
-          if (0 === id) {
-            this.zdb.namespace = item.namespace
-            this.zdb.pod = item.name
-            this.zdb.datastore = item.datastore
-            if (null == this.zdb.standalone && 'mariadb' == item.datastore.toLowerCase()) {
-              this.fetchDsr()
-            }
-          }
-          return { ...item, id }
-        })
+    async fetchParents () {
+      // const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
+      // let res = await this.$axios.$get(url, {})
+      let res = await this.$fetcher.set(this.zdb).get('datastore_parents')
+      if (!res || typeof res !== 'object') return console.log('NO response')
+      for (let item of res) {
+        if (this.zdb.name == item.metadata.name) {
+          let architecture = item.status?.architecture || ''
+          this.zdb.standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
+          this.zdb.cluster = await item.status?.cluster || ''
+        }
+      }
+      return this.zdb.cluster ? true : false
+    },
+    async fetchChildren () {
+      if (!this.zdb.cluster || null == this.zdb.standalone) {
+        if (!await this.fetchParents()) return console.log('NO response')
+      }
+      let res = await this.$fetcher.set(this.zdb).get('datastore_children')
+      if (!res || !Object.keys(res).length) return console.log('NO response')
+      res = this.parseChildren(res)
+      if (!res) return console.log('Parsing error')
+      this.table_fields = res.table_fields
+      this.table_items = res.table_items.map((item, id) => {
+        if (0 === id) {
+          this.zdb.namespace = item.namespace
+          this.zdb.pod = item.name
+          this.zdb.datastore = item.datastore
+        }
+        return { ...item, id }
       })
     },
-    parseDsrChildren (items) {
+    parseChildren (items) {
       if (!items || typeof items !== 'object') return
       let table_fields = [
         {key: "namespace", label: "NAMESPACE"},
@@ -426,10 +428,9 @@ export default {
     activeTab (value) {
       switch(value) {
         case 2: return this.createChart()
-        case 6: {
-          //return this.activeTab='management'
-          return this.fetchManagementContent()
-        }
+        // case 6: {
+        //   return this.activeTab='management'
+        // }
         default: return console.log('tab:', value)
       }
     }

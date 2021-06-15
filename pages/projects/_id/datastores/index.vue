@@ -288,39 +288,31 @@
       /**
        * Fetch data for the tables
        */
-      fetchTables () {
-        // const url = '/v2/namespace/-/dsrs'
-        const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases`
-        this.$axios.$get(url, {}).then(res => {
-          if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
-          res = this.parseTableItems(res)
-          this.tableFields = res.tableFields
-          this.tableItems = res.tableItems.map((item, id) => {
-            this.tableDetails[item.namespace] = {}
-            return { ...item, id }
-          })
+      async fetchTables () {
+        let res = await this.$fetcher.set(this.zdb).get('datastore_parents')
+        if (!res || !Object.keys(res).length) return console.log('NO response')
+        res = this.parseTableItems(res)
+        this.tableFields = res.tableFields
+        this.tableItems = res.tableItems.map((item, id) => {
+          this.tableDetails[item.namespace] = {}
+          return { ...item, id }
         })
       },
       /**
        * Fetch table's detail data and toggleing its items
        */
-      fetchDetails (item) {
+      async fetchDetails (item) {
         let namespace = item.namespace
-          , name = item.name
         if (this.tableDetails && this.tableDetails[namespace].tableItems) {
-          this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
-          return false
+          return this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
         }
-        const url = `/api/v2/projects/${this.zdb.projectid}/datastorereleases/${name}/datastores?cluster=cloudzcp-pog-dev`
-        this.$axios.$get(url, {}).then(res => {
-          if (!res || !res.length) return this.$store.dispatch('dialog/toast_err', 'No Response!!')
-          res = this.parseTableDetails(res)
-          let tableFields = res.tableFields
-          let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
-          this.tableDetails[namespace] =  { tableFields, tableItems }
-          //Toggle the children of the row
-          this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
-        })
+        let res = await this.$fetcher.set(this.zdb).get('datastore_children')
+        if (!res || !Object.keys(res).length) return console.log('NO response')
+        res = this.parseTableDetails(res)
+        let tableFields = res.tableFields
+        let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
+        this.tableDetails[namespace] =  { tableFields, tableItems }
+        this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
       },
       /**
        * Parse the row data into useable items
@@ -365,6 +357,7 @@
               storage: item.status.storage.data || '',
               message: '',
               age: getAge(item.metadata.creationTimestamp),
+              cluster: item.status.cluster,
             }
           ]
         })
@@ -444,9 +437,10 @@
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
           let name = this.tableItems[index].name
+            , cluster = this.tableItems[index].cluster
             , architecture = this.tableItems[index].architecture
             , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
-          this.$store.dispatch('cookie', { standalone: standalone });
+          this.$store.dispatch('cookie', { standalone, cluster });
           this.$router.push({
             path: `/projects/${this.zdb.projectid}/datastores/${name}`
           })
