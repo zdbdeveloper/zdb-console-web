@@ -34,7 +34,8 @@ export const actions = {
 
     try {
       const res = await this.$axios.get("/api/v1/profile");
-      // const res = await this.$axios.get("/api/v2/profile");
+      //const res = await this.$axios.get("/api/v2/profile");
+      //console.log('profile res:', res)
 
       commit("LOADING", false);
       commit("UPDATE", { ...payload, ...res.data });

@@ -39,13 +39,13 @@ function afterErr(store) {
   return function(err) {
     store.dispatch('spinner', false)
     if (/timeout/gi.test(err)) {
-      return store.dispatch('dialog/toast_err', 'Connection Timeout!!')
+      return store.dispatch('dialog/toast_err', 'CONNECTION TIMEOUT')
     }
-    const { status, headers, data } = err.response || {}
-    console.debug('[plugins/axios.js] - onError', status, data, err)
+    const { status, statusText, headers, data } = err.response || {}
+    // console.debug('[plugins/axios.js] - onError', status, data, err)
+    console.debug('err:', err.response)
     // Handle Unautorization (Redirect)
     if (status === 401) {
-      console.log('401 data: ', data, '\n401 headers:', headers)
       if (data.location) {
         location.href = data.location
       } else if (headers.location) {
@@ -56,13 +56,12 @@ function afterErr(store) {
       }
       return
     }
-
     // Show Response Toast
     const {
       config: { toast = true }
     } = err
-    console.debug(`[plugins/axios.js] - err.config.toast = ${toast}`)
-    return toast && store.dispatch('dialog/toast_err', 'Request Failed')
+    //console.debug(`[plugins/axios.js] - err.config.toast = ${toast}`)
+    return toast && store.dispatch('dialog/toast_err', `ERROR ${status}: ${statusText}`)
   }
 }
 

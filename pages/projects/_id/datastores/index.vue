@@ -133,15 +133,12 @@
   import SockJS from 'sockjs-client'
   import Stomp from 'webstomp-client'
   import {dialog, scrollbar} from "~/mixins";
+  import { TableFactory } from '~/modules/tableFactory'
 
   export default {
     mixins: [dialog, scrollbar],
     data() {
       return {
-        //Parameters
-        zdb: {
-          projectid: this.$route.params.id,
-        },
         //For Tables
         tableFields: [],
         tableItems: [],
@@ -195,8 +192,10 @@
       };
     },
     created() {
+      this.$store.dispatch('zdb', {
+        projectid: this.$route.params.id
+      })
       this.fetchTables()
-      //this.connectSocket()
     },
     unmounted() {
       this.disconnectSocket()
@@ -218,10 +217,7 @@
     methods: {
       allColumm() {
         this.filteringFields = []
-      },
-      /**
-       * Connect Socket
-       */      
+      },    
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
@@ -231,33 +227,21 @@
           this.subscribe()
         })
       },
-      /**
-       * Receive data via the socket
-       */
       async subscribe () {
         this.subscription = this.stompClient.subscribe('/topic/states', async res => {
           let systemStates = await JSON.parse(res.body) || []
           this.handleTablesSystemUsage(systemStates)
         })
       },
-      /**
-       * Start and Restart the socket
-       */
       startSocket () {
         this.stompClient.send('/states', {}, 'socket-start')
         this.subscribe()
       },
-      /**
-       * Stop the socket
-       */ 
       stopSocket () {
         this.stompClient.send('/states', {}, 'socket-stop')
         this.subscription.unsubscribe()
         this.subscription = null
       },
-      /**
-       * Disconnect the socket
-       */
       disconnectSocket () {
         if (this.subscription) {
           this.subscription.unsubscribe()
@@ -289,9 +273,9 @@
        * Fetch data for the tables
        */
       async fetchTables () {
-        let res = await this.$fetcher.set(this.zdb).get('datastore_parents')
-        if (!res || !Object.keys(res).length) return console.log('NO response')
-        res = this.parseTableItems(res)
+        let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_parents')
+        if (!res || typeof res !== 'object') return console.log('NO response')
+        res = new TableFactory({id: 'parents', items: res}).build()
         this.tableFields = res.tableFields
         this.tableItems = res.tableItems.map((item, id) => {
           this.tableDetails[item.namespace] = {}
@@ -303,133 +287,19 @@
        */
       async fetchDetails (item) {
         let namespace = item.namespace
+          , name = item.name
+          , cluster = item.cluster
         if (this.tableDetails && this.tableDetails[namespace].tableItems) {
           return this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
         }
-        let res = await this.$fetcher.set(this.zdb).get('datastore_children')
+        this.$store.dispatch('zdb', { namespace, name, cluster })
+        let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_children')
         if (!res || !Object.keys(res).length) return console.log('NO response')
-        res = this.parseTableDetails(res)
+        res = new TableFactory({id: 'children', items: res}).build()
         let tableFields = res.tableFields
         let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
         this.tableDetails[namespace] =  { tableFields, tableItems }
         this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
-      },
-      /**
-       * Parse the row data into useable items
-       */
-      parseTableItems (items) {
-        let tableFields = [
-          {key: "show_details", label: "", style: "width:1%", sorter: false, filter: false},
-          {key: "namespace", label: "NAMESPACE", _style: 'min-width:100px'},
-          {key: "name", label: "NAME", _style:'min-width:140px'},
-          {key: "datastore", label: "DATASTORE"},
-          {key: "version", label: "VERSION", _classes:'hide'},
-          {key: "architecture", label: "ARCHITECTURE"},
-          {key: "deployStatus", label: "DEPLOY\nSTATUS"},
-          {key: "status", label: "STATUS"},
-          {key: "ready", label: "READY"},
-          {key: "requestCpu", label: "CPU\n(REQUEST)"},
-          {key: "requestMemory", label: "MEMORY\n(REQUEST)"},
-          {key: "storage", label: "STORAGE\n(DATA)"},
-          {key: "message", label: "MESSAGE"},
-          {key: "age", label: "AGE"}
-        ]
-        let getAge = creationTime => {
-          let elapsedTime = new Date().getTime() - new Date(creationTime).getTime()
-            , times = elapsedTime / (1000 * 60 * 60 * 24)
-            , days = Math.floor(times)
-          return `${ days }d`
-        }
-        let tableItems = []
-        items.map(item => {
-          tableItems = [ ...tableItems,
-            {
-              namespace: item.metadata.namespace || '',
-              name: item.metadata.name || '',
-              datastore: item.spec.datastore || '',
-              version: item.spec.version || '',
-              architecture: item.status.architecture || '',
-              deployStatus: item.status.deployStatus || '',
-              status: item.status.status || '',
-              ready: item.status.ready || '',
-              requestCpu: item.status.resources.requestCpu || '',
-              requestMemory: item.status.resources.requestMemory || '',
-              storage: item.status.storage.data || '',
-              message: '',
-              age: getAge(item.metadata.creationTimestamp),
-              cluster: item.status.cluster,
-            }
-          ]
-        })
-        return { tableFields, tableItems }
-      },
-      /**
-       * parsing for Table's Details
-       */
-      parseTableDetails (items) {
-        let tableFields = [
-          // {key: "namespace", label: "NAMESPACE"},
-          {key: "name", label: "NAME", _style:'min-width:140px'},
-          {key: "memberRole", label: "MEMBER\nROLE"},
-          {key: "status", label: "STATUS"},
-          {key: "ready", label: "READY"},
-          {key: "nodeName", label: "HOST IP"},
-          {key: "podIP", label: "POD IP"},
-          {key: "workrPool", label: "WORKER POOL"},
-          {key: "requestCpu", label: "CPU\n(REQUEST)"},
-          {key: "requestMemory", label: "MEMORY\n(REQUEST)"},
-          {key: "cpuUsage", label: "CPU\n(CORES)"},
-          {key: "memoryUsage", label: "MEMORY\n(BYTES)"},
-          {key: "storage", label: "STORAGE\n(DATA)"}
-        ]
-        //Translate size into byte type
-        let getByteSize = (size) => {
-          return (  
-            ! /\D?(g|m)/gi.test(size)
-            ? size?.replace(/\D/g, '') || 0
-            : ( /\D?g/gi.test(size)
-                ? size?.replace(/\D/g, '') * 1024 * 1024
-                : size?.replace(/\D/g, '') * 1024 
-              )
-          )
-        }
-        //Build a percentage number as rate 
-        let getUsageRate = (item, type) => {
-          if (!/(cpu|memory)/i.test(type)
-            || !item.status.resources?.cpuUsage
-            || !item.status.resources?.cpuUsage) return 0
-          let usage = 'cpu' == type
-            ? item.status.resources.cpuUsage
-            : item.status.resources.memoryUsage
-            usage = getByteSize(usage)
-          let maximum = 'cpu' == type
-            ? item.status.resources.requestCpu
-            : item.status.resources.requestMemory        
-            maximum = getByteSize(maximum)
-          let rate = 'cpu' == type ? 100 : 1
-          return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
-        }
-        let tableItems = []
-        items.map(item => {
-          tableItems = [ ...tableItems,
-            { 
-              namespace: item.metadata.namespace || '',
-              name: item.metadata.name || '',
-              memberRole: item.status.memberRole || '',
-              status: item.status.status || '',
-              ready: item.status.ready || '',
-              nodeName: item.status.nodeName || '',
-              podIP: item.status.podIP || '',
-              workrPool: item.status.workerPool || '',
-              requestCpu: item.status.resources?.requestCpu || '',
-              requestMemory: item.status.resources?.requestMemory || '',
-              cpuUsage: { rate: getUsageRate(item, 'cpu'), usage: item.status.resources?.cpuUsage } || {},
-              memoryUsage: { rate: getUsageRate(item, 'memory'), usage: item.status.resources?.memoryUsage } || '',
-              storage: item.status.storage?.data || '',
-            }
-          ]
-        })
-        return { tableFields, tableItems }
       },
       /**
        * Click Event on the table rows
@@ -440,9 +310,9 @@
             , cluster = this.tableItems[index].cluster
             , architecture = this.tableItems[index].architecture
             , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
-          this.$store.dispatch('cookie', { standalone, cluster });
+          this.$store.dispatch('zdb', { standalone, cluster })
           this.$router.push({
-            path: `/projects/${this.zdb.projectid}/datastores/${name}`
+            path: `/projects/${this.$store.state.zdb.projectid}/datastores/${name}`
           })
         }
       },

@@ -1,8 +1,8 @@
 export default class ChartRequest {
   constructor(args) {
-    this.requests = args
+    this.properties = args
   }
-  set requests(args) {
+  set properties(args) {
     if (!args || typeof args != 'object') return
     Object.entries(args).forEach(([key, value]) => {
       this[key] = value
