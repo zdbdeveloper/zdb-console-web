@@ -274,8 +274,8 @@
        */
       async fetchTables () {
         let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_parents')
-        if (!res || typeof res !== 'object') return console.log('NO response')
-        res = new TableFactory({id: 'parents', items: res}).build()
+        if (!res || typeof res !== 'object') return console.debug('NO response')
+        res = new TableFactory({id: 'datastore_parents', items: res}).build()
         this.tableFields = res.tableFields
         this.tableItems = res.tableItems.map((item, id) => {
           this.tableDetails[item.namespace] = {}
@@ -294,8 +294,8 @@
         }
         this.$store.dispatch('zdb', { namespace, name, cluster })
         let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_children')
-        if (!res || !Object.keys(res).length) return console.log('NO response')
-        res = new TableFactory({id: 'children', items: res}).build()
+        if (!res || !Object.keys(res).length) return console.debug('NO response')
+        res = new TableFactory({id: 'datastore_children', items: res}).build()
         let tableFields = res.tableFields
         let tableItems = res.tableItems.map((item, id) => { return {...item, id}})
         this.tableDetails[namespace] =  { tableFields, tableItems }

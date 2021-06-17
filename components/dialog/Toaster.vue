@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     ...mapMutations("dialog", {
-      toast_remove: "toast_remove"
+        toast_remove: "TOAST_REMOVE"
     }),
     toastColor(toast) {
       const { color } = toast;

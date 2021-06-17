@@ -199,7 +199,7 @@ export default {
     },
     async fetchParents () {
       let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_parents')
-      if (!res || typeof res !== 'object') return console.log('NO response')
+      if (!res || typeof res !== 'object') return console.debug('NO response')
       for (let item of res) {
         if (this.$store.state.zdb.name == item.metadata.name) {
           let architecture = item.status?.architecture || ''
@@ -214,18 +214,17 @@ export default {
     },
     async fetchChildren () {
       if (!this.$store.state.zdb.cluster || !(0 <= this.$store.state.zdb.standalone)) {
-        if (!await this.fetchParents()) return console.log('NO response')
+        if (!await this.fetchParents()) return console.debug('NO response')
       }
       let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_children')
-      if (!res || !Object.keys(res).length) return console.log('NO response')
-      res = new TableFactory({id: 'children', items: res}).build()
-      if (!res) return console.log('Parsing error')
+      if (!res || !Object.keys(res).length) return console.debug('NO response')
+      res = new TableFactory({id: 'datastore_children', items: res}).build()
+      if (!res) return console.debug('Parsing error')
       this.tableFields = res.tableFields
       this.tableItems = res.tableItems.map((item, id) => {
         if (0 === id) {
           this.$store.dispatch('zdb', {
             namespace: item.namespace,
-            pod: item.name,
             datastore: item.datastore
           })
         }

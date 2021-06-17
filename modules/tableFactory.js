@@ -43,7 +43,7 @@ export class TableFactory {
   }
   get tableFields() {
     let data = {
-      parents: [
+      datastore_parents: [
         {key: "show_details", label: "", style: "width:1%", sorter: false, filter: false},
         {key: "namespace", label: "NAMESPACE", _style: 'min-width:100px'},
         {key: "name", label: "NAME", _style:'min-width:140px'},
@@ -59,7 +59,7 @@ export class TableFactory {
         {key: "message", label: "MESSAGE"},
         {key: "age", label: "AGE"}
       ],
-      children: [
+      datastore_children: [
         {key: "namespace", label: "NAMESPACE"},
         {key: "name", label: "NAME", _style:'min-width:140px'},
         {key: "memberRole", label: "MEMBER\nROLE"},
@@ -73,6 +73,20 @@ export class TableFactory {
         {key: "cpuUsage", label: "CPU\n(CORES)"},
         {key: "memoryUsage", label: "MEMORY\n(BYTES)"},
         {key: "storage", label: "STORAGE\n(DATA)"}
+      ],
+      mariadb_processes: [
+        {key: "Id", label: "Id", style: "width:1%", sorter: false, filter: false},
+        {key: "Progress", label: "Progress", _style: 'min-width:100px'},
+        {key: "User", label: "User", _style:'min-width:140px'},
+        {key: "Command", label: "Command"},
+        {key: "State", label: "State"},
+        {key: "Time", label: "Time"},
+        {key: "Info", label: "Info"},
+        {key: "db", label: "db"},
+      ],
+      mariadb_variables: [
+        {key: "variable", label: "Variable"},
+        {key: "value", label: "Value"},
       ]
     }
     return data[this.id]
@@ -86,7 +100,7 @@ export class TableFactory {
       }
     }
     , data = {
-      parents: () => {
+      datastore_parents: () => {
         return this.items.map(item => {
           return {
             ...metadata(item),
@@ -104,7 +118,7 @@ export class TableFactory {
           }
         })
       },
-      children: () => {
+      datastore_children: () => {
         return this.items.map(item => {
           return {
             ...metadata(item),
@@ -120,6 +134,28 @@ export class TableFactory {
             cpuUsage: { rate: getUsageRate(item, 'cpu'), usage: item.status.resources?.cpuUsage } || {},
             memoryUsage: { rate: getUsageRate(item, 'memory'), usage: item.status.resources?.memoryUsage } || '',
             storage: item.status.storage?.data || '',
+          }
+        })
+      },
+      mariadb_processes: () => {
+        return this.items.map(item => {
+          return {
+            Id: item.Id || '',
+            Progress: item.Progress || '',
+            User: item.User || '',
+            Command: item.Command || '',
+            State: item.State || '',
+            Time: item.Time || '',
+            Info: item.Info || '',
+            db: item.db || '',
+          }
+        })
+      },
+      mariadb_variables: () => {
+        return this.items.map(item => {
+          return {
+            variable: item[0] || '',
+            value: item[1] || '',
           }
         })
       },
