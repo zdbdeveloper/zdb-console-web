@@ -10,7 +10,7 @@
     @update:show="confirm_cancel()"
   >
     <p class="my-2 text-center">
-      {{ confirm.content }}
+      {{ confirm.content }} {{ '마저 ' }}
     </p>
     <template #footer>
       <CButton
@@ -38,6 +38,9 @@ export default {
     ...mapState("dialog", ["confirm"])
   },
   methods: {
+    test() {
+      console.log('confirm test,')
+    },
     ...mapActions("dialog", ["confirm_ok", "confirm_cancel"])
   }
 };

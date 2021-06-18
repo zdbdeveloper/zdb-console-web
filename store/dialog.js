@@ -143,14 +143,19 @@ export const actions = {
   confirm({ commit }, payload) {
     if (local.confirm_promise !== null) {
       return new Promise((resolve, reject) => {
+        console.log('resolve:', resolve)
+        console.log('reject:', reject)
         reject();
       });
     } else {
       // Create New Promise
       local.confirm_promise = new Promise((resolve, reject) => {
+        console.log('...resolve:', resolve)
+        console.log('....reject:', reject)
         local.confirm_resolve = resolve;
         local.confirm_reject = reject;
       });
+      
     }
 
     commit("CONFIRM_SHOW", payload);

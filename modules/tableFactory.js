@@ -83,6 +83,7 @@ export class TableFactory {
         {key: "Time", label: "Time"},
         {key: "Info", label: "Info"},
         {key: "db", label: "db"},
+        {key: "kill", label: "", style: "width:1%", sorter: false, filter: false},
       ],
       mariadb_variables: [
         {key: "variable", label: "Variable"},

@@ -267,7 +267,7 @@ export default {
         $color = "danger";
       }
       return $color;
-    }
+    },
   },
   watch: {
     activeTab (value) {
