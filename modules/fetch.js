@@ -1,6 +1,7 @@
 export class Fetch {
   static getUri(id) {
     let uris = {
+      profile: `/api/v2/profile`,
       datastore_parents: `/api/v2/projects/${this._projectid}/datastorereleases`,
       datastore_children: `/api/v2/projects/${this._projectid}/datastorereleases/${this._name}/datastores?cluster=${this._cluster}`,
       mariadb_connections: `/api/v2/projects/${this._projectid}/datastorereleases/${this._name}/datastores/${this._pod}/connection?cluster=${this._cluster}`,
@@ -9,6 +10,17 @@ export class Fetch {
       mariadb_statusVariables: `/api/v2/projects/${this._projectid}/datastorereleases/${this._name}/datastores/${this._pod}/statusVariables?cluster=${this._cluster}`,
       mariadb_systemVariables: `/api/v2/projects/${this._projectid}/datastorereleases/${this._name}/datastores/${this._pod}/systemVariables?cluster=${this._cluster}`,
     }
+    // let server ='http://localhost:4000'
+    // let uris = {
+    //   profile: `${server}/profile`,
+    //   datastore_parents: `${server}/parents`,
+    //   datastore_children: `${server}/children`,
+    //   mariadb_connections: `${server}/mariadbConnections`,
+    //   mariadb_processes: `${server}/mariadbProcesses`,
+    //   mariadb_processKill: `${server}/mariadbProcessKill`,
+    //   mariadb_statusVariables: `${server}/mariadbStatusVariables`,
+    //   mariadb_systemVariables: `${server}/mariadbSystemVariables`,
+    // }
     return uris[id] || null
   }
   static get(id) {

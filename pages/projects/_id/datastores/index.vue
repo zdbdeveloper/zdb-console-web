@@ -60,7 +60,7 @@
               </div>
               <CProgress
                 v-model="item.cpuUsage.rate"
-                :color="color(item.cpuUsage.rate)"
+                :color="item.cpuColor"
                 class="progress-xs"
               />
             </td>
@@ -77,7 +77,7 @@
               </div>
               <CProgress
                 v-model="item.memoryUsage.rate"
-                :color="color(item.memoryUsage.rate)"
+                :color="item.memoryColor"
                 class="progress-xs"
               />
             </td>
@@ -85,14 +85,14 @@
           </CDataTable>
         </CCollapse>
       </template>
-      <template #Provider="{item}">
+      <!-- <template #Provider="{item}">
         <td class="text-center">
           <img :alt="item.Provider" :src="providerIcon(item.Provider)" width="22">
         </td>
-      </template>
+      </template> -->
       <template #status="{item}">
         <td class="text-center">
-          <CBadge :color="getBadgeColor(item.status)">
+          <CBadge :color="item.badgeColor">
             {{ item.status }}
           </CBadge>
         </td>
@@ -316,37 +316,7 @@
           })
         }
       },
-      /**
-       * Bage color
-       */
-      getBadgeColor(name) {
-        switch (name) {
-          case 'Running': return 'success'
-          case 'Inactive': return 'secondary'
-          case 'Pending': return 'warning'
-          case 'Banned': return 'danger'
-          default: return 'primary'
-        }
-      },      
-
-      toast() {
-        this._toast("_toast() BUTTON CLICKED !!"); //dialog mixin 함수.
-      },
-      toastError() {
-        this._toast_err("_toast_err() BUTTON CLICKED !!"); //dialog mixin 함수.
-      },
-      confirm() {
-        this._confirm("_confirm() CONFIRM CREATED !!"); //dialog mixin 함수.
-      },
-      alert() {
-        this._alert("_alert() ALERT CREATED !!"); //dialog mixin 함수.
-      },
-      copySuccess(e) {
-        this._toast(this.$t("copy.success") + ` ${e.text}`); //$t -> static.locale 값을 가져온다.
-      },
-      copyError(e) {
-        this._toast(this.$t("copy.fail") + ` ${e.text}`); // $t -> static.locale 값을 가져온다.
-      },
+       
       providerIcon(provider) {
         const icons = {
           AZURE: "/img/brand/img_logo_azure.png",
@@ -365,21 +335,6 @@
         };
         return icons[status];
       },
-      color(value) {
-        let $color;
-        if (value <= 25) {
-          $color = "info";
-        } else if (value > 25 && value <= 50) {
-          $color = "success";
-        } else if (value > 50 && value <= 75) {
-          $color = "warning";
-        } else if (value > 75 && value <= 100) {
-          $color = "danger";
-        } else if (value > 100) {
-          $color = "danger";
-        }
-        return $color;
-      }
     }
   };
 </script>

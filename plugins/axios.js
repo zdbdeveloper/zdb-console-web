@@ -11,7 +11,7 @@ function beforeReq(store) {
   return function(config) {
     if (null != store.state.spinner)
       store.dispatch('spinner', true)
-    console.debug(`axios :: ${config.method} ${config.url}`)
+    console.debug(`axios: ${config.method} ${config.url}`)
   }
 }
 
@@ -36,10 +36,14 @@ function afterRes(store) {
 }
 
 function afterErr(store) {
-  return function(err) {
+  return async function(err) {
     store.dispatch('spinner', false)
     if (/timeout/gi.test(err)) {
-      return store.dispatch('dialog/toast_err', 'CONNECTION TIMEOUT')
+      if (await store.dispatch('dialog/confirm'
+        ,'Connection timeout! Would you like to reload the page?')) {
+        window.location.reload()
+      }
+      return
     }
     const { status, statusText, headers, data } = err.response || {}
     // console.debug('[plugins/axios.js] - onError', status, data, err)
@@ -65,7 +69,7 @@ function afterErr(store) {
   }
 }
 
-export default function({ store, $axios }) {
+export default function({ store, $axios, router }) {
   console.debug('[plugins/axios.js] - Setup...')
   $axios.onRequest(beforeReq(store))
   $axios.onResponse(afterRes(store))

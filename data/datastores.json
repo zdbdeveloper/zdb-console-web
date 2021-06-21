@@ -1,0 +1,4081 @@
+{
+	"profile" : {
+		"realms": [
+			{
+				"id": "site1",
+				"name": "site1"
+			}
+		],
+		"projects": [
+			{
+				"createTime": "2020-09-15T06:48:10.182Z",
+				"updateTime": "2021-06-18T00:04:32.109Z",
+				"creator": "admin",
+				"id": "5f6063aa84c56d03019ff62b",
+				"key": "pjt1",
+				"name": "pjt1",
+				"displayName": "Project 01",
+				"realm": "site1",
+				"status": "RUNNING",
+				"tools": [
+					"5f60613f0744b105282c797a",
+					"5fa270b06b0f7449e6946897",
+					"5f6061400744b105282c7981"
+				],
+				"clusters": [
+					"zcp-mcm-v2-eks",
+					"cloudzcp-eks-dev",
+					"cloudzcp-pog-dev"
+				],
+				"namespaces": []
+			},
+			{
+				"createTime": "2020-09-16T11:07:30.592Z",
+				"updateTime": "2021-03-05T06:42:13.63Z",
+				"creator": "admin",
+				"id": "5f61f1f2971afe123a5b314e",
+				"key": "pjt2",
+				"name": "pjt2",
+				"displayName": "Project 2",
+				"realm": "site1",
+				"status": "TERMINATED",
+				"tools": null,
+				"clusters": [
+					"cloudzcp-pog-dev"
+				],
+				"namespaces": null
+			},
+			{
+				"createTime": "2021-03-30T02:25:56.221Z",
+				"updateTime": "2021-03-30T02:28:15.269Z",
+				"creator": "admin",
+				"id": "60628c345d6bab5016f5182f",
+				"key": "project20",
+				"name": "project20",
+				"displayName": "Project20",
+				"realm": "site1",
+				"status": "RUNNING",
+				"tools": null,
+				"clusters": [],
+				"namespaces": null
+			}
+		],
+		"roles": [
+			{
+				"id": "8e08cd95-ae75-4692-b877-96348f83967e",
+				"name": "site1..admin",
+				"realm": null,
+				"project": null,
+				"role": null
+			},
+			{
+				"id": "30df5fc4-016a-4f28-bac3-f5939e1ab2d9",
+				"name": "site1..system-users-admin",
+				"realm": null,
+				"project": null,
+				"role": null
+			}
+		],
+		"realm": "site1",
+		"user": {
+			"createTime": "2021-03-25T10:11:11.62",
+			"updateTime": null,
+			"creator": null,
+			"id": "5b44cad5-4b1f-4761-94fc-95b603de991a",
+			"password": null,
+			"username": "admin",
+			"firstName": "리자",
+			"lastName": "관",
+			"projectKey": [],
+			"defaultProject": "pjt1",
+			"email": "admintest@sk.com",
+			"enabled": true,
+			"emailVerified": true,
+			"approved": true,
+			"mfa": false,
+			"requiredActions": [],
+			"requestTime": null,
+			"groups": [
+				{
+					"id": "cc81118e-4510-4c45-89a8-7aa0aabd685b",
+					"name": "admin"
+				},
+				{
+					"id": "e7c948bd-9378-4fd9-b9d7-4dad8f029715",
+					"name": "ArgoCDAdmins"
+				}
+			],
+			"realmRoles": [
+				{
+					"id": "8e08cd95-ae75-4692-b877-96348f83967e",
+					"name": "site1..admin"
+				},
+				{
+					"id": "30df5fc4-016a-4f28-bac3-f5939e1ab2d9",
+					"name": "site1..system-users-admin"
+				}
+			]
+		}
+	},
+
+	"parents": [
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-managed-dsr-mdb\",\"namespace\":\"zdb-managed\"},\"spec\":{\"backup\":false,\"chart\":\"8.3.2\",\"configMap\":\"zdb-test-dsr-mdb-values\",\"datastore\":\"mongodb\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/mongodb\",\"tag\":\"4.2.9\"},\"mongodb\":{\"arbiterEnabled\":true,\"architecture\":\"replicaset\",\"replicas\":2},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"200m\",\"requestMemory\":\"256Mi\"},\"service\":{\"endPointType\":\"private\",\"port\":27017,\"type\":\"ClusterIP\"},\"storageAutoScaling\":false,\"version\":\"4.2.9\",\"workerPool\":\"prod\"}}\n"
+        },
+        "creationTimestamp": "2021-04-08T07:22:10Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev",
+          "tag/custom": "one.two.three",
+          "tag/service": "mongodb"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:cluster": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-07T00:45:14Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                },
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {},
+                  "f:tag/custom": {},
+                  "f:tag/service": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:mongodb": {
+                  ".": {},
+                  "f:arbiterEnabled": {},
+                  "f:architecture": {},
+                  "f:replicas": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:38:25Z"
+          }
+        ],
+        "name": "zdb-managed-dsr-mdb",
+        "namespace": "zdb-managed",
+        "resourceVersion": "315161937",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-managed/datastorereleases/zdb-managed-dsr-mdb",
+        "uid": "79c3b557-c431-4ccb-a83e-7516d857ad35"
+      },
+      "spec": {
+        "datastore": "mongodb",
+        "backup": false,
+        "chart": "8.3.2",
+        "configMap": "zdb-test-dsr-mdb-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/mongodb",
+          "tag": "4.2.9"
+        },
+        "version": "4.2.9",
+        "workerPool": "prod",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "500m",
+          "limitMemory": "512Mi",
+          "requestCpu": "200m",
+          "requestMemory": "256Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 27017,
+          "type": "ClusterIP"
+        },
+        "mongodb": {
+          "replicas": 2,
+          "arbiterEnabled": true,
+          "architecture": "replicaset"
+        }
+      },
+      "status": {
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "replicas": 3,
+        "readyReplicas": 3,
+        "ready": "3/3",
+        "architecture": "Replicaset(P-S-A)",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1900m",
+          "limitMemory": "2.5Gi",
+          "requestCpu": "700m",
+          "requestMemory": "704Mi"
+        },
+        "storage": {
+          "data": "20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-managed-dsr-mdb-mongodb-0",
+              "pvc": "data-zdb-managed-dsr-mdb-mongodb-0",
+              "pv": "pvc-90125c8e-b444-4dc5-b201-3eba5c45844c"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-managed-dsr-mdb-mongodb-1",
+              "pvc": "data-zdb-managed-dsr-mdb-mongodb-1",
+              "pv": "pvc-59184827-eb74-44fc-82b1-8f5615b4ddc9"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T06:21:17Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:connectionStrings": {},
+                "f:deployStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:kafka": {
+                  ".": {},
+                  "f:architecture": {},
+                  "f:brokerReplicas": {},
+                  "f:zookeeperChart": {},
+                  "f:zookeeperReplicas": {},
+                  "f:zookeeperRepository": {},
+                  "f:zookeeperVersion": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-26T06:26:21Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:38:46Z"
+          }
+        ],
+        "name": "zdb-v2-ka-ka3",
+        "namespace": "zdb-v2-ka",
+        "resourceVersion": "326114409",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ka/datastorereleases/zdb-v2-ka-ka3",
+        "uid": "96424e5c-1aaf-4c87-b2fd-08e62b0a9e17"
+      },
+      "spec": {
+        "datastore": "kafka",
+        "backup": false,
+        "chart": "7.3.2",
+        "configMap": "zdb-v2-ka-ka3-kafka-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/kafka",
+          "tag": "2.4.0"
+        },
+        "version": "2.4.0",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "300m",
+          "limitMemory": "512Mi",
+          "requestCpu": "300m",
+          "requestMemory": "512Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 9092,
+          "type": "ClusterIP"
+        },
+        "kafka": {
+          "brokerReplicas": 3,
+          "zookeeperReplicas": 3,
+          "zookeeperRepository": "cloudzdb/zookeeper",
+          "zookeeperVersion": "3.5.7",
+          "zookeeperChart": "5.4.3",
+          "architecture": "multi-broker"
+        }
+      },
+      "status": {
+        "replicas": 0,
+        "readyReplicas": 0,
+        "ready": "8/8",
+        "architecture": "multi-broker",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1650m",
+          "limitMemory": "2.25Gi",
+          "requestCpu": "1650m",
+          "requestMemory": "2.25Gi"
+        },
+        "lastTransitionTime": "2021-06-08T04:05:43Z",
+        "storage": {
+          "data": "20Gi/20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ka-ka3-kafka-0",
+              "pvc": "data-zdb-v2-ka-ka3-kafka-0",
+              "pv": "pvc-79c73f2a-32d7-429b-8f85-34c35b1424ce"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ka-ka3-kafka-1",
+              "pvc": "data-zdb-v2-ka-ka3-kafka-1",
+              "pv": "pvc-4b35c8ab-11cb-426e-8f5b-e9f287c77604"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ka-ka3-kafka-2",
+              "pvc": "data-zdb-v2-ka-ka3-kafka-2",
+              "pv": "pvc-e88ea11b-05b1-46fd-a723-ec6050d64d88"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "kafka",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "zookeeper",
+            "connectionString": "zdb-v2-ka-ka3-zookeeper.zdb-v2-ka:2181"
+          },
+          {
+            "datastoreType": "kafka",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "kafka",
+            "connectionString": "zdb-v2-ka-ka3-kafka.zdb-v2-ka:9092"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-v2-ma-ma1\",\"namespace\":\"zdb-v2-ma\"},\"spec\":{\"backup\":false,\"chart\":\"6.5.5\",\"datastore\":\"mariadb\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/mariadb\",\"tag\":\"10.3.16\"},\"mariadb\":{\"autoFailover\":false,\"characterSet\":\"utf8\",\"dbName\":\"standalone\",\"replication\":false},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"500m\",\"requestMemory\":\"512Mi\"},\"version\":\"10.3.16\",\"workerPool\":\"dev\"}}\n"
+        },
+        "creationTimestamp": "2021-05-07T00:45:27Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 2,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev",
+          "tag/service": "mariadb"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:autoFailover": {},
+                "f:cluster": {},
+                "f:connectionStrings": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:failoverStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                "f:storageAutoScaling": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-07T00:48:02Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                },
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {},
+                  "f:tag/service": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:mariadb": {
+                  ".": {},
+                  "f:autoFailover": {},
+                  "f:characterSet": {},
+                  "f:dbName": {},
+                  "f:replication": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:10Z"
+          }
+        ],
+        "name": "zdb-v2-ma-ma1",
+        "namespace": "zdb-v2-ma",
+        "resourceVersion": "315162912",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/datastorereleases/zdb-v2-ma-ma1",
+        "uid": "19444c01-4fb3-46e0-8512-4f02ea758cf9"
+      },
+      "spec": {
+        "datastore": "mariadb",
+        "backup": false,
+        "chart": "6.5.5",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/mariadb",
+          "tag": "10.3.16"
+        },
+        "version": "10.3.16",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "500m",
+          "limitMemory": "512Mi",
+          "requestCpu": "500m",
+          "requestMemory": "512Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2
+        },
+        "mariadb": {
+          "dbName": "standalone",
+          "characterSet": "utf8",
+          "autoFailover": false,
+          "replication": false
+        }
+      },
+      "status": {
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "replicas": 1,
+        "readyReplicas": 1,
+        "ready": "1/1",
+        "architecture": "Standalone",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "800m",
+          "limitMemory": "768Mi",
+          "requestCpu": "600m",
+          "requestMemory": "576Mi"
+        },
+        "lastTransitionTime": "2021-05-31T05:38:54Z",
+        "storage": {
+          "data": "20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ma-ma1-mariadb-0",
+              "pvc": "data-zdb-v2-ma-ma1-mariadb-0",
+              "pv": "pvc-ce3af21d-ea88-4a4f-ad01-671fd3fe89c0"
+            }
+          ]
+        },
+        "failoverStatus": "-",
+        "connectionStrings": [
+          {
+            "datastoreType": "mariadb",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "master",
+            "connectionString": "jdbc:mariadb://zdb-v2-ma-ma1-mariadb.zdb-v2-ma:3306/standalone"
+          }
+        ],
+        "autoFailover": "Off"
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T07:15:30Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 2,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:autoFailover": {},
+                "f:cluster": {},
+                "f:connectionStrings": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:failoverStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:mariadb": {
+                  ".": {},
+                  "f:autoFailover": {},
+                  "f:characterSet": {},
+                  "f:dbName": {},
+                  "f:replication": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-26T07:23:00Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              },
+              "f:spec": {
+                "f:publicEndpoint": {}
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:10Z"
+          }
+        ],
+        "name": "zdb-v2-ma-ma2",
+        "namespace": "zdb-v2-ma",
+        "resourceVersion": "320369700",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/datastorereleases/zdb-v2-ma-ma2",
+        "uid": "6b88b6e3-b942-4e87-aeaa-15342a34287a"
+      },
+      "spec": {
+        "datastore": "mariadb",
+        "backup": false,
+        "chart": "6.5.5",
+        "configMap": "zdb-v2-ma-ma2-mariadb-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/mariadb",
+          "tag": "10.3.16"
+        },
+        "version": "10.3.16",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": true,
+        "resources": {
+          "limitCpu": "300m",
+          "limitMemory": "256Mi",
+          "requestCpu": "300m",
+          "requestMemory": "256Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 5672,
+          "type": "ClusterIP"
+        },
+        "mariadb": {
+          "dbName": "ha",
+          "characterSet": "utf8",
+          "autoFailover": false,
+          "replication": true
+        }
+      },
+      "status": {
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "replicas": 2,
+        "readyReplicas": 2,
+        "ready": "2/2",
+        "architecture": "HA (Master/Slave)",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1200m",
+          "limitMemory": "1Gi",
+          "requestCpu": "800m",
+          "requestMemory": "640Mi"
+        },
+        "lastTransitionTime": "2021-06-09T03:46:08Z",
+        "storage": {
+          "data": "20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ma-ma2-mariadb-slave-0",
+              "pvc": "data-zdb-v2-ma-ma2-mariadb-slave-0",
+              "pv": "pvc-15715984-59a7-4e1c-940a-d37a45f2d969"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ma-ma2-mariadb-master-0",
+              "pvc": "data-zdb-v2-ma-ma2-mariadb-master-0",
+              "pv": "pvc-fc18fe8d-e33d-498c-b5cc-bb591b239f7b"
+            }
+          ]
+        },
+        "failoverStatus": "-",
+        "connectionStrings": [
+          {
+            "datastoreType": "mariadb",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "master",
+            "connectionString": "jdbc:mariadb://zdb-v2-ma-ma2-mariadb.zdb-v2-ma:3306/ha"
+          },
+          {
+            "datastoreType": "mariadb",
+            "loadBalancerType": "public",
+            "serviceType": "LoadBalancer",
+            "role": "master",
+            "connectionString": "jdbc:mariadb://169.56.94.178:3306/ha"
+          },
+          {
+            "datastoreType": "mariadb",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "slave",
+            "connectionString": "jdbc:mariadb://zdb-v2-ma-ma2-mariadb-slave.zdb-v2-ma:3306/ha"
+          },
+          {
+            "datastoreType": "mariadb",
+            "loadBalancerType": "public",
+            "serviceType": "LoadBalancer",
+            "role": "slave",
+            "connectionString": "jdbc:mariadb://169.56.94.173:3306/ha"
+          }
+        ],
+        "autoFailover": "Off"
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T07:21:15Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:cluster": {},
+                "f:connectionStrings": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:mongodb": {
+                  ".": {},
+                  "f:arbiterEnabled": {},
+                  "f:architecture": {},
+                  "f:replicas": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-26T07:41:03Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:10Z"
+          }
+        ],
+        "name": "zdb-v2-mo-mo3",
+        "namespace": "zdb-v2-mo",
+        "resourceVersion": "315162917",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-mo/datastorereleases/zdb-v2-mo-mo3",
+        "uid": "12fc0da0-9420-49a5-b479-daa147f6ff58"
+      },
+      "spec": {
+        "datastore": "mongodb",
+        "backup": false,
+        "chart": "8.3.2",
+        "configMap": "zdb-v2-mo-mo3-mongodb-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/mongodb",
+          "tag": "4.2.9"
+        },
+        "version": "4.2.9",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "300m",
+          "limitMemory": "256Mi",
+          "requestCpu": "300m",
+          "requestMemory": "256Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 27017,
+          "type": "ClusterIP"
+        },
+        "mongodb": {
+          "replicas": 2,
+          "arbiterEnabled": true,
+          "architecture": "replicaset"
+        }
+      },
+      "status": {
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "replicas": 3,
+        "readyReplicas": 3,
+        "ready": "3/3",
+        "architecture": "Replicaset(P-S-A)",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1500m",
+          "limitMemory": "2Gi",
+          "requestCpu": "900m",
+          "requestMemory": "704Mi"
+        },
+        "storage": {
+          "data": "20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-mo-mo3-mongodb-1",
+              "pvc": "data-zdb-v2-mo-mo3-mongodb-1",
+              "pv": "pvc-20c74c18-edcb-4fa6-9436-5024a23c8ffc"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-mo-mo3-mongodb-0",
+              "pvc": "data-zdb-v2-mo-mo3-mongodb-0",
+              "pv": "pvc-cfa5dbe5-1bdf-4b69-aa01-286ad23cd602"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "mongodb",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "connectionString": "mongodb://zdb-v2-mo-mo3-mongodb.zdb-v2-mo:27017"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-04-27T05:41:28Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "aaa": "bbb",
+          "cluster": "cloudzcp-pog-dev",
+          "tag/mariadb": "mariadb"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:cluster": {},
+                "f:connectionStrings": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:redis": {
+                  ".": {},
+                  "f:purpose": {},
+                  "f:replicas": {},
+                  "f:slaveEnabled": {}
+                },
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-07T00:45:14Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:aaa": {},
+                  "f:cluster": {},
+                  "f:tag/mariadb": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:10Z"
+          }
+        ],
+        "name": "zdb-v2-pns-test111",
+        "namespace": "zdb-v2-pns",
+        "resourceVersion": "315162920",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-pns/datastorereleases/zdb-v2-pns-test111",
+        "uid": "293fb727-6957-4fa5-9918-c2e94a55d067"
+      },
+      "spec": {
+        "datastore": "redis",
+        "backup": false,
+        "chart": "3.2.3",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/redis-cluster",
+          "tag": "6.0.7"
+        },
+        "version": "6.0.7",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "500m",
+          "limitMemory": "512Mi",
+          "requestCpu": "100m",
+          "requestMemory": "128Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2
+        },
+        "redis": {
+          "purpose": "Cluster",
+          "replicas": 3,
+          "slaveEnabled": false
+        }
+      },
+      "status": {
+        "replicas": 3,
+        "readyReplicas": 3,
+        "ready": "3/3",
+        "architecture": "Cluster",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1800m",
+          "limitMemory": "1.69Gi",
+          "requestCpu": "600m",
+          "requestMemory": "576Mi"
+        },
+        "lastTransitionTime": "2021-04-27T05:26:49Z",
+        "storage": {
+          "data": "20Gi/20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-pns-test111-redis-cluster-0",
+              "pvc": "data-zdb-v2-pns-test111-redis-cluster-0",
+              "pv": "pvc-eee8e500-fae8-42c4-8182-f1c936bd5087"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-pns-test111-redis-cluster-1",
+              "pvc": "data-zdb-v2-pns-test111-redis-cluster-1",
+              "pv": "pvc-367a98ca-4a71-49c8-83f0-fb1fa0601d38"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-pns-test111-redis-cluster-2",
+              "pvc": "data-zdb-v2-pns-test111-redis-cluster-2",
+              "pv": "pvc-f54b3a2d-77bb-419e-9f5f-bd5fc8c2b12d"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "redis",
+            "serviceType": "ClusterIP",
+            "role": "redis-cluster",
+            "connectionString": "redis://[password]@zdb-v2-pns-test111-redis-cluster.zdb-v2-pns:6379"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T07:50:30Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:connectionStrings": {},
+                "f:deployStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:postgresql": {
+                  ".": {},
+                  "f:pgpoolEnabled": {},
+                  "f:replicas": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-26T08:03:42Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-16T04:10:01Z"
+          }
+        ],
+        "name": "zdb-v2-po-po2",
+        "namespace": "zdb-v2-po",
+        "resourceVersion": "325458446",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-po/datastorereleases/zdb-v2-po-po2",
+        "uid": "a371b94a-e498-4206-8768-9f22d11ad0cb"
+      },
+      "spec": {
+        "datastore": "postgresql",
+        "backup": false,
+        "chart": "5.2.5",
+        "configMap": "zdb-v2-po-po2-postgresql-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/postgresql-repmgr",
+          "tag": "11.9.0"
+        },
+        "version": "11.9.0",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "300m",
+          "limitMemory": "512Mi",
+          "requestCpu": "300m",
+          "requestMemory": "512Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 5432,
+          "type": "ClusterIP"
+        },
+        "postgresql": {
+          "replicas": 2,
+          "pgpoolEnabled": true
+        }
+      },
+      "status": {
+        "replicas": 3,
+        "readyReplicas": 3,
+        "ready": "3/3",
+        "architecture": "HA(proxy)",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1300m",
+          "limitMemory": "1.62Gi",
+          "requestCpu": "1300m",
+          "requestMemory": "1.62Gi"
+        },
+        "lastTransitionTime": "2021-06-09T03:53:55Z",
+        "storage": {
+          "data": "20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-po-po2-postgresql-0",
+              "pvc": "data-zdb-v2-po-po2-postgresql-0",
+              "pv": "pvc-296d05bb-e224-40c8-9933-1863784f0fc7"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-po-po2-postgresql-1",
+              "pvc": "data-zdb-v2-po-po2-postgresql-1",
+              "pv": "pvc-09239626-7582-47bf-b3b2-be833598b211"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "postgresql",
+            "serviceType": "ClusterIP",
+            "role": "postgresql",
+            "connectionString": "jdbc:postgresql://zdb-v2-po-po2-postgresql.zdb-v2-po:5432"
+          },
+          {
+            "datastoreType": "postgresql",
+            "serviceType": "ClusterIP",
+            "role": "pgpool",
+            "connectionString": "jdbc:postgresql://zdb-v2-po-po2-pgpool.zdb-v2-po:5432"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-24T02:29:08Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 3,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:cluster": {},
+                "f:connectionStrings": {},
+                "f:csp": {},
+                "f:deployStatus": {},
+                "f:lastTransitionTime": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:rabbitmq": {
+                  ".": {},
+                  "f:architecture": {},
+                  "f:brokers": {}
+                },
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-24T02:37:29Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:11Z"
+          }
+        ],
+        "name": "zdb-v2-ra-ra3",
+        "namespace": "zdb-v2-ra",
+        "resourceVersion": "320369697",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ra/datastorereleases/zdb-v2-ra-ra3",
+        "uid": "ee9575fc-61fa-453f-85c9-288091b53903"
+      },
+      "spec": {
+        "datastore": "rabbitmq",
+        "backup": false,
+        "chart": "6.25.5",
+        "configMap": "zdb-v2-ra-ra3-rabbitmq-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/rabbitmq/rabbitmq",
+          "tag": "3.8.3"
+        },
+        "version": "3.8.3",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": true,
+        "publicEndpoint": true,
+        "resources": {
+          "limitCpu": "300m",
+          "limitMemory": "256Mi",
+          "requestCpu": "300m",
+          "requestMemory": "256Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 5672,
+          "type": "ClusterIP"
+        },
+        "rabbitmq": {
+          "brokers": 3,
+          "architecture": "multi-broker"
+        }
+      },
+      "status": {
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "replicas": 3,
+        "readyReplicas": 3,
+        "ready": "3/3",
+        "architecture": "multi-broker",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "900m",
+          "limitMemory": "768Mi",
+          "requestCpu": "900m",
+          "requestMemory": "768Mi"
+        },
+        "lastTransitionTime": "2021-05-24T02:36:53Z",
+        "storage": {
+          "data": "20Gi/20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ra-ra3-rabbitmq-1",
+              "pvc": "data-zdb-v2-ra-ra3-rabbitmq-1",
+              "pv": "pvc-0a910327-45e4-4921-8813-ddd44d30d1ea"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ra-ra3-rabbitmq-2",
+              "pvc": "data-zdb-v2-ra-ra3-rabbitmq-2",
+              "pv": "pvc-e54c4a92-0b4c-4421-b61f-4639152e8c1f"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ra-ra3-rabbitmq-0",
+              "pvc": "data-zdb-v2-ra-ra3-rabbitmq-0",
+              "pv": "pvc-833b6969-a6bd-42b2-b24b-3d565baba657"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "rabbitmq",
+            "loadBalancerType": "private",
+            "serviceType": "ClusterIP",
+            "role": "rabbitmq",
+            "connectionString": "zdb-v2-ra-ra3-rabbitmq.zdb-v2-ra:5672"
+          },
+          {
+            "datastoreType": "rabbitmq",
+            "loadBalancerType": "public",
+            "serviceType": "LoadBalancer",
+            "role": "rabbitmq",
+            "connectionString": "169.56.94.187:5672"
+          },
+          {
+            "datastoreType": "rabbitmq",
+            "loadBalancerType": "private",
+            "serviceType": "LoadBalancer",
+            "role": "management",
+            "connectionString": "10.178.111.67:15672"
+          },
+          {
+            "datastoreType": "rabbitmq",
+            "loadBalancerType": "private",
+            "serviceType": "LoadBalancer",
+            "role": "rabbitmq",
+            "connectionString": "10.178.79.253:5672"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStoreRelease",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T08:00:08Z",
+        "finalizers": [
+          "datastorereleases.cloudzdb.io/finalizer"
+        ],
+        "generation": 2,
+        "labels": {
+          "cluster": "cloudzcp-pog-dev"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:architecture": {},
+                "f:connectionStrings": {},
+                "f:deployStatus": {},
+                "f:ready": {},
+                "f:readyReplicas": {},
+                "f:replicas": {},
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:backup": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                }
+              },
+              "f:spec": {
+                ".": {},
+                "f:backup": {},
+                "f:chart": {},
+                "f:configMap": {},
+                "f:datastore": {},
+                "f:image": {
+                  ".": {},
+                  "f:registry": {},
+                  "f:repository": {},
+                  "f:tag": {}
+                },
+                "f:persistence": {
+                  ".": {},
+                  "f:iops": {},
+                  "f:kind": {},
+                  "f:lastTimestamp": {},
+                  "f:size": {},
+                  "f:storageClass": {}
+                },
+                "f:privateEndpoint": {},
+                "f:publicEndpoint": {},
+                "f:redis": {
+                  ".": {},
+                  "f:purpose": {},
+                  "f:replicas": {},
+                  "f:slaveEnabled": {}
+                },
+                "f:resources": {
+                  ".": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:service": {
+                  ".": {},
+                  "f:endPointType": {},
+                  "f:port": {},
+                  "f:type": {}
+                },
+                "f:storageAutoScaling": {},
+                "f:version": {},
+                "f:workerPool": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-31T07:04:19Z"
+          },
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:labels": {
+                  ".": {},
+                  "f:cluster": {}
+                }
+              }
+            },
+            "manager": "kubectl",
+            "operation": "Update",
+            "time": "2021-06-02T07:40:11Z"
+          }
+        ],
+        "name": "zdb-v2-re-re2",
+        "namespace": "zdb-v2-re",
+        "resourceVersion": "315162930",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-re/datastorereleases/zdb-v2-re-re2",
+        "uid": "f2bfb647-fb17-47c2-82ed-bb6713025b30"
+      },
+      "spec": {
+        "datastore": "redis",
+        "backup": false,
+        "chart": "9.1.11",
+        "configMap": "zdb-v2-re-re2-redis-values",
+        "image": {
+          "registry": "registry.au-syd.bluemix.net",
+          "repository": "cloudzdb/redis",
+          "tag": "5.0.5"
+        },
+        "version": "5.0.5",
+        "workerPool": "dev",
+        "storageAutoScaling": false,
+        "privateEndpoint": false,
+        "publicEndpoint": false,
+        "resources": {
+          "limitCpu": "200m",
+          "limitMemory": "256Mi",
+          "requestCpu": "200m",
+          "requestMemory": "256Mi"
+        },
+        "persistence": {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "lastTimestamp": 0
+        },
+        "service": {
+          "endPointType": "private",
+          "port": 6379,
+          "type": "ClusterIP"
+        },
+        "redis": {
+          "purpose": "Data",
+          "replicas": 0,
+          "slaveEnabled": true
+        }
+      },
+      "status": {
+        "replicas": 2,
+        "readyReplicas": 2,
+        "ready": "2/2",
+        "architecture": "Data(HA)",
+        "deployStatus": "DEPLOYED",
+        "status": "Running",
+        "resources": {
+          "limitCpu": "1000m",
+          "limitMemory": "768Mi",
+          "requestCpu": "600m",
+          "requestMemory": "640Mi"
+        },
+        "storage": {
+          "data": "20Gi/20Gi",
+          "backup": "-",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-re-re2-redis-master-0",
+              "pvc": "data-zdb-v2-re-re2-redis-master-0",
+              "pv": "pvc-f8e0d51b-dbf8-4698-af25-25600d3ddf9e"
+            },
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-re-re2-redis-slave-0",
+              "pvc": "data-zdb-v2-re-re2-redis-slave-0",
+              "pv": "pvc-bc9e78ee-b0df-4ae6-9dbf-b100e432b9f5"
+            }
+          ]
+        },
+        "connectionStrings": [
+          {
+            "datastoreType": "redis",
+            "serviceType": "ClusterIP",
+            "role": "slave",
+            "connectionString": "redis://[password]@zdb-v2-re-re2-redis-slave.zdb-v2-re:6379"
+          },
+          {
+            "datastoreType": "redis",
+            "serviceType": "ClusterIP",
+            "role": "master",
+            "connectionString": "redis://[password]@zdb-v2-re-re2-redis-master.zdb-v2-re:6379"
+          }
+        ]
+      }
+    }
+  ],
+
+  "children": [
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStore",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T07:15:31Z",
+        "finalizers": [
+          "zdbs.cloudzdb.io/finalizer"
+        ],
+        "generation": 2,
+        "labels": {
+          "app": "mariadb",
+          "datastore": "mariadb",
+          "release": "zdb-v2-ma-ma2"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"zdbs.cloudzdb.io/finalizer\"": {}
+                },
+                "f:labels": {
+                  ".": {},
+                  "f:app": {},
+                  "f:datastore": {},
+                  "f:release": {}
+                },
+                "f:ownerReferences": {
+                  ".": {},
+                  "k:{\"uid\":\"0647e415-41a0-4d52-a0d8-ed65a0be0afc\"}": {
+                    ".": {},
+                    "f:apiVersion": {},
+                    "f:blockOwnerDeletion": {},
+                    "f:controller": {},
+                    "f:kind": {},
+                    "f:name": {},
+                    "f:uid": {}
+                  }
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:cluster": {},
+                "f:csp": {},
+                "f:mariadbStatus": {
+                  ".": {},
+                  "f:connectionMax": {},
+                  "f:connectionUsed": {},
+                  "f:replicationStatus": {}
+                },
+                "f:memberRole": {},
+                "f:nodeName": {},
+                "f:podIP": {},
+                "f:ready": {},
+                "f:resources": {
+                  ".": {},
+                  "f:cpuUsage": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:memoryUsage": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                },
+                "f:workerPool": {}
+              },
+              "f:spec": {
+                ".": {},
+                "f:app": {},
+                "f:datastore": {},
+                "f:ownerResource": {
+                  ".": {},
+                  "f:dataStoreRelease": {},
+                  "f:ownerReferenceKind": {},
+                  "f:ownerReferenceName": {},
+                  "f:persistentvolumeclaims": {},
+                  "f:services": {}
+                },
+                "f:version": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-06-17T01:29:08Z"
+          }
+        ],
+        "name": "zdb-v2-ma-ma2-mariadb-master-0",
+        "namespace": "zdb-v2-ma",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "blockOwnerDeletion": true,
+            "controller": false,
+            "name": "zdb-v2-ma-ma2-mariadb-master",
+            "uid": "0647e415-41a0-4d52-a0d8-ed65a0be0afc"
+          }
+        ],
+        "resourceVersion": "326116558",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/zdbs/zdb-v2-ma-ma2-mariadb-master-0",
+        "uid": "5a39bdb0-9252-4379-9039-1cae4b5fe805"
+      },
+      "spec": {
+        "datastore": "mariadb",
+        "app": "mariadb",
+        "version": "10.3.16",
+        "ownerResource": {
+          "dataStoreRelease": "zdb-v2-ma-ma2",
+          "ownerReferenceName": "zdb-v2-ma-ma2-mariadb-master",
+          "ownerReferenceKind": "StatefulSet",
+          "persistentvolumeclaims": [
+            "data-zdb-v2-ma-ma2-mariadb-master-0"
+          ],
+          "services": [
+            "zdb-v2-ma-ma2-mariadb",
+            "zdb-v2-ma-ma2-mariadb-master-public"
+          ]
+        }
+      },
+      "status": {
+        "status": "Running",
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "memberRole": "master",
+        "nodeName": "10.178.218.187",
+        "podIP": "172.30.12.190",
+        "workerPool": "dev",
+        "resources": {
+          "limitCpu": "600m",
+          "limitMemory": "512Mi",
+          "requestCpu": "400m",
+          "requestMemory": "320Mi",
+          "cpuUsage": "15m",
+          "memoryUsage": "231.96Mi"
+        },
+        "replicas": 0,
+        "readyReplicas": 0,
+        "ready": "2/2",
+        "storage": {
+          "data": "469.32Mi/20Gi",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ma-ma2-mariadb-master-0",
+              "pvc": "data-zdb-v2-ma-ma2-mariadb-master-0",
+              "pv": "pvc-fc18fe8d-e33d-498c-b5cc-bb591b239f7b"
+            }
+          ]
+        },
+        "mariadbStatus": {
+          "replicationStatus": "-",
+          "connectionUsed": 2,
+          "connectionMax": 300
+        }
+      },
+      "ownerReference": null
+    },
+    {
+      "apiVersion": "cloudzdb.io/v1",
+      "kind": "DataStore",
+      "metadata": {
+        "creationTimestamp": "2021-05-26T07:15:32Z",
+        "finalizers": [
+          "zdbs.cloudzdb.io/finalizer"
+        ],
+        "generation": 2,
+        "labels": {
+          "app": "mariadb",
+          "datastore": "mariadb",
+          "release": "zdb-v2-ma-ma2"
+        },
+        "managedFields": [
+          {
+            "apiVersion": "cloudzdb.io/v1",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:finalizers": {
+                  ".": {},
+                  "v:\"zdbs.cloudzdb.io/finalizer\"": {}
+                },
+                "f:labels": {
+                  ".": {},
+                  "f:app": {},
+                  "f:datastore": {},
+                  "f:release": {}
+                },
+                "f:ownerReferences": {
+                  ".": {},
+                  "k:{\"uid\":\"e0669685-b4ce-44fc-a401-5891d1fd8c33\"}": {
+                    ".": {},
+                    "f:apiVersion": {},
+                    "f:blockOwnerDeletion": {},
+                    "f:controller": {},
+                    "f:kind": {},
+                    "f:name": {},
+                    "f:uid": {}
+                  }
+                }
+              },
+              "f:status": {
+                ".": {},
+                "f:cluster": {},
+                "f:csp": {},
+                "f:mariadbStatus": {
+                  ".": {},
+                  "f:connectionMax": {},
+                  "f:connectionUsed": {},
+                  "f:replicationStatus": {}
+                },
+                "f:memberRole": {},
+                "f:nodeName": {},
+                "f:podIP": {},
+                "f:ready": {},
+                "f:resources": {
+                  ".": {},
+                  "f:cpuUsage": {},
+                  "f:limitCpu": {},
+                  "f:limitMemory": {},
+                  "f:memoryUsage": {},
+                  "f:requestCpu": {},
+                  "f:requestMemory": {}
+                },
+                "f:status": {},
+                "f:storage": {
+                  ".": {},
+                  "f:data": {},
+                  "f:dataStorages": {}
+                },
+                "f:workerPool": {}
+              },
+              "f:spec": {
+                ".": {},
+                "f:app": {},
+                "f:datastore": {},
+                "f:ownerResource": {
+                  ".": {},
+                  "f:dataStoreRelease": {},
+                  "f:ownerReferenceKind": {},
+                  "f:ownerReferenceName": {},
+                  "f:persistentvolumeclaims": {},
+                  "f:services": {}
+                },
+                "f:version": {}
+              }
+            },
+            "manager": "okhttp",
+            "operation": "Update",
+            "time": "2021-05-26T07:23:04Z"
+          }
+        ],
+        "name": "zdb-v2-ma-ma2-mariadb-slave-0",
+        "namespace": "zdb-v2-ma",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "blockOwnerDeletion": true,
+            "controller": false,
+            "name": "zdb-v2-ma-ma2-mariadb-slave",
+            "uid": "e0669685-b4ce-44fc-a401-5891d1fd8c33"
+          }
+        ],
+        "resourceVersion": "326116480",
+        "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-v2-ma/zdbs/zdb-v2-ma-ma2-mariadb-slave-0",
+        "uid": "ca1f3b3f-e341-47d7-8f9c-cb2914eb7351"
+      },
+      "spec": {
+        "datastore": "mariadb",
+        "app": "mariadb",
+        "version": "10.3.16",
+        "ownerResource": {
+          "dataStoreRelease": "zdb-v2-ma-ma2",
+          "ownerReferenceName": "zdb-v2-ma-ma2-mariadb-slave",
+          "ownerReferenceKind": "StatefulSet",
+          "persistentvolumeclaims": [
+            "data-zdb-v2-ma-ma2-mariadb-slave-0"
+          ],
+          "services": [
+            "zdb-v2-ma-ma2-mariadb-slave",
+            "zdb-v2-ma-ma2-mariadb-slave-public"
+          ]
+        }
+      },
+      "status": {
+        "status": "Running",
+        "csp": "iks",
+        "cluster": "cloudzcp-pog-dev",
+        "memberRole": "slave",
+        "nodeName": "10.178.218.181",
+        "podIP": "172.30.85.158",
+        "workerPool": "dev",
+        "resources": {
+          "limitCpu": "600m",
+          "limitMemory": "512Mi",
+          "requestCpu": "400m",
+          "requestMemory": "320Mi",
+          "cpuUsage": "15m",
+          "memoryUsage": "255.5Mi"
+        },
+        "replicas": 0,
+        "readyReplicas": 0,
+        "ready": "2/2",
+        "storage": {
+          "data": "495.9Mi/20Gi",
+          "dataStorages": [
+            {
+              "kind": "DATA",
+              "storageClass": "ibmc-block-bronze",
+              "size": "20Gi",
+              "iops": 2,
+              "pod": "zdb-v2-ma-ma2-mariadb-slave-0",
+              "pvc": "data-zdb-v2-ma-ma2-mariadb-slave-0",
+              "pv": "pvc-15715984-59a7-4e1c-940a-d37a45f2d969"
+            }
+          ]
+        },
+        "mariadbStatus": {
+          "replicationStatus": "OK",
+          "connectionUsed": 1,
+          "connectionMax": 300
+        }
+      },
+      "ownerReference": null
+    }
+  ],
+
+"child": {
+  "apiVersion": "cloudzdb.io/v1",
+  "kind": "DataStoreRelease",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"cloudzdb.io/v1\",\"kind\":\"DataStoreRelease\",\"metadata\":{\"annotations\":{},\"name\":\"zdb-managed-dsr-mdb\",\"namespace\":\"zdb-managed\"},\"spec\":{\"backup\":false,\"chart\":\"8.3.2\",\"configMap\":\"zdb-test-dsr-mdb-values\",\"datastore\":\"mongodb\",\"image\":{\"registry\":\"registry.au-syd.bluemix.net\",\"repository\":\"cloudzdb/mongodb\",\"tag\":\"4.2.9\"},\"mongodb\":{\"arbiterEnabled\":true,\"architecture\":\"replicaset\",\"replicas\":2},\"persistence\":{\"iops\":2,\"kind\":\"DATA\",\"size\":\"20Gi\",\"storageClass\":\"ibmc-block-bronze\"},\"privateEndpoint\":false,\"publicEndpoint\":false,\"resources\":{\"limitCpu\":\"500m\",\"limitMemory\":\"512Mi\",\"requestCpu\":\"200m\",\"requestMemory\":\"256Mi\"},\"service\":{\"endPointType\":\"private\",\"port\":27017,\"type\":\"ClusterIP\"},\"storageAutoScaling\":false,\"version\":\"4.2.9\",\"workerPool\":\"prod\"}}\n"
+    },
+    "creationTimestamp": "2021-04-08T07:22:10Z",
+    "finalizers": [
+      "datastorereleases.cloudzdb.io/finalizer"
+    ],
+    "generation": 1,
+    "labels": {
+      "cluster": "cloudzcp-pog-dev",
+      "tag/custom": "one.two.three",
+      "tag/service": "mongodb"
+    },
+    "managedFields": [
+      {
+        "apiVersion": "cloudzdb.io/v1",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:metadata": {
+            "f:finalizers": {
+              ".": {},
+              "v:\"datastorereleases.cloudzdb.io/finalizer\"": {}
+            }
+          },
+          "f:status": {
+            ".": {},
+            "f:architecture": {},
+            "f:cluster": {},
+            "f:csp": {},
+            "f:deployStatus": {},
+            "f:ready": {},
+            "f:readyReplicas": {},
+            "f:replicas": {},
+            "f:resources": {
+              ".": {},
+              "f:limitCpu": {},
+              "f:limitMemory": {},
+              "f:requestCpu": {},
+              "f:requestMemory": {}
+            },
+            "f:status": {},
+            "f:storage": {
+              ".": {},
+              "f:backup": {},
+              "f:data": {},
+              "f:dataStorages": {}
+            }
+          }
+        },
+        "manager": "okhttp",
+        "operation": "Update",
+        "time": "2021-05-07T00:45:14Z"
+      },
+      {
+        "apiVersion": "cloudzdb.io/v1",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:metadata": {
+            "f:annotations": {
+              ".": {},
+              "f:kubectl.kubernetes.io/last-applied-configuration": {}
+            },
+            "f:labels": {
+              ".": {},
+              "f:cluster": {},
+              "f:tag/custom": {},
+              "f:tag/service": {}
+            }
+          },
+          "f:spec": {
+            ".": {},
+            "f:backup": {},
+            "f:chart": {},
+            "f:configMap": {},
+            "f:datastore": {},
+            "f:image": {
+              ".": {},
+              "f:registry": {},
+              "f:repository": {},
+              "f:tag": {}
+            },
+            "f:mongodb": {
+              ".": {},
+              "f:arbiterEnabled": {},
+              "f:architecture": {},
+              "f:replicas": {}
+            },
+            "f:persistence": {
+              ".": {},
+              "f:iops": {},
+              "f:kind": {},
+              "f:size": {},
+              "f:storageClass": {}
+            },
+            "f:privateEndpoint": {},
+            "f:publicEndpoint": {},
+            "f:resources": {
+              ".": {},
+              "f:limitCpu": {},
+              "f:limitMemory": {},
+              "f:requestCpu": {},
+              "f:requestMemory": {}
+            },
+            "f:service": {
+              ".": {},
+              "f:endPointType": {},
+              "f:port": {},
+              "f:type": {}
+            },
+            "f:storageAutoScaling": {},
+            "f:version": {},
+            "f:workerPool": {}
+          }
+        },
+        "manager": "kubectl",
+        "operation": "Update",
+        "time": "2021-06-02T07:38:25Z"
+      }
+    ],
+    "name": "zdb-managed-dsr-mdb",
+    "namespace": "zdb-managed",
+    "resourceVersion": "315161937",
+    "selfLink": "/apis/cloudzdb.io/v1/namespaces/zdb-managed/datastorereleases/zdb-managed-dsr-mdb",
+    "uid": "79c3b557-c431-4ccb-a83e-7516d857ad35"
+  },
+  "spec": {
+    "datastore": "mongodb",
+    "backup": false,
+    "chart": "8.3.2",
+    "configMap": "zdb-test-dsr-mdb-values",
+    "image": {
+      "registry": "registry.au-syd.bluemix.net",
+      "repository": "cloudzdb/mongodb",
+      "tag": "4.2.9"
+    },
+    "version": "4.2.9",
+    "workerPool": "prod",
+    "storageAutoScaling": false,
+    "privateEndpoint": false,
+    "publicEndpoint": false,
+    "resources": {
+      "limitCpu": "500m",
+      "limitMemory": "512Mi",
+      "requestCpu": "200m",
+      "requestMemory": "256Mi"
+    },
+    "persistence": {
+      "kind": "DATA",
+      "storageClass": "ibmc-block-bronze",
+      "size": "20Gi",
+      "iops": 2
+    },
+    "service": {
+      "endPointType": "private",
+      "port": 27017,
+      "type": "ClusterIP"
+    },
+    "mongodb": {
+      "replicas": 2,
+      "arbiterEnabled": true,
+      "architecture": "replicaset"
+    }
+  },
+  "status": {
+    "csp": "iks",
+    "cluster": "cloudzcp-pog-dev",
+    "replicas": 3,
+    "readyReplicas": 3,
+    "ready": "3/3",
+    "architecture": "Replicaset(P-S-A)",
+    "deployStatus": "DEPLOYED",
+    "status": "Running",
+    "resources": {
+      "limitCpu": "1900m",
+      "limitMemory": "2.5Gi",
+      "requestCpu": "700m",
+      "requestMemory": "704Mi"
+    },
+    "storage": {
+      "data": "20Gi/20Gi",
+      "backup": "-",
+      "dataStorages": [
+        {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "pod": "zdb-managed-dsr-mdb-mongodb-0",
+          "pvc": "data-zdb-managed-dsr-mdb-mongodb-0",
+          "pv": "pvc-90125c8e-b444-4dc5-b201-3eba5c45844c"
+        },
+        {
+          "kind": "DATA",
+          "storageClass": "ibmc-block-bronze",
+          "size": "20Gi",
+          "iops": 2,
+          "pod": "zdb-managed-dsr-mdb-mongodb-1",
+          "pvc": "data-zdb-managed-dsr-mdb-mongodb-1",
+          "pv": "pvc-59184827-eb74-44fc-82b1-8f5615b4ddc9"
+        }
+      ]
+    }
+  }
+},
+
+"mariadbConnections": {
+  "Aborted_clients": "0",
+  "Aborted_connects": "0",
+  "Connection_errors_max_connections": "0",
+  "Connections": "260382",
+  "Threads_cached": "0",
+  "Threads_connected": "20",
+  "Threads_created": "35",
+  "Threads_running": "1",
+  "max_connections": "300"
+},
+
+"mariadbProcesses": [
+  {
+    "Progress": "0.000",
+    "User": "system user\nHost",
+    "Command": "Daemon",
+    "State": "InnoDB purge coordinator",
+    "Time": "-",
+    "Id": "1",
+    "Info": "-",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "system user\nHost",
+    "Command": "Daemon",
+    "State": "InnoDB purge worker",
+    "Time": "-",
+    "Id": "2",
+    "Info": "-",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "system user\nHost",
+    "Command": "Daemon",
+    "State": "InnoDB purge worker",
+    "Time": "-",
+    "Id": "3",
+    "Info": "-",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "system user\nHost",
+    "Command": "Daemon",
+    "State": "InnoDB purge worker",
+    "Time": "-",
+    "Id": "4",
+    "Info": "-",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "system user\nHost",
+    "Command": "Daemon",
+    "State": "InnoDB shutdown handler",
+    "Time": "-",
+    "Id": "5",
+    "Info": "-",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Killed",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1489727",
+    "Id": "44820",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1403339",
+    "Id": "57301",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1316930",
+    "Id": "69659",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1230533",
+    "Id": "82137",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1144132",
+    "Id": "94610",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "1057736",
+    "Id": "107093",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "971328",
+    "Id": "119486",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "884934",
+    "Id": "132030",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "734426",
+    "Id": "153782",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "470713",
+    "Id": "192020",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "470573",
+    "Id": "192041",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "373828",
+    "Id": "206058",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "273068",
+    "Id": "220638",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Killed",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "273068",
+    "Id": "220639",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Killed",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "272976",
+    "Id": "220653",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "170165",
+    "Id": "235708",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "170106",
+    "Id": "235716",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "170105",
+    "Id": "235718",
+    "Info": "flush logs",
+    "db": "-"
+  },
+  {
+    "Progress": "0.000",
+    "User": "root",
+    "Command": "Query",
+    "State": "Init",
+    "Host": "localhost",
+    "Time": "83494",
+    "Id": "248232",
+    "Info": "flush logs",
+    "db": "-"
+  }
+],
+
+"mariadbStatusVariables": {
+  "Aborted_clients": "0",
+  "Aborted_connects": "0",
+  "Access_denied_errors": "0",
+  "Acl_column_grants": "0",
+  "Acl_database_grants": "3",
+  "Acl_function_grants": "0",
+  "Acl_package_body_grants": "0",
+  "Acl_package_spec_grants": "0",
+  "Acl_procedure_grants": "0",
+  "Acl_proxy_users": "1",
+  "Acl_role_grants": "0",
+  "Acl_roles": "0",
+  "Acl_table_grants": "0",
+  "Acl_users": "2",
+  "Aria_pagecache_blocks_not_flushed": "0",
+  "Aria_pagecache_blocks_unused": "15706",
+  "Aria_pagecache_blocks_used": "0",
+  "Aria_pagecache_read_requests": "0",
+  "Aria_pagecache_reads": "0",
+  "Aria_pagecache_write_requests": "0",
+  "Aria_pagecache_writes": "0",
+  "Aria_transaction_log_syncs": "0",
+  "Binlog_bytes_written": "0",
+  "Binlog_cache_disk_use": "0",
+  "Binlog_cache_use": "0",
+  "Binlog_commits": "0",
+  "Binlog_group_commit_trigger_count": "0",
+  "Binlog_group_commit_trigger_lock_wait": "0",
+  "Binlog_group_commit_trigger_timeout": "0",
+  "Binlog_group_commits": "0",
+  "Binlog_snapshot_file": "",
+  "Binlog_snapshot_position": "0",
+  "Binlog_stmt_cache_disk_use": "0",
+  "Binlog_stmt_cache_use": "0",
+  "Busy_time": "0.000000",
+  "Bytes_received": "339746251",
+  "Bytes_sent": "9845542022",
+  "Column_compressions": "0",
+  "Column_decompressions": "0",
+  "Com_admin_commands": "0",
+  "Com_alter_db": "0",
+  "Com_alter_db_upgrade": "0",
+  "Com_alter_event": "0",
+  "Com_alter_function": "0",
+  "Com_alter_procedure": "0",
+  "Com_alter_sequence": "0",
+  "Com_alter_server": "0",
+  "Com_alter_table": "0",
+  "Com_alter_tablespace": "0",
+  "Com_alter_user": "0",
+  "Com_analyze": "0",
+  "Com_assign_to_keycache": "0",
+  "Com_begin": "0",
+  "Com_binlog": "0",
+  "Com_call_procedure": "0",
+  "Com_change_db": "0",
+  "Com_change_master": "0",
+  "Com_check": "0",
+  "Com_checksum": "0",
+  "Com_commit": "0",
+  "Com_compound_sql": "0",
+  "Com_create_db": "0",
+  "Com_create_event": "0",
+  "Com_create_function": "0",
+  "Com_create_index": "0",
+  "Com_create_package": "0",
+  "Com_create_package_body": "0",
+  "Com_create_procedure": "0",
+  "Com_create_role": "0",
+  "Com_create_sequence": "0",
+  "Com_create_server": "0",
+  "Com_create_table": "0",
+  "Com_create_temporary_table": "0",
+  "Com_create_trigger": "0",
+  "Com_create_udf": "0",
+  "Com_create_user": "0",
+  "Com_create_view": "0",
+  "Com_dealloc_sql": "0",
+  "Com_delete": "0",
+  "Com_delete_multi": "0",
+  "Com_do": "0",
+  "Com_drop_db": "0",
+  "Com_drop_event": "0",
+  "Com_drop_function": "0",
+  "Com_drop_index": "0",
+  "Com_drop_package": "0",
+  "Com_drop_package_body": "0",
+  "Com_drop_procedure": "0",
+  "Com_drop_role": "0",
+  "Com_drop_sequence": "0",
+  "Com_drop_server": "0",
+  "Com_drop_table": "0",
+  "Com_drop_temporary_table": "0",
+  "Com_drop_trigger": "0",
+  "Com_drop_user": "0",
+  "Com_drop_view": "0",
+  "Com_empty_query": "0",
+  "Com_execute_immediate": "0",
+  "Com_execute_sql": "0",
+  "Com_flush": "22",
+  "Com_get_diagnostics": "0",
+  "Com_grant": "0",
+  "Com_grant_role": "0",
+  "Com_ha_close": "0",
+  "Com_ha_open": "0",
+  "Com_ha_read": "0",
+  "Com_help": "0",
+  "Com_insert": "0",
+  "Com_insert_select": "0",
+  "Com_install_plugin": "0",
+  "Com_kill": "17",
+  "Com_load": "0",
+  "Com_lock_tables": "0",
+  "Com_multi": "0",
+  "Com_optimize": "0",
+  "Com_preload_keys": "0",
+  "Com_prepare_sql": "0",
+  "Com_purge": "0",
+  "Com_purge_before_date": "0",
+  "Com_release_savepoint": "0",
+  "Com_rename_table": "0",
+  "Com_rename_user": "0",
+  "Com_repair": "0",
+  "Com_replace": "0",
+  "Com_replace_select": "0",
+  "Com_reset": "0",
+  "Com_resignal": "0",
+  "Com_revoke": "0",
+  "Com_revoke_all": "0",
+  "Com_revoke_role": "0",
+  "Com_rollback": "0",
+  "Com_rollback_to_savepoint": "0",
+  "Com_savepoint": "0",
+  "Com_select": "1211020",
+  "Com_set_option": "0",
+  "Com_show_authors": "0",
+  "Com_show_binlog_events": "0",
+  "Com_show_binlogs": "0",
+  "Com_show_charsets": "0",
+  "Com_show_collations": "0",
+  "Com_show_contributors": "0",
+  "Com_show_create_db": "0",
+  "Com_show_create_event": "0",
+  "Com_show_create_func": "0",
+  "Com_show_create_package": "0",
+  "Com_show_create_package_body": "0",
+  "Com_show_create_proc": "0",
+  "Com_show_create_table": "0",
+  "Com_show_create_trigger": "0",
+  "Com_show_create_user": "0",
+  "Com_show_databases": "0",
+  "Com_show_engine_logs": "0",
+  "Com_show_engine_mutex": "0",
+  "Com_show_engine_status": "0",
+  "Com_show_errors": "0",
+  "Com_show_events": "0",
+  "Com_show_explain": "0",
+  "Com_show_fields": "0",
+  "Com_show_function_status": "0",
+  "Com_show_generic": "0",
+  "Com_show_grants": "0",
+  "Com_show_keys": "0",
+  "Com_show_master_status": "0",
+  "Com_show_open_tables": "0",
+  "Com_show_package_body_status": "0",
+  "Com_show_package_status": "0",
+  "Com_show_plugins": "0",
+  "Com_show_privileges": "0",
+  "Com_show_procedure_status": "0",
+  "Com_show_processlist": "8901",
+  "Com_show_profile": "0",
+  "Com_show_profiles": "0",
+  "Com_show_relaylog_events": "0",
+  "Com_show_slave_hosts": "0",
+  "Com_show_slave_status": "242204",
+  "Com_show_status": "260118",
+  "Com_show_storage_engines": "0",
+  "Com_show_table_status": "0",
+  "Com_show_tables": "0",
+  "Com_show_triggers": "0",
+  "Com_show_variables": "251255",
+  "Com_show_warnings": "0",
+  "Com_shutdown": "0",
+  "Com_signal": "0",
+  "Com_start_all_slaves": "0",
+  "Com_start_slave": "0",
+  "Com_stmt_close": "0",
+  "Com_stmt_execute": "0",
+  "Com_stmt_fetch": "0",
+  "Com_stmt_prepare": "0",
+  "Com_stmt_reprepare": "0",
+  "Com_stmt_reset": "0",
+  "Com_stmt_send_long_data": "0",
+  "Com_stop_all_slaves": "0",
+  "Com_stop_slave": "0",
+  "Com_truncate": "0",
+  "Com_uninstall_plugin": "0",
+  "Com_unlock_tables": "0",
+  "Com_update": "0",
+  "Com_update_multi": "0",
+  "Com_xa_commit": "0",
+  "Com_xa_end": "0",
+  "Com_xa_prepare": "0",
+  "Com_xa_recover": "0",
+  "Com_xa_rollback": "0",
+  "Com_xa_start": "0",
+  "Compression": "OFF",
+  "Connection_errors_accept": "0",
+  "Connection_errors_internal": "0",
+  "Connection_errors_max_connections": "0",
+  "Connection_errors_peer_address": "0",
+  "Connection_errors_select": "0",
+  "Connection_errors_tcpwrap": "0",
+  "Connections": "260437",
+  "Cpu_time": "0.000000",
+  "Created_tmp_disk_tables": "0",
+  "Created_tmp_files": "5",
+  "Created_tmp_tables": "1237985",
+  "Delayed_errors": "0",
+  "Delayed_insert_threads": "0",
+  "Delayed_writes": "0",
+  "Delete_scan": "0",
+  "Empty_queries": "484408",
+  "Executed_events": "0",
+  "Executed_triggers": "0",
+  "Feature_check_constraint": "0",
+  "Feature_custom_aggregate_functions": "0",
+  "Feature_delay_key_write": "0",
+  "Feature_dynamic_columns": "0",
+  "Feature_fulltext": "0",
+  "Feature_gis": "0",
+  "Feature_invisible_columns": "0",
+  "Feature_json": "0",
+  "Feature_locale": "0",
+  "Feature_subquery": "0",
+  "Feature_system_versioning": "0",
+  "Feature_timezone": "1",
+  "Feature_trigger": "0",
+  "Feature_window_functions": "0",
+  "Feature_xml": "0",
+  "Flush_commands": "1",
+  "Handler_commit": "0",
+  "Handler_delete": "0",
+  "Handler_discover": "0",
+  "Handler_external_lock": "0",
+  "Handler_icp_attempts": "0",
+  "Handler_icp_match": "0",
+  "Handler_mrr_init": "0",
+  "Handler_mrr_key_refills": "0",
+  "Handler_mrr_rowid_refills": "0",
+  "Handler_prepare": "0",
+  "Handler_read_first": "3",
+  "Handler_read_key": "0",
+  "Handler_read_last": "0",
+  "Handler_read_next": "0",
+  "Handler_read_prev": "0",
+  "Handler_read_retry": "0",
+  "Handler_read_rnd": "0",
+  "Handler_read_rnd_deleted": "0",
+  "Handler_read_rnd_next": "282049919",
+  "Handler_rollback": "0",
+  "Handler_savepoint": "0",
+  "Handler_savepoint_rollback": "0",
+  "Handler_tmp_delete": "0",
+  "Handler_tmp_update": "0",
+  "Handler_tmp_write": "280811919",
+  "Handler_update": "0",
+  "Handler_write": "0",
+  "Innodb_available_undo_logs": "128",
+  "Innodb_buffer_pool_bytes_data": "5029888",
+  "Innodb_buffer_pool_bytes_dirty": "0",
+  "Innodb_buffer_pool_dump_status": "",
+  "Innodb_buffer_pool_load_incomplete": "OFF",
+  "Innodb_buffer_pool_load_status": "Buffer pool(s) load completed at 210531  5:39:00",
+  "Innodb_buffer_pool_pages_data": "307",
+  "Innodb_buffer_pool_pages_dirty": "0",
+  "Innodb_buffer_pool_pages_flushed": "131",
+  "Innodb_buffer_pool_pages_free": "16077",
+  "Innodb_buffer_pool_pages_misc": "0",
+  "Innodb_buffer_pool_pages_total": "16384",
+  "Innodb_buffer_pool_read_ahead": "0",
+  "Innodb_buffer_pool_read_ahead_evicted": "0",
+  "Innodb_buffer_pool_read_ahead_rnd": "0",
+  "Innodb_buffer_pool_read_requests": "1589",
+  "Innodb_buffer_pool_reads": "177",
+  "Innodb_buffer_pool_resize_status": "",
+  "Innodb_buffer_pool_wait_free": "0",
+  "Innodb_buffer_pool_write_requests": "843",
+  "Innodb_data_fsyncs": "2",
+  "Innodb_data_pending_fsyncs": "0",
+  "Innodb_data_pending_reads": "0",
+  "Innodb_data_pending_writes": "0",
+  "Innodb_data_read": "2968064",
+  "Innodb_data_reads": "192",
+  "Innodb_data_writes": "133",
+  "Innodb_data_written": "2147328",
+  "Innodb_dblwr_pages_written": "0",
+  "Innodb_dblwr_writes": "0",
+  "Innodb_defragment_compression_failures": "0",
+  "Innodb_defragment_count": "0",
+  "Innodb_defragment_failures": "0",
+  "Innodb_encryption_key_rotation_list_length": "0",
+  "Innodb_encryption_n_merge_blocks_decrypted": "0",
+  "Innodb_encryption_n_merge_blocks_encrypted": "0",
+  "Innodb_encryption_n_rowlog_blocks_decrypted": "0",
+  "Innodb_encryption_n_rowlog_blocks_encrypted": "0",
+  "Innodb_encryption_num_key_requests": "0",
+  "Innodb_encryption_rotation_estimated_iops": "0",
+  "Innodb_encryption_rotation_pages_flushed": "0",
+  "Innodb_encryption_rotation_pages_modified": "0",
+  "Innodb_encryption_rotation_pages_read_from_cache": "0",
+  "Innodb_encryption_rotation_pages_read_from_disk": "0",
+  "Innodb_have_bzip2": "OFF",
+  "Innodb_have_lz4": "OFF",
+  "Innodb_have_lzma": "OFF",
+  "Innodb_have_lzo": "OFF",
+  "Innodb_have_punch_hole": "ON",
+  "Innodb_have_snappy": "OFF",
+  "Innodb_instant_alter_column": "0",
+  "Innodb_log_waits": "0",
+  "Innodb_log_write_requests": "0",
+  "Innodb_log_writes": "1",
+  "Innodb_num_index_pages_written": "0",
+  "Innodb_num_non_index_pages_written": "0",
+  "Innodb_num_open_files": "10",
+  "Innodb_num_page_compressed_trim_op": "0",
+  "Innodb_num_pages_decrypted": "0",
+  "Innodb_num_pages_encrypted": "0",
+  "Innodb_num_pages_page_compressed": "0",
+  "Innodb_num_pages_page_compression_error": "0",
+  "Innodb_num_pages_page_decompressed": "0",
+  "Innodb_onlineddl_pct_progress": "0",
+  "Innodb_onlineddl_rowlog_pct_used": "0",
+  "Innodb_onlineddl_rowlog_rows": "0",
+  "Innodb_os_log_fsyncs": "2",
+  "Innodb_os_log_pending_fsyncs": "0",
+  "Innodb_os_log_pending_writes": "0",
+  "Innodb_os_log_written": "512",
+  "Innodb_page_compression_saved": "0",
+  "Innodb_page_size": "16384",
+  "Innodb_pages0_read": "5",
+  "Innodb_pages_created": "131",
+  "Innodb_pages_read": "176",
+  "Innodb_pages_written": "131",
+  "Innodb_row_lock_current_waits": "0",
+  "Innodb_row_lock_time": "0",
+  "Innodb_row_lock_time_avg": "0",
+  "Innodb_row_lock_time_max": "0",
+  "Innodb_row_lock_waits": "0",
+  "Innodb_rows_deleted": "0",
+  "Innodb_rows_inserted": "0",
+  "Innodb_rows_read": "0",
+  "Innodb_rows_updated": "0",
+  "Innodb_scrub_background_page_reorganizations": "0",
+  "Innodb_scrub_background_page_split_failures_missing_index": "0",
+  "Innodb_scrub_background_page_split_failures_out_of_filespace": "0",
+  "Innodb_scrub_background_page_split_failures_underflow": "0",
+  "Innodb_scrub_background_page_split_failures_unknown": "0",
+  "Innodb_scrub_background_page_splits": "0",
+  "Innodb_scrub_log": "0",
+  "Innodb_secondary_index_triggered_cluster_reads": "0",
+  "Innodb_secondary_index_triggered_cluster_reads_avoided": "0",
+  "Innodb_system_rows_deleted": "0",
+  "Innodb_system_rows_inserted": "0",
+  "Innodb_system_rows_read": "0",
+  "Innodb_system_rows_updated": "0",
+  "Innodb_truncated_status_writes": "0",
+  "Innodb_undo_truncations": "0",
+  "Key_blocks_not_flushed": "0",
+  "Key_blocks_unused": "13389",
+  "Key_blocks_used": "0",
+  "Key_blocks_warm": "0",
+  "Key_read_requests": "0",
+  "Key_reads": "0",
+  "Key_write_requests": "0",
+  "Key_writes": "0",
+  "Last_query_cost": "0.000000",
+  "Master_gtid_wait_count": "0",
+  "Master_gtid_wait_time": "0",
+  "Master_gtid_wait_timeouts": "0",
+  "Max_statement_time_exceeded": "0",
+  "Max_used_connections": "21",
+  "Memory_used": "159055480",
+  "Memory_used_initial": "156623016",
+  "Not_flushed_delayed_rows": "0",
+  "Open_files": "26",
+  "Open_streams": "0",
+  "Open_table_definitions": "18",
+  "Open_tables": "11",
+  "Opened_files": "81",
+  "Opened_plugin_libraries": "0",
+  "Opened_table_definitions": "17",
+  "Opened_tables": "17",
+  "Opened_views": "0",
+  "Performance_schema_accounts_lost": "0",
+  "Performance_schema_cond_classes_lost": "0",
+  "Performance_schema_cond_instances_lost": "0",
+  "Performance_schema_digest_lost": "0",
+  "Performance_schema_file_classes_lost": "1",
+  "Performance_schema_file_handles_lost": "0",
+  "Performance_schema_file_instances_lost": "0",
+  "Performance_schema_hosts_lost": "0",
+  "Performance_schema_locker_lost": "0",
+  "Performance_schema_mutex_classes_lost": "0",
+  "Performance_schema_mutex_instances_lost": "0",
+  "Performance_schema_rwlock_classes_lost": "0",
+  "Performance_schema_rwlock_instances_lost": "0",
+  "Performance_schema_session_connect_attrs_lost": "0",
+  "Performance_schema_socket_classes_lost": "0",
+  "Performance_schema_socket_instances_lost": "0",
+  "Performance_schema_stage_classes_lost": "0",
+  "Performance_schema_statement_classes_lost": "0",
+  "Performance_schema_table_handles_lost": "0",
+  "Performance_schema_table_instances_lost": "0",
+  "Performance_schema_thread_classes_lost": "0",
+  "Performance_schema_thread_instances_lost": "0",
+  "Performance_schema_users_lost": "0",
+  "Prepared_stmt_count": "0",
+  "Qcache_free_blocks": "0",
+  "Qcache_free_memory": "0",
+  "Qcache_hits": "0",
+  "Qcache_inserts": "0",
+  "Qcache_lowmem_prunes": "0",
+  "Qcache_not_cached": "0",
+  "Qcache_queries_in_cache": "0",
+  "Qcache_total_blocks": "0",
+  "Queries": "2233947",
+  "Questions": "2233947",
+  "Rows_read": "7",
+  "Rows_sent": "280569715",
+  "Rows_tmp_read": "280811919",
+  "Rpl_semi_sync_master_clients": "0",
+  "Rpl_semi_sync_master_get_ack": "0",
+  "Rpl_semi_sync_master_net_avg_wait_time": "0",
+  "Rpl_semi_sync_master_net_wait_time": "0",
+  "Rpl_semi_sync_master_net_waits": "0",
+  "Rpl_semi_sync_master_no_times": "0",
+  "Rpl_semi_sync_master_no_tx": "0",
+  "Rpl_semi_sync_master_request_ack": "0",
+  "Rpl_semi_sync_master_status": "OFF",
+  "Rpl_semi_sync_master_timefunc_failures": "0",
+  "Rpl_semi_sync_master_tx_avg_wait_time": "0",
+  "Rpl_semi_sync_master_tx_wait_time": "0",
+  "Rpl_semi_sync_master_tx_waits": "0",
+  "Rpl_semi_sync_master_wait_pos_backtraverse": "0",
+  "Rpl_semi_sync_master_wait_sessions": "0",
+  "Rpl_semi_sync_master_yes_tx": "0",
+  "Rpl_semi_sync_slave_send_ack": "0",
+  "Rpl_semi_sync_slave_status": "OFF",
+  "Rpl_status": "AUTH_MASTER",
+  "Rpl_transactions_multi_engine": "0",
+  "Select_full_join": "0",
+  "Select_full_range_join": "0",
+  "Select_range": "0",
+  "Select_range_check": "0",
+  "Select_scan": "1237985",
+  "Slave_connections": "0",
+  "Slave_heartbeat_period": "0.000",
+  "Slave_open_temp_tables": "0",
+  "Slave_received_heartbeats": "0",
+  "Slave_retried_transactions": "0",
+  "Slave_running": "OFF",
+  "Slave_skipped_errors": "0",
+  "Slaves_connected": "0",
+  "Slaves_running": "0",
+  "Slow_launch_threads": "0",
+  "Slow_queries": "0",
+  "Sort_merge_passes": "0",
+  "Sort_priority_queue_sorts": "0",
+  "Sort_range": "0",
+  "Sort_rows": "0",
+  "Sort_scan": "0",
+  "Ssl_accept_renegotiates": "0",
+  "Ssl_accepts": "0",
+  "Ssl_callback_cache_hits": "0",
+  "Ssl_cipher": "",
+  "Ssl_cipher_list": "",
+  "Ssl_client_connects": "0",
+  "Ssl_connect_renegotiates": "0",
+  "Ssl_ctx_verify_depth": "0",
+  "Ssl_ctx_verify_mode": "0",
+  "Ssl_default_timeout": "0",
+  "Ssl_finished_accepts": "0",
+  "Ssl_finished_connects": "0",
+  "Ssl_server_not_after": "",
+  "Ssl_server_not_before": "",
+  "Ssl_session_cache_hits": "0",
+  "Ssl_session_cache_misses": "0",
+  "Ssl_session_cache_mode": "NONE",
+  "Ssl_session_cache_overflows": "0",
+  "Ssl_session_cache_size": "0",
+  "Ssl_session_cache_timeouts": "0",
+  "Ssl_sessions_reused": "0",
+  "Ssl_used_session_cache_entries": "0",
+  "Ssl_verify_depth": "0",
+  "Ssl_verify_mode": "0",
+  "Ssl_version": "",
+  "Subquery_cache_hit": "0",
+  "Subquery_cache_miss": "0",
+  "Syncs": "2",
+  "Table_locks_immediate": "18",
+  "Table_locks_waited": "0",
+  "Table_open_cache_active_instances": "1",
+  "Table_open_cache_hits": "1",
+  "Table_open_cache_misses": "17",
+  "Table_open_cache_overflows": "0",
+  "Tc_log_max_pages_used": "0",
+  "Tc_log_page_size": "4096",
+  "Tc_log_page_waits": "0",
+  "Threadpool_idle_threads": "15",
+  "Threadpool_threads": "35",
+  "Threads_cached": "0",
+  "Threads_connected": "20",
+  "Threads_created": "35",
+  "Threads_running": "25",
+  "Transactions_gtid_foreign_engine": "0",
+  "Transactions_multi_engine": "0",
+  "Update_scan": "0",
+  "Uptime": "1816595",
+  "Uptime_since_flush_status": "1816595",
+  "wsrep_cluster_conf_id": "18446744073709551615",
+  "wsrep_cluster_size": "0",
+  "wsrep_cluster_state_uuid": "",
+  "wsrep_cluster_status": "Disconnected",
+  "wsrep_connected": "OFF",
+  "wsrep_local_bf_aborts": "0",
+  "wsrep_local_index": "18446744073709551615",
+  "wsrep_provider_name": "",
+  "wsrep_provider_vendor": "",
+  "wsrep_provider_version": "",
+  "wsrep_ready": "OFF",
+  "wsrep_thread_count": "0"
+},
+
+"mariadbSystemVariables": {
+  "alter_algorithm": "DEFAULT",
+  "aria_block_size": "8192",
+  "aria_checkpoint_interval": "30",
+  "aria_checkpoint_log_activity": "1048576",
+  "aria_encrypt_tables": "OFF",
+  "aria_force_start_after_recovery_failures": "0",
+  "aria_group_commit": "none",
+  "aria_group_commit_interval": "0",
+  "aria_log_file_size": "1073741824",
+  "aria_log_purge_type": "immediate",
+  "aria_max_sort_file_size": "9223372036853727232",
+  "aria_page_checksum": "ON",
+  "aria_pagecache_age_threshold": "300",
+  "aria_pagecache_buffer_size": "134217728",
+  "aria_pagecache_division_limit": "100",
+  "aria_pagecache_file_hash_size": "512",
+  "aria_recover_options": "BACKUP,QUICK",
+  "aria_repair_threads": "1",
+  "aria_sort_buffer_size": "268434432",
+  "aria_stats_method": "nulls_unequal",
+  "aria_sync_log_dir": "NEWFILE",
+  "aria_used_for_temp_tables": "ON",
+  "auto_increment_increment": "1",
+  "auto_increment_offset": "1",
+  "autocommit": "ON",
+  "automatic_sp_privileges": "ON",
+  "back_log": "200",
+  "basedir": "/opt/bitnami/mariadb",
+  "big_tables": "OFF",
+  "bind_address": "",
+  "binlog_annotate_row_events": "ON",
+  "binlog_cache_size": "1048576",
+  "binlog_checksum": "CRC32",
+  "binlog_commit_wait_count": "0",
+  "binlog_commit_wait_usec": "100000",
+  "binlog_direct_non_transactional_updates": "OFF",
+  "binlog_file_cache_size": "16384",
+  "binlog_format": "ROW",
+  "binlog_optimize_thread_scheduling": "ON",
+  "binlog_row_image": "FULL",
+  "binlog_stmt_cache_size": "32768",
+  "bulk_insert_buffer_size": "16777216",
+  "character_set_client": "utf8",
+  "character_set_connection": "utf8",
+  "character_set_database": "utf8",
+  "character_set_filesystem": "binary",
+  "character_set_results": "utf8",
+  "character_set_server": "utf8",
+  "character_set_system": "utf8",
+  "character_sets_dir": "/opt/bitnami/mariadb/share/charsets/",
+  "check_constraint_checks": "ON",
+  "collation_connection": "utf8_general_ci",
+  "collation_database": "utf8_general_ci",
+  "collation_server": "utf8_general_ci",
+  "column_compression_threshold": "100",
+  "column_compression_zlib_level": "6",
+  "column_compression_zlib_strategy": "DEFAULT_STRATEGY",
+  "column_compression_zlib_wrap": "OFF",
+  "completion_type": "NO_CHAIN",
+  "concurrent_insert": "AUTO",
+  "connect_timeout": "10",
+  "core_file": "OFF",
+  "datadir": "/bitnami/mariadb/data/",
+  "date_format": "%Y-%m-%d",
+  "datetime_format": "%Y-%m-%d %H:%i:%s",
+  "deadlock_search_depth_long": "15",
+  "deadlock_search_depth_short": "4",
+  "deadlock_timeout_long": "50000000",
+  "deadlock_timeout_short": "10000",
+  "debug_no_thread_alarm": "OFF",
+  "default_master_connection": "",
+  "default_regex_flags": "",
+  "default_storage_engine": "InnoDB",
+  "default_tmp_storage_engine": "",
+  "default_week_format": "0",
+  "delay_key_write": "ON",
+  "delayed_insert_limit": "100",
+  "delayed_insert_timeout": "300",
+  "delayed_queue_size": "1000",
+  "div_precision_increment": "4",
+  "encrypt_binlog": "OFF",
+  "encrypt_tmp_disk_tables": "OFF",
+  "encrypt_tmp_files": "OFF",
+  "enforce_storage_engine": "",
+  "eq_range_index_dive_limit": "0",
+  "error_count": "0",
+  "event_scheduler": "OFF",
+  "expensive_subquery_limit": "100",
+  "expire_logs_days": "1",
+  "explicit_defaults_for_timestamp": "OFF",
+  "external_user": "",
+  "extra_max_connections": "1",
+  "extra_port": "0",
+  "flush": "OFF",
+  "flush_time": "0",
+  "foreign_key_checks": "ON",
+  "ft_boolean_syntax": "+ -><()~*:\"\"&|",
+  "ft_max_word_len": "84",
+  "ft_min_word_len": "4",
+  "ft_query_expansion_limit": "20",
+  "ft_stopword_file": "(built-in)",
+  "general_log": "OFF",
+  "general_log_file": "zdb-v2-ma-ma1-mariadb-0.log",
+  "group_concat_max_len": "1048576",
+  "gtid_binlog_pos": "",
+  "gtid_binlog_state": "",
+  "gtid_current_pos": "",
+  "gtid_domain_id": "0",
+  "gtid_ignore_duplicates": "OFF",
+  "gtid_pos_auto_engines": "",
+  "gtid_seq_no": "0",
+  "gtid_slave_pos": "",
+  "gtid_strict_mode": "OFF",
+  "have_compress": "YES",
+  "have_crypt": "YES",
+  "have_dynamic_loading": "YES",
+  "have_geometry": "YES",
+  "have_openssl": "YES",
+  "have_profiling": "YES",
+  "have_query_cache": "YES",
+  "have_rtree_keys": "YES",
+  "have_ssl": "DISABLED",
+  "have_symlink": "YES",
+  "histogram_size": "0",
+  "histogram_type": "SINGLE_PREC_HB",
+  "host_cache_size": "428",
+  "hostname": "zdb-v2-ma-ma1-mariadb-0",
+  "identity": "0",
+  "idle_readonly_transaction_timeout": "0",
+  "idle_transaction_timeout": "0",
+  "idle_write_transaction_timeout": "0",
+  "ignore_builtin_innodb": "OFF",
+  "ignore_db_dirs": "",
+  "in_transaction": "0",
+  "init_connect": "",
+  "init_file": "",
+  "init_slave": "",
+  "innodb_adaptive_flushing": "ON",
+  "innodb_adaptive_flushing_lwm": "10.000000",
+  "innodb_adaptive_hash_index": "ON",
+  "innodb_adaptive_hash_index_parts": "8",
+  "innodb_adaptive_max_sleep_delay": "150000",
+  "innodb_autoextend_increment": "64",
+  "innodb_autoinc_lock_mode": "1",
+  "innodb_background_scrub_data_check_interval": "3600",
+  "innodb_background_scrub_data_compressed": "OFF",
+  "innodb_background_scrub_data_interval": "604800",
+  "innodb_background_scrub_data_uncompressed": "OFF",
+  "innodb_buf_dump_status_frequency": "0",
+  "innodb_buffer_pool_chunk_size": "134217728",
+  "innodb_buffer_pool_dump_at_shutdown": "ON",
+  "innodb_buffer_pool_dump_now": "OFF",
+  "innodb_buffer_pool_dump_pct": "25",
+  "innodb_buffer_pool_filename": "ib_buffer_pool",
+  "innodb_buffer_pool_instances": "1",
+  "innodb_buffer_pool_load_abort": "OFF",
+  "innodb_buffer_pool_load_at_startup": "ON",
+  "innodb_buffer_pool_load_now": "OFF",
+  "innodb_buffer_pool_size": "268435456",
+  "innodb_change_buffer_max_size": "25",
+  "innodb_change_buffering": "all",
+  "innodb_checksum_algorithm": "crc32",
+  "innodb_checksums": "ON",
+  "innodb_cmp_per_index_enabled": "OFF",
+  "innodb_commit_concurrency": "0",
+  "innodb_compression_algorithm": "zlib",
+  "innodb_compression_default": "OFF",
+  "innodb_compression_failure_threshold_pct": "5",
+  "innodb_compression_level": "6",
+  "innodb_compression_pad_pct_max": "50",
+  "innodb_concurrency_tickets": "5000",
+  "innodb_data_file_path": "ibdata1:12M:autoextend",
+  "innodb_data_home_dir": "",
+  "innodb_deadlock_detect": "ON",
+  "innodb_default_encryption_key_id": "1",
+  "innodb_default_row_format": "dynamic",
+  "innodb_defragment": "OFF",
+  "innodb_defragment_fill_factor": "0.900000",
+  "innodb_defragment_fill_factor_n_recs": "20",
+  "innodb_defragment_frequency": "40",
+  "innodb_defragment_n_pages": "7",
+  "innodb_defragment_stats_accuracy": "0",
+  "innodb_disable_sort_file_cache": "OFF",
+  "innodb_disallow_writes": "OFF",
+  "innodb_doublewrite": "ON",
+  "innodb_encrypt_log": "OFF",
+  "innodb_encrypt_tables": "OFF",
+  "innodb_encryption_rotate_key_age": "1",
+  "innodb_encryption_rotation_iops": "100",
+  "innodb_encryption_threads": "0",
+  "innodb_fast_shutdown": "1",
+  "innodb_fatal_semaphore_wait_threshold": "600",
+  "innodb_file_format": "",
+  "innodb_file_per_table": "ON",
+  "innodb_fill_factor": "100",
+  "innodb_flush_log_at_timeout": "1",
+  "innodb_flush_log_at_trx_commit": "1",
+  "innodb_flush_method": "O_DIRECT",
+  "innodb_flush_neighbors": "1",
+  "innodb_flush_sync": "ON",
+  "innodb_flushing_avg_loops": "30",
+  "innodb_force_load_corrupted": "OFF",
+  "innodb_force_primary_key": "OFF",
+  "innodb_force_recovery": "0",
+  "innodb_ft_aux_table": "",
+  "innodb_ft_cache_size": "8000000",
+  "innodb_ft_enable_diag_print": "OFF",
+  "innodb_ft_enable_stopword": "ON",
+  "innodb_ft_max_token_size": "84",
+  "innodb_ft_min_token_size": "3",
+  "innodb_ft_num_word_optimize": "2000",
+  "innodb_ft_result_cache_limit": "2000000000",
+  "innodb_ft_server_stopword_table": "",
+  "innodb_ft_sort_pll_degree": "2",
+  "innodb_ft_total_cache_size": "640000000",
+  "innodb_ft_user_stopword_table": "",
+  "innodb_idle_flush_pct": "100",
+  "innodb_immediate_scrub_data_uncompressed": "OFF",
+  "innodb_io_capacity": "200",
+  "innodb_io_capacity_max": "2000",
+  "innodb_large_prefix": "",
+  "innodb_lock_schedule_algorithm": "fcfs",
+  "innodb_lock_wait_timeout": "15",
+  "innodb_locks_unsafe_for_binlog": "OFF",
+  "innodb_log_buffer_size": "10485760",
+  "innodb_log_checksums": "ON",
+  "innodb_log_compressed_pages": "ON",
+  "innodb_log_file_size": "104857600",
+  "innodb_log_files_in_group": "4",
+  "innodb_log_group_home_dir": "./",
+  "innodb_log_optimize_ddl": "ON",
+  "innodb_log_write_ahead_size": "8192",
+  "innodb_lru_scan_depth": "512",
+  "innodb_max_dirty_pages_pct": "75.000000",
+  "innodb_max_dirty_pages_pct_lwm": "0.000000",
+  "innodb_max_purge_lag": "0",
+  "innodb_max_purge_lag_delay": "0",
+  "innodb_max_undo_log_size": "10485760",
+  "innodb_monitor_disable": "",
+  "innodb_monitor_enable": "",
+  "innodb_monitor_reset": "",
+  "innodb_monitor_reset_all": "",
+  "innodb_old_blocks_pct": "37",
+  "innodb_old_blocks_time": "1000",
+  "innodb_online_alter_log_max_size": "134217728",
+  "innodb_open_files": "8192",
+  "innodb_optimize_fulltext_only": "OFF",
+  "innodb_page_cleaners": "1",
+  "innodb_page_size": "16384",
+  "innodb_prefix_index_cluster_optimization": "OFF",
+  "innodb_print_all_deadlocks": "OFF",
+  "innodb_purge_batch_size": "300",
+  "innodb_purge_rseg_truncate_frequency": "128",
+  "innodb_purge_threads": "4",
+  "innodb_random_read_ahead": "OFF",
+  "innodb_read_ahead_threshold": "56",
+  "innodb_read_io_threads": "4",
+  "innodb_read_only": "OFF",
+  "innodb_replication_delay": "0",
+  "innodb_rollback_on_timeout": "OFF",
+  "innodb_rollback_segments": "128",
+  "innodb_scrub_log": "OFF",
+  "innodb_scrub_log_speed": "256",
+  "innodb_sort_buffer_size": "4194304",
+  "innodb_spin_wait_delay": "4",
+  "innodb_stats_auto_recalc": "ON",
+  "innodb_stats_include_delete_marked": "OFF",
+  "innodb_stats_method": "nulls_equal",
+  "innodb_stats_modified_counter": "0",
+  "innodb_stats_on_metadata": "OFF",
+  "innodb_stats_persistent": "ON",
+  "innodb_stats_persistent_sample_pages": "20",
+  "innodb_stats_sample_pages": "8",
+  "innodb_stats_traditional": "ON",
+  "innodb_stats_transient_sample_pages": "8",
+  "innodb_status_output": "OFF",
+  "innodb_status_output_locks": "OFF",
+  "innodb_strict_mode": "ON",
+  "innodb_sync_array_size": "1",
+  "innodb_sync_spin_loops": "30",
+  "innodb_table_locks": "ON",
+  "innodb_temp_data_file_path": "ibtmp1:12M:autoextend",
+  "innodb_thread_concurrency": "0",
+  "innodb_thread_sleep_delay": "0",
+  "innodb_tmpdir": "",
+  "innodb_undo_directory": "/bitnami/mariadb/data",
+  "innodb_undo_log_truncate": "OFF",
+  "innodb_undo_logs": "128",
+  "innodb_undo_tablespaces": "0",
+  "innodb_use_atomic_writes": "ON",
+  "innodb_use_native_aio": "ON",
+  "innodb_version": "10.3.16",
+  "innodb_write_io_threads": "8",
+  "insert_id": "0",
+  "interactive_timeout": "3600",
+  "join_buffer_size": "65536",
+  "join_buffer_space_limit": "2097152",
+  "join_cache_level": "2",
+  "keep_files_on_create": "OFF",
+  "key_buffer_size": "16777216",
+  "key_cache_age_threshold": "300",
+  "key_cache_block_size": "1024",
+  "key_cache_division_limit": "100",
+  "key_cache_file_hash_size": "512",
+  "key_cache_segments": "0",
+  "large_files_support": "ON",
+  "large_page_size": "0",
+  "large_pages": "OFF",
+  "last_gtid": "",
+  "last_insert_id": "0",
+  "lc_messages": "en_US",
+  "lc_messages_dir": "",
+  "lc_time_names": "en_US",
+  "license": "GPL",
+  "local_infile": "OFF",
+  "lock_wait_timeout": "86400",
+  "locked_in_memory": "OFF",
+  "log_bin": "OFF",
+  "log_bin_basename": "",
+  "log_bin_compress": "OFF",
+  "log_bin_compress_min_len": "256",
+  "log_bin_index": "",
+  "log_bin_trust_function_creators": "ON",
+  "log_disabled_statements": "sp",
+  "log_error": "/bitnami/mariadb/logs/mysql_error.log",
+  "log_output": "FILE",
+  "log_queries_not_using_indexes": "OFF",
+  "log_slave_updates": "OFF",
+  "log_slow_admin_statements": "ON",
+  "log_slow_disabled_statements": "sp",
+  "log_slow_filter": "admin,filesort,filesort_on_disk,filesort_priority_queue,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk",
+  "log_slow_rate_limit": "1",
+  "log_slow_slave_statements": "ON",
+  "log_slow_verbosity": "",
+  "log_tc_size": "24576",
+  "log_warnings": "2",
+  "long_query_time": "3.000000",
+  "low_priority_updates": "OFF",
+  "lower_case_file_system": "OFF",
+  "lower_case_table_names": "0",
+  "master_verify_checksum": "OFF",
+  "max_allowed_packet": "16777216",
+  "max_binlog_cache_size": "18446744073709547520",
+  "max_binlog_size": "209715200",
+  "max_binlog_stmt_cache_size": "18446744073709547520",
+  "max_connect_errors": "100",
+  "max_connections": "300",
+  "max_delayed_threads": "20",
+  "max_digest_length": "1024",
+  "max_error_count": "64",
+  "max_heap_table_size": "16777216",
+  "max_insert_delayed_threads": "20",
+  "max_join_size": "18446744073709551615",
+  "max_length_for_sort_data": "1024",
+  "max_long_data_size": "16777216",
+  "max_prepared_stmt_count": "16382",
+  "max_recursive_iterations": "4294967295",
+  "max_relay_log_size": "209715200",
+  "max_seeks_for_key": "4294967295",
+  "max_session_mem_used": "9223372036854775807",
+  "max_sort_length": "1024",
+  "max_sp_recursion_depth": "0",
+  "max_statement_time": "0.000000",
+  "max_tmp_tables": "32",
+  "max_user_connections": "0",
+  "max_write_lock_count": "4294967295",
+  "metadata_locks_cache_size": "1024",
+  "metadata_locks_hash_instances": "8",
+  "min_examined_row_limit": "0",
+  "mrr_buffer_size": "262144",
+  "multi_range_count": "256",
+  "myisam_block_size": "1024",
+  "myisam_data_pointer_size": "6",
+  "myisam_max_sort_file_size": "1073741824",
+  "myisam_mmap_size": "18446744073709551615",
+  "myisam_recover_options": "BACKUP,QUICK",
+  "myisam_repair_threads": "1",
+  "myisam_sort_buffer_size": "16777216",
+  "myisam_stats_method": "NULLS_UNEQUAL",
+  "myisam_use_mmap": "OFF",
+  "mysql56_temporal_format": "ON",
+  "net_buffer_length": "16384",
+  "net_read_timeout": "30",
+  "net_retry_count": "10",
+  "net_write_timeout": "60",
+  "old": "OFF",
+  "old_alter_table": "DEFAULT",
+  "old_mode": "",
+  "old_passwords": "OFF",
+  "open_files_limit": "8331",
+  "optimizer_prune_level": "1",
+  "optimizer_search_depth": "62",
+  "optimizer_selectivity_sampling_limit": "100",
+  "optimizer_switch": "index_merge=on,index_merge_union=on,index_merge_sort_union=on,index_merge_intersection=on,index_merge_sort_intersection=off,engine_condition_pushdown=off,index_condition_pushdown=on,derived_merge=on,derived_with_keys=on,firstmatch=on,loosescan=on,materialization=on,in_to_exists=on,semijoin=on,partial_match_rowid_merge=on,partial_match_table_scan=on,subquery_cache=on,mrr=off,mrr_cost_based=off,mrr_sort_keys=off,outer_join_with_cache=on,semijoin_with_cache=on,join_cache_incremental=on,join_cache_hashed=on,join_cache_bka=on,optimize_join_buffer_size=off,table_elimination=on,extended_keys=on,exists_to_in=on,orderby_uses_equalities=on,condition_pushdown_for_derived=on,split_materialized=on",
+  "optimizer_use_condition_selectivity": "1",
+  "performance_schema": "ON",
+  "performance_schema_accounts_size": "100",
+  "performance_schema_digests_size": "5000",
+  "performance_schema_events_stages_history_long_size": "1000",
+  "performance_schema_events_stages_history_size": "20",
+  "performance_schema_events_statements_history_long_size": "1000",
+  "performance_schema_events_statements_history_size": "20",
+  "performance_schema_events_waits_history_long_size": "1000",
+  "performance_schema_events_waits_history_size": "20",
+  "performance_schema_hosts_size": "100",
+  "performance_schema_max_cond_classes": "80",
+  "performance_schema_max_cond_instances": "1786",
+  "performance_schema_max_digest_length": "1024",
+  "performance_schema_max_file_classes": "50",
+  "performance_schema_max_file_handles": "32768",
+  "performance_schema_max_file_instances": "2500",
+  "performance_schema_max_mutex_classes": "200",
+  "performance_schema_max_mutex_instances": "6286",
+  "performance_schema_max_rwlock_classes": "40",
+  "performance_schema_max_rwlock_instances": "3286",
+  "performance_schema_max_socket_classes": "10",
+  "performance_schema_max_socket_instances": "443",
+  "performance_schema_max_stage_classes": "160",
+  "performance_schema_max_statement_classes": "200",
+  "performance_schema_max_table_handles": "2858",
+  "performance_schema_max_table_instances": "667",
+  "performance_schema_max_thread_classes": "50",
+  "performance_schema_max_thread_instances": "500",
+  "performance_schema_session_connect_attrs_size": "512",
+  "performance_schema_setup_actors_size": "100",
+  "performance_schema_setup_objects_size": "100",
+  "performance_schema_users_size": "100",
+  "pid_file": "/opt/bitnami/mariadb/tmp/mysqld.pid",
+  "plugin_dir": "/opt/bitnami/mariadb/plugin/",
+  "plugin_maturity": "gamma",
+  "port": "3306",
+  "preload_buffer_size": "32768",
+  "profiling": "OFF",
+  "profiling_history_size": "15",
+  "progress_report_time": "5",
+  "protocol_version": "10",
+  "proxy_protocol_networks": "",
+  "proxy_user": "",
+  "pseudo_slave_mode": "OFF",
+  "pseudo_thread_id": "260454",
+  "query_alloc_block_size": "16384",
+  "query_cache_limit": "0",
+  "query_cache_min_res_unit": "4096",
+  "query_cache_size": "0",
+  "query_cache_strip_comments": "OFF",
+  "query_cache_type": "OFF",
+  "query_cache_wlock_invalidate": "OFF",
+  "query_prealloc_size": "24576",
+  "rand_seed1": "1017578316",
+  "rand_seed2": "1067838303",
+  "range_alloc_block_size": "4096",
+  "read_binlog_speed_limit": "0",
+  "read_buffer_size": "1048576",
+  "read_only": "OFF",
+  "read_rnd_buffer_size": "1048576",
+  "relay_log": "",
+  "relay_log_basename": "",
+  "relay_log_index": "",
+  "relay_log_info_file": "relay-log.info",
+  "relay_log_purge": "ON",
+  "relay_log_recovery": "OFF",
+  "relay_log_space_limit": "0",
+  "replicate_annotate_row_events": "ON",
+  "replicate_do_db": "",
+  "replicate_do_table": "",
+  "replicate_events_marked_for_skip": "REPLICATE",
+  "replicate_ignore_db": "",
+  "replicate_ignore_table": "",
+  "replicate_wild_do_table": "",
+  "replicate_wild_ignore_table": "",
+  "report_host": "",
+  "report_password": "",
+  "report_port": "3306",
+  "report_user": "",
+  "rowid_merge_buff_size": "8388608",
+  "rpl_semi_sync_master_enabled": "OFF",
+  "rpl_semi_sync_master_timeout": "10000",
+  "rpl_semi_sync_master_trace_level": "32",
+  "rpl_semi_sync_master_wait_no_slave": "ON",
+  "rpl_semi_sync_master_wait_point": "AFTER_COMMIT",
+  "rpl_semi_sync_slave_delay_master": "OFF",
+  "rpl_semi_sync_slave_enabled": "OFF",
+  "rpl_semi_sync_slave_kill_conn_timeout": "5",
+  "rpl_semi_sync_slave_trace_level": "32",
+  "secure_auth": "ON",
+  "secure_file_priv": "",
+  "secure_timestamp": "NO",
+  "server_id": "1",
+  "session_track_schema": "ON",
+  "session_track_state_change": "OFF",
+  "session_track_system_variables": "autocommit,character_set_client,character_set_connection,character_set_results,time_zone",
+  "session_track_transaction_info": "OFF",
+  "skip_external_locking": "ON",
+  "skip_name_resolve": "ON",
+  "skip_networking": "OFF",
+  "skip_parallel_replication": "OFF",
+  "skip_replication": "OFF",
+  "skip_show_database": "OFF",
+  "slave_compressed_protocol": "OFF",
+  "slave_ddl_exec_mode": "IDEMPOTENT",
+  "slave_domain_parallel_threads": "0",
+  "slave_exec_mode": "STRICT",
+  "slave_load_tmpdir": "/opt/bitnami/mariadb/tmp",
+  "slave_max_allowed_packet": "1073741824",
+  "slave_net_timeout": "60",
+  "slave_parallel_max_queued": "131072",
+  "slave_parallel_mode": "conservative",
+  "slave_parallel_threads": "0",
+  "slave_parallel_workers": "0",
+  "slave_run_triggers_for_rbr": "NO",
+  "slave_skip_errors": "OFF",
+  "slave_sql_verify_checksum": "ON",
+  "slave_transaction_retries": "10",
+  "slave_transaction_retry_errors": "1213,1205",
+  "slave_transaction_retry_interval": "0",
+  "slave_type_conversions": "",
+  "slow_launch_time": "2",
+  "slow_query_log": "ON",
+  "slow_query_log_file": "/bitnami/mariadb/logs/maria_slow.log",
+  "socket": "/opt/bitnami/mariadb/tmp/mysql.sock",
+  "sort_buffer_size": "65536",
+  "sql_auto_is_null": "OFF",
+  "sql_big_selects": "ON",
+  "sql_buffer_result": "OFF",
+  "sql_log_bin": "ON",
+  "sql_log_off": "OFF",
+  "sql_mode": "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION",
+  "sql_notes": "ON",
+  "sql_quote_show_create": "ON",
+  "sql_safe_updates": "OFF",
+  "sql_select_limit": "18446744073709551615",
+  "sql_slave_skip_counter": "0",
+  "sql_warnings": "OFF",
+  "ssl_ca": "",
+  "ssl_capath": "",
+  "ssl_cert": "",
+  "ssl_cipher": "",
+  "ssl_crl": "",
+  "ssl_crlpath": "",
+  "ssl_key": "",
+  "standard_compliant_cte": "ON",
+  "storage_engine": "InnoDB",
+  "stored_program_cache": "256",
+  "strict_password_validation": "ON",
+  "sync_binlog": "1",
+  "sync_frm": "ON",
+  "sync_master_info": "10000",
+  "sync_relay_log": "10000",
+  "sync_relay_log_info": "10000",
+  "system_time_zone": "UTC",
+  "system_versioning_alter_history": "ERROR",
+  "system_versioning_asof": "DEFAULT",
+  "table_definition_cache": "400",
+  "table_open_cache": "4000",
+  "table_open_cache_instances": "8",
+  "tcp_keepalive_interval": "0",
+  "tcp_keepalive_probes": "0",
+  "tcp_keepalive_time": "0",
+  "thread_cache_size": "0",
+  "thread_concurrency": "10",
+  "thread_handling": "pool-of-threads",
+  "thread_pool_idle_timeout": "120",
+  "thread_pool_max_threads": "65536",
+  "thread_pool_oversubscribe": "3",
+  "thread_pool_prio_kickup_timer": "1000",
+  "thread_pool_priority": "auto",
+  "thread_pool_size": "8",
+  "thread_pool_stall_limit": "60",
+  "thread_stack": "299008",
+  "time_format": "%H:%i:%s",
+  "time_zone": "+09:00",
+  "timed_mutexes": "OFF",
+  "timestamp": "1624256231.088168",
+  "tmp_disk_table_size": "18446744073709551615",
+  "tmp_memory_table_size": "67108864",
+  "tmp_table_size": "67108864",
+  "tmpdir": "/opt/bitnami/mariadb/tmp",
+  "transaction_alloc_block_size": "8192",
+  "transaction_prealloc_size": "4096",
+  "tx_isolation": "READ-COMMITTED",
+  "tx_read_only": "OFF",
+  "unique_checks": "ON",
+  "updatable_views_with_limit": "YES",
+  "use_stat_tables": "NEVER",
+  "userstat": "OFF",
+  "version": "10.3.16-MariaDB-log",
+  "version_comment": "Source distribution",
+  "version_compile_machine": "x86_64",
+  "version_compile_os": "Linux",
+  "version_malloc_library": "system",
+  "version_source_revision": "0789a1a18f0e780c0412667e7b6e0a9970aa6905",
+  "version_ssl_library": "OpenSSL 1.0.2r  26 Feb 2019",
+  "wait_timeout": "3600",
+  "warning_count": "0",
+  "wsrep_auto_increment_control": "ON",
+  "wsrep_causal_reads": "OFF",
+  "wsrep_certification_rules": "strict",
+  "wsrep_certify_nonpk": "ON",
+  "wsrep_cluster_address": "",
+  "wsrep_cluster_name": "my_wsrep_cluster",
+  "wsrep_convert_lock_to_trx": "OFF",
+  "wsrep_data_home_dir": "/bitnami/mariadb/data/",
+  "wsrep_dbug_option": "",
+  "wsrep_debug": "OFF",
+  "wsrep_desync": "OFF",
+  "wsrep_dirty_reads": "OFF",
+  "wsrep_drupal_282555_workaround": "OFF",
+  "wsrep_forced_binlog_format": "NONE",
+  "wsrep_gtid_domain_id": "0",
+  "wsrep_gtid_mode": "OFF",
+  "wsrep_load_data_splitting": "ON",
+  "wsrep_log_conflicts": "OFF",
+  "wsrep_max_ws_rows": "0",
+  "wsrep_max_ws_size": "2147483647",
+  "wsrep_mysql_replication_bundle": "0",
+  "wsrep_node_address": "",
+  "wsrep_node_incoming_address": "AUTO",
+  "wsrep_node_name": "zdb-v2-ma-ma1-mariadb-0",
+  "wsrep_notify_cmd": "",
+  "wsrep_on": "OFF",
+  "wsrep_osu_method": "TOI",
+  "wsrep_patch_version": "wsrep_25.24",
+  "wsrep_provider": "none",
+  "wsrep_provider_options": "",
+  "wsrep_recover": "OFF",
+  "wsrep_reject_queries": "NONE",
+  "wsrep_replicate_myisam": "OFF",
+  "wsrep_restart_slave": "OFF",
+  "wsrep_retry_autocommit": "1",
+  "wsrep_slave_fk_checks": "ON",
+  "wsrep_slave_threads": "1",
+  "wsrep_slave_uk_checks": "OFF",
+  "wsrep_sst_auth": "",
+  "wsrep_sst_donor": "",
+  "wsrep_sst_donor_rejects_queries": "OFF",
+  "wsrep_sst_method": "rsync",
+  "wsrep_sst_receive_address": "AUTO",
+  "wsrep_start_position": "00000000-0000-0000-0000-000000000000:-1",
+  "wsrep_sync_wait": "0"
+},
+
+"mariadbProcessKIll" : {
+  
+}
+
+}

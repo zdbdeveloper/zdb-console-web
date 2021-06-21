@@ -106,12 +106,13 @@ export default {
       this.managements.completed = true
     },
     async killProcess (item, index) {
-     if(confirm('Are you sure you want to kill this?')) {
-      this.$fetcher.set({ target: Number(item.Id) }).patch('mariadb_processKill').then(res => {
-        console.log('res:', res)
-        this.fetchContent()
-      })
-     }
+      if (await this.$store.dispatch('dialog/confirm'
+        , 'Are you sure you want to kill this?')) {
+        this.$fetcher.set({ target: Number(item.Id) }).patch('mariadb_processKill')
+          .then(res => {
+            this.fetchContent()
+        })
+      }
     }
   }
 }

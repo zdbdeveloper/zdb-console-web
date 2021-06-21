@@ -10,12 +10,8 @@
     "serve": "nuxt serve",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
-    "json-table": "json-server --watch --port 3003 ./data/dsr-all.json",
-    "json-detail": "json-server --watch --port 3005 ./data/dsr-mdb-zdbs.json",
-    "json-apex": "json-server --watch --port 3006 ./data/apexchart.json",
-    "json-test": "json-server --watch --port 3004 ./data/coreui.json",
-    "json-dsr": "json-server --watch --port 3008 ./data/api-dsr.json",
-    "json-name": "json-server --watch --port 3009 ./data/api-name.json"
+    "datastores": "json-server --port 4000 --watch ./data/datastores.json",
+    "apexcharts": "json-server --port 4001 --watch ./data/apexcharts.json"
   },
   "dependencies": {
     "@coreui/coreui": "^3.2.0",

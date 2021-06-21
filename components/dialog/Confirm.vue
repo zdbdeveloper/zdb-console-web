@@ -10,7 +10,7 @@
     @update:show="confirm_cancel()"
   >
     <p class="my-2 text-center">
-      {{ confirm.content }} {{ '마저 ' }}
+      {{ confirm.content }}
     </p>
     <template #footer>
       <CButton

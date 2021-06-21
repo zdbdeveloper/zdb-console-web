@@ -33,12 +33,9 @@ export const actions = {
     commit("LOADING", true);
 
     try {
-      const res = await this.$axios.get("/api/v1/profile");
-      //const res = await this.$axios.get("/api/v2/profile");
-      //console.log('profile res:', res)
-
+      const res = await this.$fetcher.get('profile')
       commit("LOADING", false);
-      commit("UPDATE", { ...payload, ...res.data });
+      commit("UPDATE", { ...payload, ...res });
     } catch (e) {
       commit("LOADING", false);
     }

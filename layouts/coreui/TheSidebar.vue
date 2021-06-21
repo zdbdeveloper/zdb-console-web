@@ -34,7 +34,7 @@
       <ul>
         <template v-for="item in dropdowns.tail">
           <li :key="item.name">
-            <CLink :to="`/projects/${item.key}/dashboard`">
+            <CLink :to="`/projects/${item.key}/datastores`">
               {{ item._label }}
             </CLink>
           </li>
@@ -100,6 +100,7 @@ const Icons = {
   networking: { icon: "cil-lan" },
   storages: { icon: "cil-storage" },
   administrator: { icon: "cil-settings" },
+  system: { icon: "cil-settings" },
   projects: { icon: "cil-featured-playlist" },
   tools: { icon: "cil-calculator" },
   users: { icon: "cil-people" },
@@ -211,6 +212,9 @@ export default {
     project(newValue, oldValue) {
       console.debug("[layouts/TheSidevar.vue] - ", newValue, oldValue);
       !this._.isEmpty(newValue) && this.loadMenus();
+    },
+    showDownMenu(value) {
+      this.loadMenus()
     }
   },
   methods: {
@@ -234,9 +238,9 @@ export default {
 
       this.dropdowns = this.updateDropdowns();
       this.areaButton = this.updateAreaButton();
-      this.menus
-        .searchSideMenus({ realm, project, tags: area })
-        .then(() => this.hideSidebar());
+      // this.menus
+      //   .searchSideMenus({ realm, project, tags: area })
+      //   .then(() => this.hideSidebar());
     },
     updateDropdowns() {
       const { area, _ } = this;
@@ -256,11 +260,8 @@ export default {
       const items = _.map(rule.items, e => {
         return { ...e, _label: e.displayName || e.name || "-" };
       });
-
-      const selected =
-        _(items)
-          .filter({ key: rule.key })
-          .head() || {};
+      //const selected = _(items).filter({ key: rule.key }).head() || {};
+      const selected = (items.filter(item => item.key == location.pathname.split('/')?.[2]))[0]
       const tail = _.without(items, selected);
       const show = !_.isEmpty(items);
       return {

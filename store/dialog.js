@@ -85,7 +85,7 @@ export const mutations = {
     state.confirm.show = false;
 
     if (_.isFunction(local.confirm_resolve)) {
-      local.confirm_resolve();
+      local.confirm_resolve(1);
     }
 
     local.confirm_promise = null;
@@ -96,7 +96,8 @@ export const mutations = {
     state.confirm.show = false;
 
     if (_.isFunction(local.confirm_reject)) {
-      local.confirm_reject();
+      // local.confirm_reject();
+      local.confirm_resolve(0);
     }
 
     local.confirm_promise = null;
@@ -143,19 +144,14 @@ export const actions = {
   confirm({ commit }, payload) {
     if (local.confirm_promise !== null) {
       return new Promise((resolve, reject) => {
-        console.log('resolve:', resolve)
-        console.log('reject:', reject)
         reject();
       });
     } else {
       // Create New Promise
       local.confirm_promise = new Promise((resolve, reject) => {
-        console.log('...resolve:', resolve)
-        console.log('....reject:', reject)
         local.confirm_resolve = resolve;
         local.confirm_reject = reject;
       });
-      
     }
 
     commit("CONFIRM_SHOW", payload);

@@ -14,6 +14,40 @@
         sorter
         striped
       >
+      <template #cpuUsage="{item}">
+        <td>
+          <div class="clearfix" style="min-width: 160px;">
+            <div class="float-left">
+              <strong>{{ item.cpuUsage.rate }} %</strong>
+            </div>
+            <div class="float-right">
+              <small class="text-muted">{{ item.cpuUsage.usage }}</small>
+            </div>
+          </div>
+          <CProgress
+            v-model="item.cpuUsage.rate"
+            :color="item.cpuColor"
+            class="progress-xs"
+          />
+        </td>
+      </template>
+      <template #memoryUsage="{item}">
+        <td>
+          <div class="clearfix" style="min-width: 160px;">
+            <div class="float-left">
+              <strong>{{ item.memoryUsage.rate }} %</strong>
+            </div>
+            <div class="float-right">
+              <small class="text-muted">{{ item.memoryUsage.usage }}</small>
+            </div>
+          </div>
+          <CProgress
+            v-model="item.memoryUsage.rate"
+            :color="item.memoryColor"
+            class="progress-xs"
+          />
+        </td>
+      </template> 
       </CDataTable>
       </CScrollbar>
     </CTab>
@@ -82,6 +116,15 @@ export default {
           return item.name == this.$store.state.zdb.pod
         })
       })
+    },
+    getBadgeColor(name) {
+      switch (name) {
+        case 'Running': return 'success'
+        case 'Inactive': return 'secondary'
+        case 'Pending': return 'warning'
+        case 'Banned': return 'danger'
+        default: return 'primary'
+      }
     },
   },
   watch: {

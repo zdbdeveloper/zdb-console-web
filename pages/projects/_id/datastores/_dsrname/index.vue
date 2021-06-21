@@ -20,15 +20,15 @@
         <td>
           <div class="clearfix" style="min-width: 160px;">
             <div class="float-left">
-              <strong>{{ item.cpuUsage.value }} %</strong>
+              <strong>{{ item.cpuUsage.rate }} %</strong>
             </div>
             <div class="float-right">
               <small class="text-muted">{{ item.cpuUsage.usage }}</small>
             </div>
           </div>
           <CProgress
-            v-model="item.cpuUsage.value"
-            :color="color(item.cpuUsage.value)"
+            v-model="item.cpuUsage.rate"
+            :color="item.cpuColor"
             class="progress-xs"
           />
         </td>
@@ -37,19 +37,19 @@
         <td>
           <div class="clearfix" style="min-width: 160px;">
             <div class="float-left">
-              <strong>{{ item.memoryUsage.value }} %</strong>
+              <strong>{{ item.memoryUsage.rate }} %</strong>
             </div>
             <div class="float-right">
               <small class="text-muted">{{ item.memoryUsage.usage }}</small>
             </div>
           </div>
           <CProgress
-            v-model="item.memoryUsage.value"
-            :color="color(item.memoryUsage.value)"
+            v-model="item.memoryUsage.rate"
+            :color="item.memoryColor"
             class="progress-xs"
           />
         </td>
-      </template>
+      </template> 
       </CDataTable>
       </CScrollbar>
     </CTab>
@@ -241,41 +241,11 @@ export default {
         })
       }
     },
-    /**
-     * Bage color
-     */
-    getBadgeColor(name) {
-      switch (name) {
-        case 'Running': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
-        default: return 'primary'
-      }
-    },
-    color(value) {
-      let $color;
-      if (value <= 25) {
-        $color = "info";
-      } else if (value > 25 && value <= 50) {
-        $color = "success";
-      } else if (value > 50 && value <= 75) {
-        $color = "warning";
-      } else if (value > 75 && value <= 100) {
-        $color = "danger";
-      } else if (value > 100) {
-        $color = "danger";
-      }
-      return $color;
-    },
   },
   watch: {
     activeTab (value) {
       switch(value) {
         case 2: return this.createChart()
-        // case 6: {
-        //   return this.activeTab='management'
-        // }
         default: return console.log('tab:', value)
       }
     }

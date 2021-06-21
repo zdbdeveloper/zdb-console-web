@@ -30,6 +30,22 @@ const getUsageRate = (item, type) => {
   return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
 }
 
+const getUsageColor = (value = 0) => {
+  if (value <= 25) return 'info'
+  else if (value > 25 && value <= 50) return 'success'
+  else if (value > 50 && value <= 75) return 'warning'
+  else if (value > 75) return 'danger'
+}
+
+const getBadgeColor = (value = 0) => {
+  switch (value) {
+    case 'Running': return 'success'
+    case 'Inactive': return 'secondary'
+    case 'Pending': return 'warning'
+    case 'Banned': return 'danger'
+    default: return 'primary'
+  }
+}
 export class TableFactory {
   constructor(args) {
     this.properties = args
@@ -116,11 +132,14 @@ export class TableFactory {
             storage: item.status.storage.data || '',
             message: '',
             age: getAge(item.metadata.creationTimestamp),
+            badgeColor: getBadgeColor(item.status.status)
           }
         })
       },
       datastore_children: () => {
         return this.items.map(item => {
+          let cpuUsageRate = getUsageRate(item, 'cpu')
+            , memoryUsageRate = getUsageRate(item, 'memory')
           return {
             ...metadata(item),
             datastore: item.spec.datastore || '',
@@ -132,9 +151,11 @@ export class TableFactory {
             workrPool: item.status.workerPool || '',
             requestCpu: item.status.resources?.requestCpu || '',
             requestMemory: item.status.resources?.requestMemory || '',
-            cpuUsage: { rate: getUsageRate(item, 'cpu'), usage: item.status.resources?.cpuUsage } || {},
-            memoryUsage: { rate: getUsageRate(item, 'memory'), usage: item.status.resources?.memoryUsage } || '',
+            cpuUsage: { rate: cpuUsageRate, usage: item.status.resources?.cpuUsage } || {},
+            memoryUsage: { rate: memoryUsageRate, usage: item.status.resources?.memoryUsage } || '',
             storage: item.status.storage?.data || '',
+            cpuColor: getUsageColor(cpuUsageRate),
+            memoryColor: getUsageColor(memoryUsageRate),
           }
         })
       },
