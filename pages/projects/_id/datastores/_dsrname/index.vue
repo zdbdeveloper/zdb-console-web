@@ -53,25 +53,7 @@
       </CDataTable>
       </CScrollbar>
     </CTab>
-    <CTab title="스케일">
-      <!-- <CRow class="card-dash-group">
-        <CCol lg="12" xl="10" class="card-dash-icon-group">
-          <CRow>
-            <CCol v-for="(v, k) in dbservers" :key="k"
-              sm="6" lg="6" xl="3">
-              <CWidgetIcon
-                :header="v.title"
-                :icon-padding="true"
-                :text="v.text"
-                :color="v.color"
-              >
-                <CIcon name="cil-pencil" width="24"/>
-              </CWidgetIcon>
-            </CCol>
-          </CRow>
-        </CCol>
-      </CRow> -->
-    </CTab>
+    <CTab title="스케일" />
     <CTab title="모니터링">
       <div v-for="(chart, key, idx) in targetCharts" :key="key" class="chart-wrap">
         <apexchart type="area" height="350"
@@ -84,7 +66,6 @@
     <CTab title="이벤트" />
     <CTab title="로그" />
     <CTab title="관리" />
-    </CTab>
   </CTabs>
 </template>
 
@@ -102,7 +83,6 @@ export default {
       tableFields: [],
       tableItems: [],
       table_details: [],
-      dbservers: [],
       collapseDuration: 100,
       //Apexchart Chart
       targetCharts: null,

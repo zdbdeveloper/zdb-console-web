@@ -3,22 +3,29 @@
     <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
     <CRow>
       <CCol xl="2">
-        <Category :payload="{ managements }" @onHandleSector="handleSector" />
+        <Category
+          :payload="{
+            categories: Object.entries(managements.categories).map(v => v),
+            active: managements.active
+          }"
+          @onHandleCategory="handleCategory"
+        />
       </CCol>
       <CCol v-if="managements.completed">
         <Blocks
-          v-if="Object.keys(managements.sectors[managements.active].contents.blocks).length"
-          :payload="{ ...managements.sectors[managements.active].contents.blocks }"
+          v-if="Object.keys(managements.categories[managements.active].contents.blocks).length"
+          :payload="{ blocks: managements.categories[managements.active].contents.blocks.tableItems }"
         />
         <CDataTable
-          :fields="managements.sectors[managements.active].contents.table.tableFields"
-          :items="managements.sectors[managements.active].contents.table.tableItems"
+          :fields="managements.categories[managements.active].contents.table.tableFields"
+          :items="managements.categories[managements.active].contents.table.tableItems"
           hover
           sorter
           striped
           table-filter
           pagination
           :itemsPerPage="100"
+          @page-change="page=$event"
         >
           <template #kill="{item, index}">
             <td class="py-2">
@@ -49,7 +56,7 @@ export default {
       managements: {
         active: 'connections',
         completed: false,
-        sectors: {
+        categories: {
           connections: {
             title: '클라이언트 커넥션',
             contents: {}
@@ -64,19 +71,25 @@ export default {
           },
         }
       },
+      page: 1,
     }
   },
   created () {
     this.fetchContent()
   },
   methods: {
-    handleSector (id) {
+    handleCategory (id) {
       this.fetchContent(id)
     },
     async fetchContent (id = this.managements.active) {
       this.managements.completed = false
-      let target = this.managements.sectors[id]
-      //if (target.contents.table.tableItems) return
+      let target = this.managements.categories[id]
+      if (target.contents.table?.tableItems) {
+        this.managements.active = id
+        this.managements.completed = true
+        this.page = 1
+        return
+      }
       let ids = { [id]: [`mariadb_${id}`] }
       if ('connections' == id) {
         ids[id] = [ 'mariadb_processes', ...ids[id] ]
@@ -104,6 +117,7 @@ export default {
       target.contents.table.tableItems = table.tableItems
       this.managements.active = id
       this.managements.completed = true
+      this.page = 1
     },
     async killProcess (item, index) {
       if (await this.$store.dispatch('dialog/confirm'
@@ -114,6 +128,11 @@ export default {
         })
       }
     }
+  },
+  watch: {
+    page () {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } 
   }
 }
 </script>

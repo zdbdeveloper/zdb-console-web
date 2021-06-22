@@ -1,12 +1,12 @@
 <template>
   <CListGroup>
     <CListGroupItem
-      v-for="(sector, idx) in Object.entries(managements.sectors).map(v => v)"
+      v-for="(category, idx) in $props.payload.categories"
       :key="idx"
-      :class="{ 'active': managements.active == sector[0] }"
-      @click="$emit('onHandleSector', sector[0])"
+      :class="{ 'active': $props.payload.active == category[0] }"
+      @click="$emit('onHandleCategory', category[0])"
     >
-      {{ sector[1].title }}
+      {{ category[1].title }}
     </CListGroupItem>
   </CListGroup>
 </template>
@@ -15,14 +15,6 @@
 export default {
   props: {
     payload: { type: Object, default: null },
-  },
-  data () {
-    return {
-      ...this.$props.payload,
-    }
-  },
-  methods: {
-
   }
 }
 </script>

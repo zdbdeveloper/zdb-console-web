@@ -29,22 +29,31 @@ const getUsageRate = (item, type) => {
   let rate = 'cpu' == type ? 100 : 1
   return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
 }
-
 const getUsageColor = (value = 0) => {
   if (value <= 25) return 'info'
   else if (value > 25 && value <= 50) return 'success'
   else if (value > 50 && value <= 75) return 'warning'
   else if (value > 75) return 'danger'
 }
-
-const getBadgeColor = (value = 0) => {
+const getBadgeColor = (value) => {
+  value = value.toLowerCase()
   switch (value) {
-    case 'Running': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
+    case 'running': return 'success'
+    case 'inactive': return 'secondary'
+    case 'pending': return 'warning'
+    case 'banned': return 'danger'
     default: return 'primary'
   }
+}
+const getProviderIcon = (value) => {
+  value = value.toLowerCase()
+  const icons = {
+    azure: '/img/brand/img_logo_azure.png',
+    aws: '/img/brand/img_logo_aws.png',
+    ibm: '/img/brand/img_logo_ibm.png',
+    gke: '/img/brand/img_logo_gcs.png'
+  };
+  return icons[value];
 }
 export class TableFactory {
   constructor(args) {
@@ -102,7 +111,7 @@ export class TableFactory {
         {key: "kill", label: "", style: "width:1%", sorter: false, filter: false},
       ],
       mariadb_variables: [
-        {key: "variable", label: "Variable"},
+        {key: "key", label: "Variable"},
         {key: "value", label: "Value"},
       ]
     }
@@ -176,7 +185,7 @@ export class TableFactory {
       mariadb_variables: () => {
         return this.items.map(item => {
           return {
-            variable: item[0] || '',
+            key: item[0] || '',
             value: item[1] || '',
           }
         })

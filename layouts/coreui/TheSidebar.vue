@@ -261,7 +261,7 @@ export default {
         return { ...e, _label: e.displayName || e.name || "-" };
       });
       //const selected = _(items).filter({ key: rule.key }).head() || {};
-      const selected = (items.filter(item => item.key == location.pathname.split('/')?.[2]))[0]
+      const selected = (items.filter(item => item.key == location.pathname.split('/')[2]))[0] || {}
       const tail = _.without(items, selected);
       const show = !_.isEmpty(items);
       return {

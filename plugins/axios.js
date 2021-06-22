@@ -9,8 +9,7 @@
  */
 function beforeReq(store) {
   return function(config) {
-    if (null != store.state.spinner)
-      store.dispatch('spinner', true)
+    null != store.state.spinner && store.dispatch('spinner', true)
     console.debug(`axios: ${config.method} ${config.url}`)
   }
 }

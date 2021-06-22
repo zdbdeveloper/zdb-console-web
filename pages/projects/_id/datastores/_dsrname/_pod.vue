@@ -117,15 +117,6 @@ export default {
         })
       })
     },
-    getBadgeColor(name) {
-      switch (name) {
-        case 'Running': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
-        default: return 'primary'
-      }
-    },
   },
   watch: {
     activeTab (value) {

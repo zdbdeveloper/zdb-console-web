@@ -109,24 +109,6 @@
       </template>
     </CDataTable>
     </CScrollbar>
-    <!-- <h2>Cards</h2>
-    <CRow class="card-dash-group">
-      <CCol lg="12" xl="10" class="card-dash-icon-group">
-        <CRow>
-          <CCol v-for="(v, k) in dbservers" :key="k"
-            sm="6" lg="6" xl="3">
-            <CWidgetIcon
-              :header="v.title"
-              :icon-padding="true"
-              :text="v.text"
-              :color="v.color"
-            >
-              <CIcon name="cil-pencil" width="24"/>
-            </CWidgetIcon>
-          </CCol>
-        </CRow>
-      </CCol>
-    </CRow> -->
   </div>
 </template>
 <script>
@@ -145,50 +127,11 @@
         tableDetails: [],
         //filteringFields: ['version', 'datastore'],
         filteringFields: [],
-        dbservers: [],
         collapseDuration: 100,
         //For STOMP socket
         stompClient: null,
         subscription: null,
         systemStates: [],
-
-        selected: [
-          '1',
-          // '1', 'group option 2', '5'
-        ],
-        options: [
-          {
-            value: 0,
-            text: 'enhancement'
-          },
-          {
-            value: 1,
-            text: 'bug',
-            // selected: true
-          },
-          {
-            value: 2,
-            text: 'duplicate',
-            // selected: true
-          },
-          {
-            value: 3,
-            text: 'invalid'
-          },
-          {
-            label: 'group',
-            options: [
-              {
-                value: 4,
-                text: 'enhancement2'
-              },
-              {
-                value: 5,
-                text: 'bug2'
-              }
-            ]
-          }
-        ],
       };
     },
     created() {
@@ -197,7 +140,7 @@
       })
       this.fetchTables()
     },
-    unmounted() {
+    beforeDestroy() {
       this.disconnectSocket()
     },
     computed: {
@@ -316,29 +259,10 @@
           })
         }
       },
-       
-      providerIcon(provider) {
-        const icons = {
-          AZURE: "/img/brand/img_logo_azure.png",
-          AWS: "/img/brand/img_logo_aws.png",
-          IBM: "/img/brand/img_logo_ibm.png",
-          GKE: "/img/brand/img_logo_gcs.png"
-        };
-        return icons[provider];
-      },
-      statusIcon(status) {
-        const icons = {
-          READY: "Ready",
-          NOTREADY: "Not Ready",
-          UNKNOWN: "Unknown",
-          SCHEDULINGDISABLED: "Scheduling Disabled"
-        };
-        return icons[status];
-      },
     }
   };
 </script>
-<style scoped>
-.table {text-align: center}
-.hide {display: none}
+
+<style>
+
 </style>

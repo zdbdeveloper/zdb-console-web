@@ -1,8 +1,11 @@
 <template>
   <ul class="blocks">
-    <li v-for="(item, idx) in $props.payload.tableItems" :key="idx">
-        <span>{{ item.variable }}</span>
-        <span>{{ item.value }}</span>
+    <li v-for="(block, idx) in $props.payload.blocks"
+      :key="idx"
+      :title="block.key" 
+    >
+        <span>{{ block.key }}</span>
+        <span>{{ block.value }}</span>
     </li>
   </ul>  
 </template>
@@ -20,4 +23,5 @@ export default {
 .blocks>li { display:block; float:left; width: 33.3%; border: 1px solid #e4e7ea}
 .blocks>li>span { display: block; float:left; padding: 0.4rem; overflow: hidden; text-overflow: ellipsis }
 .blocks>li>span:first-child { width:70%; border-right:1px solid #e4e7ea; background-color: #f1f4f9 }
+.blocks>li:hover { border-color: #0080ff }
 </style>

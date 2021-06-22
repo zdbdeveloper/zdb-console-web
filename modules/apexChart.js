@@ -6,6 +6,7 @@ export class ApexChart extends ChartRequest {
       categories: [],
       labels: {
         formatter: function (value) {
+          value = Number(value)
           let date = new Date(value * 1000),
             hours = date.getHours(),
             minutes = ('0' + date.getMinutes()).substr(-2),
@@ -55,29 +56,10 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (value) {
-            // if (value > 0.09) {
-            //   return value + 0.1
-            // } else if (value > 0.009) {
-            //   return value + 0.01
-            // } else if (value > 0.0009) {
-            //   return value + 0.001
-            // }
-            // return value + 1
             return 0 < value ? value * 1.1 : 100
           },
           labels: {
             formatter: function (value, index) {
-              // if (value > 0.09) {
-              //   return value.toFixed(1)
-              // } else if (value > 0.009) {
-              //   return value.toFixed(2)
-              // } else if (value > 0.0009) {
-              //   return value.toFixed(3)
-              // } else if (value > 0.009) {
-              //   return value.toFixed(4)
-              // } else if (value >= 0) {
-              //   return value.toFixed(0)
-              // }
               value = Number(value)
               let digits = value.toFixed(4)
                 , idx = digits.indexOf(digits.replace(/[^1-9]/g, ''))
@@ -204,17 +186,6 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              // let re = Number(value).toFixed(3)
-              // if (Number(value) == 0) {
-              //   re = Number(value).toFixed(0)
-              // } else if (Number(value) > 10) {
-              //   re = Number(value).toFixed(0)
-              // } else if (Number(value) > 0.9) {
-              //   re = Number(value).toFixed(1)
-              // } else if (Number(value) > 0.1) {
-              //   re = Number(value).toFixed(2)
-              // }
-              // return re
               return Math.floor(Number(value)).toFixed()
             },
           },
@@ -245,13 +216,6 @@ export class ApexChart extends ChartRequest {
           },						
           labels: {
             formatter: function(value, index) {
-              // let re = Number(value).toFixed(2)
-              // if(Number(value) == 0  ){							    		  
-              //   re = Number(value).toFixed(0)
-              // } else if(Number(value) > 10  ){
-              //   re = Number(value).toFixed(0)
-              // }
-              // return re
               value = Number(value)
               return 0 >= value ? 0 : value.toFixed(1)
             }
@@ -278,6 +242,7 @@ export class ApexChart extends ChartRequest {
           tickAmount: 4,
           min: 0,
           max: function (value) {
+            value = Number(value)
             return 4 > value ? 4 : value + 1
           },
           labels: {
@@ -313,11 +278,6 @@ export class ApexChart extends ChartRequest {
           },
           labels: {
             formatter: function (value) {
-              // let re = Number(value).toFixed(1)
-              // if (Number(value) <= 0) {
-              //   re = Number(value).toFixed(0)
-              // }
-              // return re
               value = Number(value)
               return 0 >= value ? 0 : value.toFixed()
             },
