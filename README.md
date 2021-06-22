@@ -22,9 +22,6 @@ $ npm run start
 $ npm run generate
 
 # build
-$ docker build -t registry.au-syd.bluemix.net/cloudzdb/zdb-console-web:pilot .
-$ docker image push registry.au-syd.bluemix.net/cloudzdb/zdb-console-web:pilot
-
 $ docker build -t registry.au-syd.bluemix.net/cloudzdb/console-zdb-web:pilot .
 $ docker image push registry.au-syd.bluemix.net/cloudzdb/console-zdb-web:pilot
 # apply deployment
