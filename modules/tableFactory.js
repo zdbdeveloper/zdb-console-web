@@ -34,14 +34,16 @@ const getUsageColor = (value = 0) => {
   else if (value > 25 && value <= 50) return 'success'
   else if (value > 50 && value <= 75) return 'warning'
   else if (value > 75) return 'danger'
-}
+}	
 const getBadgeColor = (value) => {
   value = value.toLowerCase()
   switch (value) {
     case 'running': return 'success'
     case 'inactive': return 'secondary'
-    case 'pending': return 'warning'
-    case 'banned': return 'danger'
+    case 'pending':
+    case 'crashloopbackoff': return 'warning'
+    case 'banned':
+    case 'failedmount': return 'danger'
     default: return 'primary'
   }
 }
@@ -146,7 +148,7 @@ export class TableFactory {
         })
       },
       datastore_children: () => {
-        return this.items.map(item => {
+        return this.items?.map(item => {
           let cpuUsageRate = getUsageRate(item, 'cpu')
             , memoryUsageRate = getUsageRate(item, 'memory')
           return {
@@ -169,7 +171,7 @@ export class TableFactory {
         })
       },
       mariadb_processes: () => {
-        return this.items.map(item => {
+        return this.items?.map(item => {
           return {
             Id: item.Id || '',
             Progress: item.Progress || '',
@@ -183,7 +185,7 @@ export class TableFactory {
         })
       },
       mariadb_variables: () => {
-        return this.items.map(item => {
+        return this.items?.map(item => {
           return {
             key: item[0] || '',
             value: item[1] || '',
