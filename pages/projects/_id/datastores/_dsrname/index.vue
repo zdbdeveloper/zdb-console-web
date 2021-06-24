@@ -26,16 +26,14 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('zdb', {
+    this.$store.commit('datastores/zdb', {
       projectid: this.$route.params.id,
       name: this.$route.params.dsrname,
     })
   },
-  methods: {
-  },
 }
 </script>
 
-<style scoped>
-.tab-content h1 { text-align: center; margin: 3rem 0 0}
+<style>
+
 </style>

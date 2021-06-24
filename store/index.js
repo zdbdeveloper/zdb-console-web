@@ -11,7 +11,6 @@ export const state = () => {
     locale: "en",
     locales: ["en", "kr"],
     spinner: false,
-    zdb: {}
   }
 };
 
@@ -41,9 +40,6 @@ export const mutations = {
   SPINNER(state, value) {
     state.spinner = value
   },
-  ZDB(state, value) {
-    state.zdb = { ...state.zdb, ...value }
-  }
 };
 
 export const actions = {
@@ -68,7 +64,4 @@ export const actions = {
   spinner({ commit }, value) {
     commit('SPINNER', value)
   },
-  zdb({ commit }, value) {
-    commit('ZDB', value)
-  }
 };

@@ -14,7 +14,7 @@ export default {
     width: { type: String, default: '4rem' },
     height: { type: String, default: '4rem' },
     color: { type: String, default: 'success' },
-    grow: { type: Boolean, default: false }
+    grow: { type: Boolean, default: true }
   },
   data () {
     return { 

@@ -7,7 +7,7 @@
       <Overview />
     </CTab>
     <CTab title="관리">
-      <Management v-if="'1'==activeTab && 'mariadb'==($store.state.zdb.datastore).toLowerCase()" />      
+      <Management v-if="'1'==activeTab && 'mariadb'==($store.state.datastores.zdb.datastore).toLowerCase()" />      
     </CTab>
   </CTabs>
 </template>
@@ -20,7 +20,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('zdb', {
+    this.$store.commit('datastores/zdb', {
       projectid: this.$route.params.id,
       name: this.$route.params.dsrname,
       pod: this.$route.params.pod,

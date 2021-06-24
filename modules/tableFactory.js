@@ -41,6 +41,7 @@ const getBadgeColor = (value) => {
     case 'running': return 'success'
     case 'inactive': return 'secondary'
     case 'pending':
+    case 'backoff':
     case 'crashloopbackoff': return 'warning'
     case 'banned':
     case 'failedmount': return 'danger'

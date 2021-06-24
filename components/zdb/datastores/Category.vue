@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-  .list-group-item {
-    cursor: pointer;
-  }
+.list-group-item {
+  cursor: pointer;
+}
 </style>

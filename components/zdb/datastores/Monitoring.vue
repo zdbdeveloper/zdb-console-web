@@ -1,5 +1,31 @@
 <template>
 <div>
+  <div class="chart-options">
+    <CRow>
+      <CCol xl="2" lg="3">
+        <v-select
+          v-model.lazy="step.default"
+          :options="step.options"
+          :clearable="false"
+          class="vs__select-custom"
+          placeholder="Please select"
+          @input="createCharts(true)"
+          v-tooltip.top="'Step'"
+        />
+      </CCol>      
+      <CCol xl="2" lg="3">
+        <v-select
+          v-model.lazy="period.default"
+          :options="period.options"
+          :clearable="false"
+          class="vs__select-custom"
+          placeholder="Please select"
+          @input="createCharts(true)"
+          v-tooltip.top="'Period'"
+        />
+      </CCol>
+    </CRow>
+  </div>
   <div v-for="(chart, key, idx) in targetCharts" :key="key" class="chart-wrap">
     <apexchart type="area" height="350"
       :series="chart.series"
@@ -15,52 +41,58 @@ import { ApexChart } from '~/modules/apexChart'
 export default {
   data () {
     return {
-      targetCharts: this.$store.state.datastores.apexCharts.targetCharts || null,
+      targetCharts: this.$store.state.datastores.apexCharts.targetCharts || {},
       hideSeries: this.$store.state.datastores.apexCharts.hideSeries || [],
       pathname: this.$store.state.datastores.apexCharts.pathname,
-      updated: 0
+      updated: 0,
+      period: {
+        default: this.$store.state.datastores.apexCharts.period || 1800,
+        options: [ 600, 1800, 3600, 10800, 21600, 43200, 86400 ]
+      },
+      step: {
+        default: this.$store.state.datastores.apexCharts.step || 30,
+        options: [ 10, 30, 60, 180, 360, 1200, 2400 ]
+      }
     }
   },
   created () {
-    this.createChart()
+    this.createCharts()
   },
   beforeDestroy () {
     if (this.updated === Object.keys(this.targetCharts).length) {
       this.$store.commit('datastores/apexCharts', { 
+        pathname: location.pathname,
         targetCharts: this.targetCharts,
         hideSeries: this.hideSeries,
-        pathname: location.pathname
+        period: this.period.default,
+        step: this.step.default
       })
     }
   },
   methods: {
-    async createChart () {
-      //Using the cache data if you want it.
-      if (location.pathname == this.pathname && this.targetCharts) {
+    async createCharts (force = false) {
+      //Using cache data. You can remove it.
+      if (!force && location.pathname == this.pathname && Object.keys(this.targetCharts).length) {
         setTimeout(() => {
           try {
             this.hideSeries.forEach(item => {
               item.id && item.name && this.$apexcharts.exec(item.id, 'hideSeries', item.name)
             })
-          } catch (e) { 
+          } catch (e) {
             console.log(e)
-            this.$store.commit('datastores/apexCharts', { 
-              targetCharts: null,
-              hideSeries: [],
-              pathname: null
-            })
+            this.createCharts(true)
           }
         }, 1000)
         return
       }
       const apexChart = new ApexChart({
         server: 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
-        , period: 1800
-        , step: 30
-        , namespace: this.$store.state.zdb.namespace
-        , name: this.$store.state.zdb.name
-        , datastore: this.$store.state.zdb.datastore
-        , standalone: this.$store.state.zdb.standalone
+        , period: this.period.default
+        , step: this.step.default
+        , namespace: this.$store.state.datastores.zdb.namespace
+        , name: this.$store.state.datastores.zdb.name
+        , datastore: this.$store.state.datastores.zdb.datastore
+        , standalone: this.$store.state.datastores.zdb.standalone
       })
       this.targetCharts = apexChart.getCharts()
       setTimeout(() => {
@@ -106,6 +138,7 @@ export default {
       this.updated = this.updated + 1
     },
     async fetchCharts (apexChart) {
+      this.updated = 0
       this.targetCharts && Object.keys(this.targetCharts)?.forEach(async (id, idx) => {
         let requests = apexChart.getRequests(id)
         if (!requests) return
@@ -136,5 +169,6 @@ export default {
 </script>
 
 <style scoped>
-  .chart-wrap { float:left; width:33.3%; padding:1%; margin:0 0 30px }
+.chart-options { padding: 1rem }
+.chart-wrap { float:left; width:33.3%; padding:1%; margin:0 0 30px }
 </style>

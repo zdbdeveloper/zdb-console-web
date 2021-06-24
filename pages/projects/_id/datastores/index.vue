@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
+    <MySpinner />
     <h2>Tables</h2>
     <!-- <button@click="stopSocket"
       :disabled="!Boolean(subscription)">STOP SOCKET</button@click=>
@@ -12,122 +12,114 @@
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
     <!-- <button @click="allColumm">COLUMN</button> -->
-    <CScrollbar class="scroll-area" :settings="psSettings" @ps-scroll-x="scrollHandle">
-    <CDataTable
-      :items="tableItems"
-      :fields="FilteredFields"
-      hover
-      pagination
-      sorter
-      striped
-      table-filter
-      @row-clicked="handleRowClick"
-    >
-      <template #show_details="{item, index}">
-        <td class="py-2">
-          <CButton
-            color="primary"
-            variant="outline"
-            square
-            size="sm"
-            @click="fetchDetails(item, index)"
-          >
-            {{Boolean(item._toggled) ? '-' : '+'}}
-          </CButton>
-        </td>
-      </template>
-      <template #details="{item}">
-        <CCollapse
-          :show="Boolean(item._toggled)"
-          :duration="collapseDuration">
-          <CDataTable
-            :items="tableDetails[item.namespace].tableItems"
-            :fields="tableDetails[item.namespace].tableFields"
-            hover
-            pagination
-            sorter
-            striped
-          >
-          <template #cpuUsage="{item}">
-            <td>
-              <div class="clearfix" style="min-width: 160px;">
-                <div class="float-left">
-                  <strong>{{ item.cpuUsage.rate }} %</strong>
+    <MyScrollbar>
+      <CDataTable
+        :items="tableItems"
+        :fields="FilteredFields"
+        hover
+        pagination
+        sorter
+        striped
+        table-filter
+        @row-clicked="handleRowClick"
+      >
+        <template #show_details="{item, index}">
+          <td class="py-2">
+            <CButton
+              color="primary"
+              variant="outline"
+              square
+              size="sm"
+              @click="fetchDetails(item, index)"
+            >
+              {{Boolean(item._toggled) ? '-' : '+'}}
+            </CButton>
+          </td>
+        </template>
+        <template #details="{item}">
+          <CCollapse
+            :show="Boolean(item._toggled)"
+            :duration="collapseDuration">
+            <CDataTable
+              :items="tableDetails[item.namespace].tableItems"
+              :fields="tableDetails[item.namespace].tableFields"
+              hover
+              pagination
+              sorter
+              striped
+            >
+            <template #cpuUsage="{item}">
+              <td>
+                <div class="clearfix" style="min-width: 160px;">
+                  <div class="float-left">
+                    <strong>{{ item.cpuUsage.rate }} %</strong>
+                  </div>
+                  <div class="float-right">
+                    <small class="text-muted">{{ item.cpuUsage.usage }}</small>
+                  </div>
                 </div>
-                <div class="float-right">
-                  <small class="text-muted">{{ item.cpuUsage.usage }}</small>
+                <CProgress
+                  v-model="item.cpuUsage.rate"
+                  :color="item.cpuColor"
+                  class="progress-xs"
+                />
+              </td>
+            </template>
+            <template #memoryUsage="{item}">
+              <td>
+                <div class="clearfix" style="min-width: 160px;">
+                  <div class="float-left">
+                    <strong>{{ item.memoryUsage.rate }} %</strong>
+                  </div>
+                  <div class="float-right">
+                    <small class="text-muted">{{ item.memoryUsage.usage }}</small>
+                  </div>
                 </div>
-              </div>
-              <CProgress
-                v-model="item.cpuUsage.rate"
-                :color="item.cpuColor"
-                class="progress-xs"
-              />
-            </td>
-          </template>
-          <template #memoryUsage="{item}">
-            <td>
-              <div class="clearfix" style="min-width: 160px;">
-                <div class="float-left">
-                  <strong>{{ item.memoryUsage.rate }} %</strong>
-                </div>
-                <div class="float-right">
-                  <small class="text-muted">{{ item.memoryUsage.usage }}</small>
-                </div>
-              </div>
-              <CProgress
-                v-model="item.memoryUsage.rate"
-                :color="item.memoryColor"
-                class="progress-xs"
-              />
-            </td>
-          </template>          
-          </CDataTable>
-        </CCollapse>
-      </template>
-      <!-- <template #Provider="{item}">
-        <td class="text-center">
-          <img :alt="item.Provider" :src="providerIcon(item.Provider)" width="22">
-        </td>
-      </template> -->
-      <template #status="{item}">
-        <td class="text-center">
-          <CBadge :color="item.badgeColor">
-            {{ item.status }}
-          </CBadge>
-        </td>
-      </template>
-      <template #Health="{item}">
-        <td class="text-center">
-          <font-awesome-icon v-if="item.health === 'green'" icon="check-circle" class="c-icon mt-1 text-success"/>
-          <font-awesome-icon v-else-if="item.health === 'yellow'" icon="exclamation-circle"
-                             class="c-icon mt-1 text-warning"/>
-          <font-awesome-icon v-else-if="item.health === 'red'" icon="exclamation-circle"
-                             class="c-icon mt-1 text-danger"/>
-          <font-awesome-icon v-else icon="question-circle" class="c-icon mt-1 text-secondary"/>
-        </td>
-      </template>
-    </CDataTable>
-    </CScrollbar>
+                <CProgress
+                  v-model="item.memoryUsage.rate"
+                  :color="item.memoryColor"
+                  class="progress-xs"
+                />
+              </td>
+            </template>          
+            </CDataTable>
+          </CCollapse>
+        </template>
+        <template #status="{item}">
+          <td class="text-center">
+            <CBadge :color="item.badgeColor">
+              {{ item.status }}
+            </CBadge>
+          </td>
+        </template>
+        <template #Health="{item}">
+          <td class="text-center">
+            <font-awesome-icon v-if="item.health === 'green'" icon="check-circle" class="c-icon mt-1 text-success"/>
+            <font-awesome-icon v-else-if="item.health === 'yellow'" icon="exclamation-circle"
+                              class="c-icon mt-1 text-warning"/>
+            <font-awesome-icon v-else-if="item.health === 'red'" icon="exclamation-circle"
+                              class="c-icon mt-1 text-danger"/>
+            <font-awesome-icon v-else icon="question-circle" class="c-icon mt-1 text-secondary"/>
+          </td>
+        </template>
+      </CDataTable>
+    </MyScrollbar>
   </div>
 </template>
 <script>
   import SockJS from 'sockjs-client'
   import Stomp from 'webstomp-client'
-  import {dialog, scrollbar} from "~/mixins";
   import { TableFactory } from '~/modules/tableFactory'
 
   export default {
-    mixins: [dialog, scrollbar],
     data() {
       return {
         //For Tables
         tableFields: [],
         tableItems: [],
         tableDetails: [],
-        //filteringFields: ['version', 'datastore'],
-        filteringFields: [],
         collapseDuration: 100,
+        filteringFields: [ 'version', 'datastore' ],
         //For STOMP socket
         stompClient: null,
         subscription: null,
@@ -135,7 +127,7 @@
       };
     },
     created() {
-      this.$store.dispatch('zdb', {
+      this.$store.commit('datastores/zdb', {
         projectid: this.$route.params.id
       })
       this.fetchTables()
@@ -216,7 +208,7 @@
        * Fetch data for the tables
        */
       async fetchTables () {
-        let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_parents')
+        let res = await this.$fetcher.set(this.$store.state.datastores.zdb).get('datastore_parents')
         if (!res || typeof res !== 'object') return console.debug('NO response')
         res = new TableFactory({id: 'datastore_parents', items: res}).build()
         this.tableFields = res.tableFields
@@ -235,8 +227,8 @@
         if (this.tableDetails && this.tableDetails[namespace].tableItems) {
           return this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
         }
-        this.$store.dispatch('zdb', { namespace, name, cluster })
-        let res = await this.$fetcher.set(this.$store.state.zdb).get('datastore_children')
+        this.$store.commit('datastores/zdb', { namespace, name, cluster })
+        let res = await this.$fetcher.set(this.$store.state.datastores.zdb).get('datastore_children')
         if (!res || !Object.keys(res).length) return console.debug('NO response')
         res = new TableFactory({id: 'datastore_children', items: res}).build()
         let tableFields = res.tableFields
@@ -253,9 +245,9 @@
             , cluster = this.tableItems[index].cluster
             , architecture = this.tableItems[index].architecture
             , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
-          this.$store.dispatch('zdb', { standalone, cluster })
+          this.$store.commit('datastores/zdb', { standalone, cluster })
           this.$router.push({
-            path: `/projects/${this.$store.state.zdb.projectid}/datastores/${name}`
+            path: `/projects/${this.$store.state.datastores.zdb.projectid}/datastores/${name}`
           })
         }
       },

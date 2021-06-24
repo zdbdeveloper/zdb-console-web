@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MySpinner width="4rem" height="4rem" color="success" :grow="true" />
+    <MySpinner />
     <CRow>
       <CCol xl="2">
         <Category
@@ -40,7 +40,7 @@
               </CButton>
             </td>
           </template>
-      </CDataTable>
+        </CDataTable>
       </CCol>
     </CRow>
   </div>
