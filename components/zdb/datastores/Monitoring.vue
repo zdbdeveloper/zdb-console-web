@@ -17,11 +17,13 @@
         <v-select
           v-model.lazy="period.default"
           :options="period.options"
+          :reduce="name => name.value"
+          label="name"
           :clearable="false"
           class="vs__select-custom"
           placeholder="Please select"
-          @input="createCharts(true)"
           v-tooltip.top="'Period'"
+          @input="createCharts(true)"
         />
       </CCol>
     </CRow>
@@ -47,7 +49,15 @@ export default {
       updated: 0,
       period: {
         default: this.$store.state.datastores.apexCharts.period || 1800,
-        options: [ 600, 1800, 3600, 10800, 21600, 43200, 86400 ]
+        options: [
+          { value: 600, name: '10 Minuts'},
+          { value: 1800, name: '30 Minuts'},
+          { value: 3600, name: '1 Hours'},
+          { value: 10800, name: '3 Hours'},
+          { value: 21600, name: '6 Hours'},
+          { value: 43200, name: '12 Hours'},
+          { value: 86400, name: '1 Day'},
+        ]
       },
       step: {
         default: this.$store.state.datastores.apexCharts.step || 30,
@@ -74,15 +84,12 @@ export default {
       //Using cache data. You can remove it.
       if (!force && location.pathname == this.pathname && Object.keys(this.targetCharts).length) {
         setTimeout(() => {
-          try {
             this.hideSeries.forEach(item => {
-              item.id && item.name && this.$apexcharts.exec(item.id, 'hideSeries', item.name)
+              try {
+                this.$apexcharts.exec(item.id, 'hideSeries', item.name)
+              } catch (e) { console.log(e) }
             })
-          } catch (e) {
-            console.log(e)
-            this.createCharts(true)
-          }
-        }, 1000)
+        }, 500)
         return
       }
       const apexChart = new ApexChart({
@@ -139,6 +146,7 @@ export default {
     },
     async fetchCharts (apexChart) {
       this.updated = 0
+      this.hideSeries = []
       this.targetCharts && Object.keys(this.targetCharts)?.forEach(async (id, idx) => {
         let requests = apexChart.getRequests(id)
         if (!requests) return

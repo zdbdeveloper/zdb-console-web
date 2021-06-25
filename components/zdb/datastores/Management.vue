@@ -5,20 +5,20 @@
       <CCol xl="2">
         <Category
           :payload="{
-            categories: Object.entries(managements.categories).map(v => v),
+            categories: categories,
             active: managements.active
           }"
-          @onHandleCategory="handleCategory"
+          @onHandleCategory="fetchContent"
         />
       </CCol>
       <CCol v-if="managements.completed">
         <Blocks
-          v-if="Object.keys(managements.categories[managements.active].contents.blocks).length"
-          :payload="{ blocks: managements.categories[managements.active].contents.blocks.tableItems }"
+          v-if="Object.keys(activeBlocks).length"
+          :payload="{ blocks: activeBlocks.tableItems }"
         />
         <CDataTable
-          :fields="managements.categories[managements.active].contents.table.tableFields"
-          :items="managements.categories[managements.active].contents.table.tableItems"
+          :fields="activeTable.tableFields"
+          :items="activeTable.tableItems"
           hover
           sorter
           striped
@@ -50,6 +50,9 @@
 import { TableFactory } from '~/modules/tableFactory'
 
 export default {
+  created () {
+    this.fetchContent()
+  },
   data () {
     return {
       tableFactory: new TableFactory(),
@@ -74,13 +77,18 @@ export default {
       page: 1,
     }
   },
-  created () {
-    this.fetchContent()
+  computed: {
+    categories () {
+     return Object.entries(this.managements.categories).map(v => v) 
+    },
+    activeBlocks () {
+      return this.managements.categories[this.managements.active].contents.blocks
+    },
+    activeTable () {
+      return this.managements.categories[this.managements.active].contents.table
+    }
   },
   methods: {
-    handleCategory (id) {
-      this.fetchContent(id)
-    },
     async fetchContent (id = this.managements.active) {
       this.managements.completed = false
       let target = this.managements.categories[id]

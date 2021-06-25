@@ -26,9 +26,6 @@ export default {
       pod: this.$route.params.pod,
     })
   },
-  methods: { 
-
-  },
 }
 </script>
 

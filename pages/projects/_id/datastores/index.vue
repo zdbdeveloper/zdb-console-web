@@ -12,10 +12,39 @@
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
     <!-- <button @click="allColumm">COLUMN</button> -->
+    <!-- <div class="filtering-fields">
+      <multiselect
+        v-model="filteringFields"
+        :options="allFields"
+        label="name"
+        track-by="name"
+        :multiple="true"
+        class="multiselect-custom"
+        placeholder="Please select"
+        v-tooltip.top="'Filtering Fields'"
+      />
+    </div> -->
+    <CCard body-wrapper class="filter-box">
+      <h5 class="tab-style-title"><CIcon class="mr-2" name="cil-filter"/>Filter</h5>
+      <CRow class="form-group mb-0">
+        <CCol>
+          <multiselect
+            v-model="filteringFields"
+            :options="allFields"
+            label="name"
+            track-by="name"
+            :multiple="true"
+            class="multiselect-custom"
+            placeholder="Please select"
+            v-tooltip.top="'Filtering Fields'"
+          />
+        </CCol>
+      </CRow>
+    </CCard>
     <MyScrollbar>
       <CDataTable
         :items="tableItems"
-        :fields="FilteredFields"
+        :fields="filteredFields"
         hover
         pagination
         sorter
@@ -112,20 +141,6 @@
   import { TableFactory } from '~/modules/tableFactory'
 
   export default {
-    data() {
-      return {
-        //For Tables
-        tableFields: [],
-        tableItems: [],
-        tableDetails: [],
-        collapseDuration: 100,
-        filteringFields: [ 'version', 'datastore' ],
-        //For STOMP socket
-        stompClient: null,
-        subscription: null,
-        systemStates: [],
-      };
-    },
     created() {
       this.$store.commit('datastores/zdb', {
         projectid: this.$route.params.id
@@ -135,24 +150,37 @@
     beforeDestroy() {
       this.disconnectSocket()
     },
+    data() {
+      return {
+        //For Tables
+        tableFields: [],
+        tableItems: [],
+        tableDetails: [],
+        collapseDuration: 100,
+        filteringFields: [],
+        //For STOMP socket
+        stompClient: null,
+        subscription: null,
+        systemStates: [],
+      };
+    },
     computed: {
-      computedFields () {
+      allFields () {
         return this.tableFields.map(field => {
-          return { 
-            ...field
+          let value = false === field.filter ? '' : field.key
+          return {
+            value: value,
+            name: value.toUpperCase()
           }
-        })
+        }).filter(field => field.value)
       },
-      FilteredFields() {
-        return this.computedFields.filter(field => {
-          return !this.filteringFields.includes(field.key)
-        })
+      filteredFields () {
+        return this.tableFields.filter(field => 
+          !this.filteringFields.map(field => field.value).includes(field.key)
+        )
       },
     },
-    methods: {
-      allColumm() {
-        this.filteringFields = []
-      },    
+    methods: {  
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
@@ -256,5 +284,22 @@
 </script>
 
 <style>
-
+.filter-box {
+    margin-top: 40px;
+}
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+.tab-style-title {
+    position: absolute;
+    left: 0;
+    top: -24px;
+    padding: .5rem 1.125rem;
+    font-size: .875rem;
+    font-weight: 700;
+    border-radius: .25rem .25rem 0 0;
+    background: #fff;
+}
 </style>
