@@ -12,18 +12,6 @@
     <button @click="connectSocket"
       :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
     <!-- <button @click="allColumm">COLUMN</button> -->
-    <!-- <div class="filtering-fields">
-      <multiselect
-        v-model="filteringFields"
-        :options="allFields"
-        label="name"
-        track-by="name"
-        :multiple="true"
-        class="multiselect-custom"
-        placeholder="Please select"
-        v-tooltip.top="'Filtering Fields'"
-      />
-    </div> -->
     <CCard body-wrapper class="filter-box">
       <h5 class="tab-style-title"><CIcon class="mr-2" name="cil-filter"/>Filter</h5>
       <CRow class="form-group mb-0">
