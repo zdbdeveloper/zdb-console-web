@@ -16,10 +16,14 @@
 export default {
   data () {
     return {
+      //Initial data for the tabs
       activeTab: 0,
     }
   },
   created () {
+    /**
+     * Register Zdb data into Store
+     */
     this.$store.commit('datastores/zdb', {
       projectid: this.$route.params.id,
       name: this.$route.params.dsrname,

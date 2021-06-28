@@ -2,16 +2,14 @@
 <template>
   <div>
     <MySpinner />
-    <h2>Tables</h2>
     <!-- <button@click="stopSocket"
-      :disabled="!Boolean(subscription)">STOP SOCKET</button@click=>
+      :disabled="!subscription">STOP SOCKET</button@click=>
     <button @click="startSocket"
-      :disabled="Boolean(subscription) || !Boolean(stompClient)">START SOCKET</button>
+      :disabled="subscription || !stompClient || !stompClient.connected">START SOCKET</button>
     <button @click="disconnectSocket"
-      :disabled="!Boolean(stompClient)">DISCONNECT SOCKET</button>
+      :disabled="!stompClient || !stompClient.connected">DISCONNECT SOCKET</button>
     <button @click="connectSocket"
-      :disabled="Boolean(stompClient)">CONNECT SOCKET</button> -->
-    <!-- <button @click="allColumm">COLUMN</button> -->
+      :disabled="stompClient && stompClient.connected">CONNECT SOCKET</button> -->
     <CCard body-wrapper class="filter-box">
       <h5 class="tab-style-title"><CIcon class="mr-2" name="cil-filter"/>Filter</h5>
       <CRow class="form-group mb-0">
@@ -109,7 +107,7 @@
             </CBadge>
           </td>
         </template>
-        <template #Health="{item}">
+        <!-- <template #Health="{item}">
           <td class="text-center">
             <font-awesome-icon v-if="item.health === 'green'" icon="check-circle" class="c-icon mt-1 text-success"/>
             <font-awesome-icon v-else-if="item.health === 'yellow'" icon="exclamation-circle"
@@ -118,7 +116,7 @@
                               class="c-icon mt-1 text-danger"/>
             <font-awesome-icon v-else icon="question-circle" class="c-icon mt-1 text-secondary"/>
           </td>
-        </template>
+        </template> -->
       </CDataTable>
     </MyScrollbar>
   </div>
@@ -130,10 +128,12 @@
 
   export default {
     created() {
+      //Store the zdb information
       this.$store.commit('datastores/zdb', {
         projectid: this.$route.params.id
       })
       this.fetchTables()
+      this.connectSocket()
     },
     beforeDestroy() {
       this.disconnectSocket()
@@ -153,6 +153,7 @@
       };
     },
     computed: {
+      //All table fields for filtering fields
       allFields () {
         return this.tableFields.map(field => {
           let value = false === field.filter ? '' : field.key
@@ -162,49 +163,64 @@
           }
         }).filter(field => field.value)
       },
+      //Filtered fields
       filteredFields () {
         return this.tableFields.filter(field => 
           !this.filteringFields.map(field => field.value).includes(field.key)
         )
       },
     },
-    methods: {  
+    methods: {
+      /**
+       * Connect the socket using STOMP
+       */
       connectSocket () {
         const socket = new SockJS('http://localhost:8090/websocket')
         this.stompClient = Stomp.over(socket)
         this.stompClient?.connect({}, (frame) => {
-          //console.log('frame:', frame)
           this.stompClient.send('/states', {}, 'connectSocket')
           this.subscribe()
         })
       },
+      /**
+       * The socket subscribe.
+       */
       async subscribe () {
         this.subscription = this.stompClient.subscribe('/topic/states', async res => {
           let systemStates = await JSON.parse(res.body) || []
           this.handleTablesSystemUsage(systemStates)
         })
       },
+      /**
+       * Start/Restart the socket.
+       */
       startSocket () {
         this.stompClient.send('/states', {}, 'socket-start')
         this.subscribe()
       },
+      /**
+       * Stop the socket.
+       */
       stopSocket () {
         this.stompClient.send('/states', {}, 'socket-stop')
         this.subscription.unsubscribe()
         this.subscription = null
       },
+      /**
+       * Disconnect the socket
+       */
       disconnectSocket () {
         if (this.subscription) {
           this.subscription.unsubscribe()
           this.subscription = null
         }
-        if (this.stompClient) {
+        if (this.stompClient && this.stompClient.connected) {
           this.stompClient.disconnect()
           this.stompClient = null
         }
       },
       /** 
-       * Handle the system usages in the tables
+       * Handle the system usages in the children tables
        */    
       handleTablesSystemUsage (mysystemStates) {
         if (!Array.isArray(mysystemStates) || !mysystemStates.length) return false
@@ -243,7 +259,9 @@
         if (this.tableDetails && this.tableDetails[namespace].tableItems) {
           return this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
         }
+        //Update Zdb data
         this.$store.commit('datastores/zdb', { namespace, name, cluster })
+        //Fetch data
         let res = await this.$fetcher.set(this.$store.state.datastores.zdb).get('datastore_children')
         if (!res || !Object.keys(res).length) return console.debug('NO response')
         res = new TableFactory({id: 'datastore_children', items: res}).build()
@@ -253,7 +271,7 @@
         this.$set(this.tableItems[item.id], '_toggled', !item._toggled)
       },
       /**
-       * Click Event on the table rows
+       * Change the location by clicking the name on the row.
        */
       handleRowClick (item, index, columnName, event) {
         if (columnName === 'name') {
@@ -261,6 +279,7 @@
             , cluster = this.tableItems[index].cluster
             , architecture = this.tableItems[index].architecture
             , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
+          //Register it's Standalone or not
           this.$store.commit('datastores/zdb', { standalone, cluster })
           this.$router.push({
             path: `/projects/${this.$store.state.datastores.zdb.projectid}/datastores/${name}`
@@ -272,22 +291,5 @@
 </script>
 
 <style>
-.filter-box {
-    margin-top: 40px;
-}
-.card-body {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1.25rem;
-}
-.tab-style-title {
-    position: absolute;
-    left: 0;
-    top: -24px;
-    padding: .5rem 1.125rem;
-    font-size: .875rem;
-    font-weight: 700;
-    border-radius: .25rem .25rem 0 0;
-    background: #fff;
-}
+
 </style>

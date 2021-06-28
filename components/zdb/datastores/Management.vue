@@ -2,7 +2,7 @@
   <div>
     <MySpinner />
     <CRow>
-      <CCol xl="2">
+      <CCol xl="2" lg="3">
         <Category
           :payload="{
             categories: categories,
@@ -49,13 +49,15 @@
 <script>
 import { TableFactory } from '~/modules/tableFactory'
 
+const tableFactory = new TableFactory()
+
 export default {
   created () {
     this.fetchContent()
   },
   data () {
     return {
-      tableFactory: new TableFactory(),
+      //The structure for the management contents.
       managements: {
         active: 'connections',
         completed: false,
@@ -78,26 +80,35 @@ export default {
     }
   },
   computed: {
+    //The service categories.
     categories () {
      return Object.entries(this.managements.categories).map(v => v) 
     },
+    //The activated blocks on the mariadb processes.
     activeBlocks () {
       return this.managements.categories[this.managements.active].contents.blocks
     },
+    //The activated table each content.
     activeTable () {
       return this.managements.categories[this.managements.active].contents.table
     }
   },
   methods: {
+    /**
+     * Fetching Content by each category.
+     */
     async fetchContent (id = this.managements.active) {
+      //Mark a flag for the job processing.
       this.managements.completed = false
+      this.page = 1
       let target = this.managements.categories[id]
+      //Using cache data. you can remove it.
       if (target.contents.table?.tableItems) {
         this.managements.active = id
         this.managements.completed = true
-        this.page = 1
         return
       }
+      //Fetch data asynchronously
       let ids = { [id]: [`mariadb_${id}`] }
       if ('connections' == id) {
         ids[id] = [ 'mariadb_processes', ...ids[id] ]
@@ -111,22 +122,26 @@ export default {
         , blocks = null
       target.contents.table = {}
       target.contents.blocks = {}
+      //Inject data into the targeted blocks.
       if ('connections' == id) {
-        table = this.tableFactory.build({id: 'mariadb_processes', items: resolves[0]})
+        table = tableFactory.build({id: 'mariadb_processes', items: resolves[0]})
         blocks = Object.entries(resolves[1]).sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
-        blocks = this.tableFactory.build({id: 'mariadb_variables', items: blocks})
+        blocks = tableFactory.build({id: 'mariadb_variables', items: blocks})
         target.contents.blocks.tableFields = blocks.tableFields
         target.contents.blocks.tableItems = blocks.tableItems
       } else {
         table = Object.entries(resolves[0]).sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
-        table = this.tableFactory.build({id: 'mariadb_variables', items: table})
+        table = tableFactory.build({id: 'mariadb_variables', items: table})
       }
+      //Inject data into the targeted table.
       target.contents.table.tableFields = table.tableFields
       target.contents.table.tableItems = table.tableItems
       this.managements.active = id
       this.managements.completed = true
-      this.page = 1
     },
+    /**
+     * Kill the process.
+     */
     async killProcess (item, index) {
       if (await this.$store.dispatch('dialog/confirm'
         , 'Are you sure you want to kill this?')) {
@@ -138,6 +153,7 @@ export default {
     }
   },
   watch: {
+    //Watch for changing the page number.
     page () {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } 

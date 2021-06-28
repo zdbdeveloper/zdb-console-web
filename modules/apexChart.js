@@ -1,7 +1,10 @@
 import ChartRequest from '~/modules/chartRequest'
 export class ApexChart extends ChartRequest {
+  //Chart drawing options
   options = {
+    //Define Xaxics values
     xaxis: {
+      //Data type and values
       type: 'datetime',
       categories: [],
       labels: {
@@ -14,20 +17,25 @@ export class ApexChart extends ChartRequest {
           return `${hours}:${minutes}:${seconds}`
         }
       },
+      //The value's steps, type, position
       tickAmount: 8,
       tickPlacement: 'between',
       position:'bottom'
     },
+    //Whether using labels
     dataLabels: {
       enabled: false,
     },
+    //Makers size
     markers: {
       size: 0,
     },
+    //Line stroke style
     stroke: {
       width: 1,
       curve: 'smooth',
     },
+    //The chart series name on the bottom
     legend: {
       height: 50,
       horizontalAlign: 'left',
@@ -36,10 +44,13 @@ export class ApexChart extends ChartRequest {
       //showForNullSeries: true,
       //showForZeroSeries: true,
     },
+    //Show a lable if you have got no data
     noData: { text: 'Loading...', align: 'center', verticalAlign: 'top' }
   }
+  //The CPU chart structure
   get _cpuUsageChart() {
     return {
+      //Chart data
       series: [],
       options: {
         ...this.options,
@@ -51,6 +62,7 @@ export class ApexChart extends ChartRequest {
           text: 'CPU Usage',
           align: 'left',
         },
+        //Define Yasics values
         yaxis: {
           decimalsInFloat: 4,
           tickAmount: 4,
@@ -70,6 +82,7 @@ export class ApexChart extends ChartRequest {
       }
     }
   }
+  //The MEMORY chart structure
   get _memoryUsageChart() {
     return {
       series: [],
@@ -100,6 +113,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The network IO chart structure
   get _networkIOChart() {
     return {
       series: [],
@@ -133,6 +147,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The connection chart structure
   get _connectionsChart() {
     return {
       series: [],
@@ -163,6 +178,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The threadActivity chart structure
   get _threadActivityChart() {
     return {
       series: [],
@@ -193,6 +209,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The tableLock chart structure
   get _tableLocksChart() {
     return {
       series: [],
@@ -224,6 +241,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The currentQPS chart structure
   get _currentQPSChart() {
     return {
       series: [],
@@ -255,6 +273,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The replicationDelay chart structure
   get _replicationDelayChart() {
     return {
       series: [],
@@ -286,6 +305,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The slaveSqlThreadRunning chart structure
   get _slaveSqlThreadRunningChart() {
     return {
       series: [],
@@ -308,6 +328,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The slaveIOThreadRunning chart structure
   get _slaveIOThreadRunningChart() {
     return {
       series: [],
@@ -330,6 +351,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The memberHealth chart structure
   get _memberHealthChart() {
     return {
       series: [],
@@ -352,6 +374,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The queryOperations chart structure
   get _queryOperationsChart() {
     return {
       series: [],
@@ -379,6 +402,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The cache chart structure
   get _cacheChart() {
     return {
       series: [],
@@ -409,6 +433,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The ticket chart structure
   get _ticketChart() {
     return {
       series: [],
@@ -435,6 +460,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The cursor chart structure
   get _cursorChart() {
     return {
       series: [],
@@ -465,6 +491,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The queue chart structure
   get _queueChart() {
     return {
       series: [],
@@ -495,6 +522,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The totalItemPerDB chart structure
   get _totalItemPerDBChart() {
     return {
       series: [],
@@ -522,6 +550,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The expiringNotExpiringKeys chart structure
   get _expiringNotExpiringKeysChart() {
     return {
       series: [],
@@ -550,6 +579,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The expiredEvicted chart structure
   get _expiredEvictedChart() {
     return {
       series: [],
@@ -578,6 +608,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The commandExecuted chart structure
   get _commandExecutedChart() {
     return {
       series: [],
@@ -606,6 +637,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The hitsMissesPerSec chart structure
   get _hitsMissesPerSecChart() {
     return {
       series: [],
@@ -634,6 +666,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The commandCallsSec chart structure
   get _commandCallsSecChart() {
     return {
       series: [],
@@ -662,6 +695,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The messageReadyConsumers chart structure
   get _messageReadyConsumersChart() {
     return {
       series: [],
@@ -692,6 +726,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The messagePendingConsumerAcknowledgement chart structure
   get _messagePendingConsumerAcknowledgementChart() {
     return {
       series: [],
@@ -722,6 +757,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The totalQueues chart structure
   get _totalQueues() {
     return {
       series: [],
@@ -752,6 +788,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The totalChannels chart structure
   get _totalChannels() {
     return {
       series: [],
@@ -782,6 +819,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The totalConnections chart structure
   get _totalConnections() {
     return {
       series: [],
@@ -813,6 +851,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The topics chart structure
   get _topics() {
     return {
       series: [],
@@ -844,6 +883,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The replicas chart structure
   get _replicas() {
     return {
       series: [],
@@ -875,6 +915,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The partitions chart structure
   get _partitions() {
     return {
       series: [],
@@ -906,6 +947,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The messagesInPerSecond chart structure
   get _messagesInPerSecond() {
     return {
       series: [],
@@ -937,6 +979,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The messageConsumedPerSecond chart structure
   get _messageConsumedPerSecond() {
     return {
       series: [],
@@ -968,6 +1011,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The lagByConsumerGroup chart structure
   get _lagByConsumerGroup() {
     return {
       series: [],
@@ -999,6 +1043,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The openFileDescriptors chart structure
   get _openFileDescriptors() {
     return {
       series: [],
@@ -1029,6 +1074,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The pgPoolNodeStatus chart structure
   get _pgPoolNodeStatusChart() {
     return {
       series: [],
@@ -1060,6 +1106,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The pgPoolFrontend chart structure
   get _pgPoolFrontendChart() {
     return {
       series: [],
@@ -1091,6 +1138,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The scrapeDuration chart structure
   get _scrapeDurationChart() {
     return {
       series: [],
@@ -1122,6 +1170,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The activeSessions chart structure
   get _activeSessionsChart() {
     return {
       series: [],
@@ -1152,6 +1201,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The transactions chart structure
   get _transactionsChart() {
     return {
       series: [],
@@ -1183,6 +1233,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The updateData chart structure
   get _updateDataChart() {
     return {
       series: [],
@@ -1214,6 +1265,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The fetchData chart structure
   get _fetchDataChart() {
     return {
       series: [],
@@ -1245,6 +1297,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The insertData chart structure
   get _insertDataChart() {
     return {
       series: [],
@@ -1276,6 +1329,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The returnData chart structure
   get _returnDataChart() {
     return {
       series: [],
@@ -1307,6 +1361,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The deleteData chart structure
   get _deleteDataChart() {
     return {
       series: [],
@@ -1338,6 +1393,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The buffers chart structure
   get _buffersChart() {
     return {
       series: [],
@@ -1369,6 +1425,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The conflictsDeadlocks chart structure
   get _conflictsDeadlocksChart() {
     return {
       series: [],
@@ -1400,6 +1457,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The tempFile chart structure
   get _tempFileChart() {
     return {
       series: [],
@@ -1431,6 +1489,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The checkpointStats chart structure
   get _checkpointStatsChart() {
     return {
       series: [],
@@ -1462,6 +1521,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The replicationLSNDiff chart structure
   get _replicationLSNDiffChart() {
     return {
       series: [],
@@ -1493,6 +1553,7 @@ export class ApexChart extends ChartRequest {
       },
     }
   }
+  //The Charts you will call by the datastore 
   get targetCharts() {
     let mariadbOptionalCharts = this.standalone
         ? [] : [ 'replicationDelayChart'
@@ -1575,6 +1636,7 @@ export class ApexChart extends ChartRequest {
       ]
     }
   }
+  //Call charts with the datastore ID
   getCharts(targetIds) {
     let charts = {}
       , ids = targetIds && Array.isArray(targetIds)

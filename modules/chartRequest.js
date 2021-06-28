@@ -14,6 +14,7 @@ export default class ChartRequest {
   get whole() {
     return '.*'
   }
+  //Requests by chart ID
   get cpuUsageChart() {
     let queries = {
       mariadb: {
@@ -557,6 +558,7 @@ export default class ChartRequest {
     queries = queries[this.datastore]
     return { queries }
   }
+  //Call data with the chart ID
   getRequests(id) {
     let now = Math.floor(new Date().getTime() / 1000)
     let url = `${this.server}`,

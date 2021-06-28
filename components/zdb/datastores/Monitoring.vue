@@ -43,10 +43,12 @@ import { ApexChart } from '~/modules/apexChart'
 export default {
   data () {
     return {
+      //Import cache data from Store
       targetCharts: this.$store.state.datastores.apexCharts.targetCharts || {},
       hideSeries: this.$store.state.datastores.apexCharts.hideSeries || [],
       pathname: this.$store.state.datastores.apexCharts.pathname,
       updated: 0,
+      //The period to fetch the chart's data
       period: {
         default: this.$store.state.datastores.apexCharts.period || 1800,
         options: [
@@ -59,6 +61,7 @@ export default {
           { value: 86400, name: '1 Day'},
         ]
       },
+      //What a narrow steps in fetching data.
       step: {
         default: this.$store.state.datastores.apexCharts.step || 30,
         options: [ 10, 30, 60, 180, 360, 1200, 2400 ]
@@ -69,6 +72,7 @@ export default {
     this.createCharts()
   },
   beforeDestroy () {
+    //Store cache data
     if (this.updated === Object.keys(this.targetCharts).length) {
       this.$store.commit('datastores/apexCharts', { 
         pathname: location.pathname,
@@ -80,6 +84,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * Create Charts you choose.
+     */
     async createCharts (force = false) {
       //Using cache data. You can remove it.
       if (!force && location.pathname == this.pathname && Object.keys(this.targetCharts).length) {
@@ -92,6 +99,7 @@ export default {
         }, 500)
         return
       }
+      //Construct ApexChart and getting data.
       const apexChart = new ApexChart({
         server: 'https://pog-dev-prometheus.cloudzcp.io/api/v1/query_range'
         , period: this.period.default
@@ -106,6 +114,9 @@ export default {
         this.fetchCharts(apexChart)
       }, 300)
     },
+    /**
+     * Parse data to make the charts.
+     */
     parseChartData (rawData) {
       let series = [], categories = [], names = []
       if(rawData) {
@@ -118,6 +129,7 @@ export default {
               , item = { name, data }
             series = [ ...series, item ]
             names = [ ...names, name ]
+            //It's enough to make the categories only once. 
             if (1 === series.length) {
               categories = data.map(arr => arr[0])
             }
@@ -126,6 +138,9 @@ export default {
       }
       return { series, categories, names }
     },
+    /**
+     * Uupdate the chart
+     */
     async updateChart (target, contents) {
       let targetChart = this.targetCharts[target.id]
       contents = this.parseChartData(contents)
@@ -134,6 +149,7 @@ export default {
         xaxis: { ...targetChart.options.xaxis, categories: contents.categories },
         noData: { ...targetChart.options.noData, text: 'No Data' }
       }}
+      //Hide the series by your settings.
       target.exclusive && contents.names?.forEach(name => {
         let splitedName = name.split('/')
           , hasKey = splitedName?.[1]
@@ -144,6 +160,9 @@ export default {
       })
       this.updated = this.updated + 1
     },
+    /**
+     * Fetch data for making charts.
+     */
     async fetchCharts (apexChart) {
       this.updated = 0
       this.hideSeries = []
@@ -154,6 +173,7 @@ export default {
           , params = requests.params
           , queries = requests.chart.queries
           , exclusive = requests.chart.exclusive || ''
+        //Take on work asyncronusly
         if (queries && typeof queries === 'object') {
           let names = [], tasks = []
           for (let [name, query] of Object.entries(queries)) {

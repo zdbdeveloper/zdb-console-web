@@ -64,10 +64,14 @@ export default {
     this.fetchChildren()
   },
   methods: {
+    /**
+     * Fetch data that references the table.
+     */
     async fetchParents () {
       let res = await this.$fetcher.set(this.$store.state.datastores.zdb).get('datastore_parents')
       if (!res || typeof res !== 'object') return console.debug('NO response')
       for (let item of res) {
+        //Store data whether being Standalone or not
         if (this.$store.state.datastores.zdb.name == item.metadata.name) {
           let architecture = item.status?.architecture || ''
             , standalone = 'standalone' == architecture.toLowerCase() ? 1 : 0
@@ -79,6 +83,9 @@ export default {
       }
       return this.$store.state.datastores.zdb.cluster ? true : false
     },
+    /**
+     * Fetch data for this table.
+     */
     async fetchChildren () {
       if (!this.$store.state.datastores.zdb.cluster || !(0 <= this.$store.state.datastores.zdb.standalone)) {
         if (!await this.fetchParents()) return console.debug('NO response')
@@ -88,6 +95,7 @@ export default {
       res = new TableFactory({id: 'datastore_children', items: res}).build()
       if (!res) return console.debug('Parsing error')
       this.tableFields = res.tableFields
+      //Store data as Namespace and Datastore
       this.tableItems = res.tableItems.map((item, id) => {
         if (0 === id) {
           this.$store.commit('datastores/zdb', {
@@ -98,6 +106,9 @@ export default {
         return { ...item, id }
       })
     },
+    /**
+     * Change the location by clicking the name on the row.
+     */
     handleRowClick (item, index, columnName, event) {
       if (columnName === 'name') {
         this.$router.push({

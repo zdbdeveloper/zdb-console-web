@@ -62,7 +62,10 @@ export default {
   created () {
     this.fetchChild()
   },
-  methods: { 
+  methods: {
+    /**
+     * Fetch data that references the table when reloading the page.
+     */
     async fetchParents () {
       let res = await this.$fetcher.set(this.$store.state.datastores.zdb).get('datastore_parents')
       if (!res || typeof res !== 'object') return console.debug('NO response')
@@ -78,6 +81,9 @@ export default {
       }
       return this.$store.state.datastores.zdb.cluster ? true : false
     },
+    /**
+     * Fetch data for this table.
+     */
     async fetchChild () {
       if (!this.$store.state.datastores.zdb.cluster || !(0 <= this.$store.state.datastores.zdb.standalone)) {
         if (!await this.fetchParents()) return console.debug('NO response')
@@ -88,6 +94,7 @@ export default {
         if (!res) return console.debug('Parsing error')
         this.tableFields = res.tableFields
         this.tableItems = res.tableItems.filter((item, id) => {
+          //Store Zdb data
           if (item.name == this.$store.state.datastores.zdb.pod) {
             this.$store.commit('datastores/zdb', {
               namespace: item.namespace,

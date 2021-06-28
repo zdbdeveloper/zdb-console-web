@@ -26,6 +26,9 @@ export default {
     }
   },
   created () {
+    /**
+     * Register Zdb data into Store
+     */
     this.$store.commit('datastores/zdb', {
       projectid: this.$route.params.id,
       name: this.$route.params.dsrname,

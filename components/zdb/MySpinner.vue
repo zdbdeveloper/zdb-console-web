@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  //You can bind these data for your customization
   props: {
     width: { type: String, default: '4rem' },
     height: { type: String, default: '4rem' },

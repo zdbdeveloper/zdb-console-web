@@ -8,6 +8,7 @@
 
 export default {
   props: {
+    //You can bind these data for your customization
     maxLength: { type: Number, default: 200 },
     minLength: { type: Number, default: 40 }
   },

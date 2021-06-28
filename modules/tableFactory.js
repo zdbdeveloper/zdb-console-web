@@ -1,9 +1,11 @@
+//Get period
 const getAge = creationTime => {
   let elapsedTime = new Date().getTime() - new Date(creationTime).getTime()
     , times = elapsedTime / (1000 * 60 * 60 * 24)
     , days = Math.floor(times)
   return `${ days }d`
 }
+//Get size by byte
 const getByteSize = (size) => {
   return (  
     ! /\D?(g|m)/gi.test(size)
@@ -14,6 +16,7 @@ const getByteSize = (size) => {
       )
   )
 }
+//Get rate the using CPU, MEMORY
 const getUsageRate = (item, type) => {
   if (!/(cpu|memory)/i.test(type)
     || !item.status.resources?.cpuUsage
@@ -29,12 +32,14 @@ const getUsageRate = (item, type) => {
   let rate = 'cpu' == type ? 100 : 1
   return !usage || !maximum ? 0 : Math.round((usage/maximum) * rate)
 }
+//Get color by Usage
 const getUsageColor = (value = 0) => {
   if (value <= 25) return 'info'
   else if (value > 25 && value <= 50) return 'success'
   else if (value > 50 && value <= 75) return 'warning'
   else if (value > 75) return 'danger'
 }	
+//Get the badge color
 const getBadgeColor = (value) => {
   value = value.toLowerCase()
   switch (value) {
@@ -48,6 +53,7 @@ const getBadgeColor = (value) => {
     default: return 'primary'
   }
 }
+//Get Icon
 const getProviderIcon = (value) => {
   value = value.toLowerCase()
   const icons = {
@@ -71,6 +77,7 @@ export class TableFactory {
   }
   get tableFields() {
     let data = {
+      //DSR table
       datastore_parents: [
         {key: "show_details", label: "", style: "width:1%", sorter: false, filter: false},
         {key: "namespace", label: "NAMESPACE", _style: 'min-width:100px'},
@@ -87,6 +94,7 @@ export class TableFactory {
         {key: "message", label: "MESSAGE"},
         {key: "age", label: "AGE"}
       ],
+      //The children table that references the DSR table
       datastore_children: [
         {key: "namespace", label: "NAMESPACE"},
         {key: "name", label: "NAME", _style:'min-width:140px'},
@@ -102,6 +110,7 @@ export class TableFactory {
         {key: "memoryUsage", label: "MEMORY\n(BYTES)"},
         {key: "storage", label: "STORAGE\n(DATA)"}
       ],
+      //Mariadb's processes
       mariadb_processes: [
         {key: "Id", label: "Id", style: "width:1%", sorter: false, filter: false},
         {key: "Progress", label: "Progress", _style: 'min-width:100px'},
@@ -113,6 +122,7 @@ export class TableFactory {
         {key: "db", label: "db"},
         {key: "kill", label: "", style: "width:1%", sorter: false, filter: false},
       ],
+      //Mariadb's table fields
       mariadb_variables: [
         {key: "key", label: "Variable"},
         {key: "value", label: "Value"},
@@ -196,6 +206,7 @@ export class TableFactory {
     }    
     return data[this.id]()
   }
+  //Call data with the table name
   build(args) {
     this.properties = args
     return {

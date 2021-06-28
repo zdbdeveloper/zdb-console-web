@@ -1,4 +1,5 @@
 export class Fetch {
+  // You can add the URIS and call it.
   static getUri(id) {
     let uris = {
       profile: `/api/v2/profile`,
