@@ -1,5 +1,5 @@
-MY GIT USAGE
-============
+GIT
+===
 ## Account
 zdbdeveloper@gmail.com
 Cloudzdb!23$
@@ -9,16 +9,15 @@ Cloudzdb!23$
 $ git config --global user.email "zdbdeveloper@gmail.com"
 $ git config --global user.name "zdbdeveloper"
 
-// Remote
+// Toggle Remote
 $ git remote set-url origin https://github.com/zdbdeveloper/zdb-console-web.git
 $ git remote set-url origin https://github.com/cnpst/zdb-console-web.git
 ```
 
 
 
-
-KUBE USAGE FOR ZDB-CONSOLE-WEB  
-==============================
+KUBERNETES
+==========
 ```bash
 $ kubectl version
 $ kubectl cluster-info
@@ -27,9 +26,9 @@ $ kubectl cluster-info
 $ set KUBECONFIG=c:\kubeconfig\cloudzcp-pog-dev.yml || $ set KUBECONFIG=c:\kubeconfig\cloudzcp-eks-dev.yml
 
 // My targets
-$ kubectl get ns/ pod
+$ kubectl get ns/ pods/ services
 $ kubectl -n zdb-managed get dsr
-$ kubectl -n zdb-managed get ZDB
+$ kubectl -n zdb-managed get zdb
 
 // Table list
 $ kubectl get dsr -A -o json --kubeconfig=\kubeconfig\cloudzcp-pog-dev.yml
@@ -40,22 +39,172 @@ $ kubectl get zdbs -A -o json --kubeconfig=\kubeconfig\cloudzcp-pog-dev.yml
 // Specific table detail
 $ kubectl -n zdb-managed get ZDB zdb-managed-dsr-mdb-mongodb-0 -o json
 
+// API server port forward
+set KUBECONFIG=C:\kubeconfig\kube.conf
+kubectl -n console port-forward svc/console-zdb-api 8086:80
 ```
+
+
+
+ZDB-CONSOLE-WEB SPECIFICATION
+=============================
+## .nuxt: Nuxt core
+
+## assets
+	### icons
+		- icons.js: coreui/logo
+		- iconsFontAwesome.js: fontAweome
+		- logo.js: For CIcon
+	### images
+		...^icon: svg icons
+	### scss
+		####- vendors
+			##### chartjs
+				- chart.scss: coreui chart style
+			- _variables.scss: coreui/bootstrap/_variables style pakage
+		- _custom.scss: coreui main style
+		- _variables.scss: variable style
+		- style.scss: Style package(*)
+		
+## build
+	- config.gypi: build configuration
+
+## components
+	### dialog
+		- Alert.vue: Alert window
+		- Confirm.vue: Confirm window
+		- Toast.vue: Toast message	
+	### zdb
+		#### datastores
+			- Blocks.vue: Blocks in Managements component (*)
+			- Category.vue: Categories in Managements component (*)
+			- Managements.vue: It's a tab in the pod page. (*)
+			- Overview.vue: It's a tab in the pod page. (*)
+			- Monitoring.vue: It's a tab in the dsrname page. (*)
+			- ServiceInfo.vue: It's a tab in the dsrname page. (*)
+		- MyScrollbar.vue: Scrolllbar everwhere (*)
+		- MySpinner.vue: Spinner everwhere (*)
+	- Logo.vue: Nuxt logo
+	
+## layouts
+	### coureui
+		~~_nav.js:~~ 
+		- TheAside.vue: Aside contents on the right
+		- TheFooter.vue: Main footer
+		- TheHeader.vue: Main header
+		- TheHeaderDropdownAccnt.vue: Profile information and for CSRF, XSRF
+		- TheHeaderDropDownMssgs.vue: Message content provided Coreui
+		- TheheaderDrodownNotify.vue: Notify content provided Coreui
+		- TheHeaderDrodownTasks.vue: Tasks content provided Coreui
+		- TheSidebar.vue: Sidebar menus (*)
+	- default.vue: Root page
+	
+## middleware: You can setup a Node server
+
+## mixins
+	### common
+		- dialog.js: Various kinds of dialog window
+		- downloader.js: File save library
+		- profile.js: Profile handler
+	### ui
+		- colors.js: Define colors
+		- provider.js: Define colors and images
+		- scrollbar.js: Scrollbar options (*)
+	index.js: Mixin ui package
+
+## modules
+	- apexChart.js: Apexchart structure (*)
+	- chartRequest.js: Prometheus queries (*)
+	- fetch.js: Fetching data helper (*)
+	- tableFactory.js: Building tables helper (*)
+	
+## node_modules
+	- ...js library
+
+## pages
+	### components
+		- apitest.vue: Sample Api test
+		- components.vue: Sample components
+		- monitoring.vue: Sample Apexchart
+	### system
+		- clusters.vue: Cluster tamplate
+		- dashboard.vue: Dashboard template
+	### projects/_id/datastores
+		- index.vue: Projects page (*)
+		#### dsrname
+			- _pod.vue: The child page (*)
+			- index.vue: The children page (*)
+- index.vue: Main page
+
+## plugins
+	### filters
+		- dayjs.js: Date filter
+		- index.js: Filters package
+	- axios.js: Axios (*)
+	- coreui.js: Coreui package
+	- i18n.js: For locale service	
+	- utils.js: ...loadash
+	- service.js: Service modules package
+	
+~~## service~~
+	
+## static
+	### img
+		#### avatars
+			...images
+		#### brand
+			...images
+		#### services
+			...images
+		- icon_*.svg
+	### locale
+		- en.js: Static message for locale service
+	- favicon.ico
+
+## store
+	- datastores.js: For Datastores page (*)
+	- dialog.js: For Dialog window
+	- index.js: Store package
+	- profile.js: For handling Profile data
+
+- .dockerignore: Define Docker ignore files
+- .env: Procees environment setting 
+- .gitignore: Define Git ignore files
+- console-zdb-web.yaml: Kubernetes object
+- default.conf: Running Server configuration
+- Dockerfile: Cocker image configuration
+- Handin.md: Just this file (*)
+- nuxt.config.js: Nuxt configuration (*)
+- package-lock.json: Nodejs dependencies
+- package.json: Nodejs dependencies
+- yarn.lock: Nodejs dependencies
+- zdb-console-web.yaml: Kubernetes object
 
 
 
 
 NUXT INTRODUCTION
 ==================
-## Install
+## Install/Build
 ```bash
+// Create
 $ npm install -g yarn
 $ yarn create nuxt-app zdb-console-web
 $ cd zdb-console-web
+
+// Install
+$ yarn install
 $ yarn dev
+
+// build
 $ yarn build
 $ yarn start
+
+// genertate
+$ yarn generate
 ```
+
+
 
 ## Using SCSS
 ```bash
@@ -101,6 +250,7 @@ https://github.com/coreui/coreui-free-vue-admin-template#installation
 ```bash
 $ npm install @coreui/vue
 $ npm install @coreui/coreui
+$ npm install core-js
 ```
 
 2. Register to Plugin
@@ -113,195 +263,24 @@ Vue.use(CoreuiVue);
 plugins: [  '~/plugins/components' ]
 ```
 
-## Preview Table
-* itemS: Array of objects for listing the table.
-* fieldS: Table columns.
-
-
-
-
-ZDB-CONSOLE-WEB SPECIFICATION
-=============================
-## .nuxt: Nuxt Core
-
-## assets: un-complied assests(sass, js..)
-	1. icons
-		- icons.js: coreui/logo 아이콘들 정의 모듈
-		- iconsFontAwesome.js: fontAweome 정의 모듈
-		- logo.js: 로고 svg to array로 CIcon 컴포넌트 사용을 위해
-	2. images
-		...^icon : svg 아이콘들
-	3. scss
-		> vendors
-			> chartjs
-				- chart.scss: coreui 차트 스타일
-			> _variables.scss: coreui/bootstrap/_variables 변수형 스타일 패키지
-		> _custom.scss: coreui 메인 스타일
-		> _variables.scss: 변수형 스타일
-		> style.scss: 스타일 패키지
+## Table data
+* itemS: Array objects you want to list
+* fieldS: Table columns
 		
-## build
-	config.gypi: 빌드 환경설정
-
-## components
-	1. dialog
-		- Alert.vue: 경고창
-		- Confirm.vue: 확인창
-		- Toast.vue: 토스트창
-	2. monitoring
-		- CChartLineCpuUsage.vue: CPU사용량 차트
-		- CChartPiePodStatus.vue: POD상태 차트
-	3. Logo.vue: Nuxt 로고svg
-
-## layouts
-	### coureui: coreui 기본 템플릿
-		~~_nav.js:~~ 
-		- TheAside.vue:
-		- TheFooter.vue: 풋터
-		- TheHeader.vue: 해더
-		- TheHeaderDropdownAccnt.vue: 게정 드랍다운 콘텐트
-		- TheHeaderDropDownMssgs.vue: 쪽지 드랍다운 콘텐트
-		- TheheaderDrodownNotify.vue: 알림 드랍다운 콘텐트
-		- TheHeaderDrodownTasks.vue: 작업 드랍아운 콘텐트
-		- TheSidebar.vue: 사이드바 콘텐트
-	default.vue: 레이아웃 패키지
-	
-## middleware: as router, named, auth
-
-## mixins
-	### common
-		- dialog.js: mapMutations, mapActions 대화창을 위한
-		- downloader.js: 파일 다운로드를 위한
-		- profile.js: mapState, mapActions 개인정보창을 위한
-	### ui
-		- colors.js: UI 색상/배경색 정의
-		- provider.js: Cloud Provider 로고/이름/색상참조값 정의
-		- scrollbar.js: coreui 스크롤바 정의
-	index.js: 공통/UI 정의 패키지
-
-## node_modules
-	: nodejs 모듈들
-
-## pages
-	### components
-		- apitest.vue: k8s Api test
-		- components.vue:
-		- monitoring.vue:
-	### system
-		- clusters.vue:
-		- dashboard.vue:
-- about.vue: 내 Composition API 테스트
-- index.vue: 초기화면
-
-## plugins: 글로벌 인스턴스들
-	### filters
-		- dayjs.js: 날짜포맷 필터
-		- index.js: 필터 패키지
-	- axios.js: axios 설정
-	- coreui.js: ui 컴포넌트 패키지
-	- i18n.js: 다국어 모듈`	
-	- utils.js: 유틸리티 패키지(현재 lodash만)
-	- guard.js: 페이지 접근권한 체크할려고?
-	- service.js: 서비스 패키지(현재 메뉴만)
-	
-	### Using toast by plugin with mixin
-		- ~/pages/anything.vue
-			this._toast('message')
-		- nuxt.config.js
-			plugins: [ '~/plugins/globalMixins', ]
-		- ~/plugins/globalMixins.js
-			import { dialog, downloader } from '~/mixins'
-			Vue.mixin(dialog)
-		- ~/mixins/index.js
-			export * from './common/dialog'
-		- ~/mixins/dialog.js
-			export const dialog = {
-				methods: {
-					...mapActions('dialog', {
-						_toast: 'toast',
-						_toast_err: 'toast_err',
-						_confirm: 'confirm',
-						_alert: 'alert',
-						_alert_error: 'alert_error'
-					})
-				}
-			}
-		- ~/store/dialog.js
-			export const actions = {
-				toast ({ commit }, payload) {
-					commit('TOAST', payload)
-				},
-				...
-			}
-			export const mutations = {
-				TOAST(state, payload) {
-					//payload = normalize(payload);
-					const toast = _.extend({}, opt.toast, payload);
-					state.toasts = append(state.toasts, state.toast_counter++, toast);
-				},
-				...
-			}
-		- ~/layout/default.vue
-			<Toaster />			
-		- ~/components/dialog/Toaster.vue
-			<CToaster ...>
-				<template v-for="(toast, key) in toasts">
-					<CToast :show="toast.show" @update:show="toast_remove({ key, show: $event })" .../>
-				</template>
-			</Ctoaster>
-			computed: {
-				...mapState('dialog', ['toasts'])
-			}
-
-## service: 비지니스 로직 모듈들
-	- menus.js: 메뉴 속성 정의
-	...
-	
-## static: un-compiled 리소스
-	### img
-		#### avatars
-			...
-		#### brand
-			...
-		#### services
-			...
-		- icon_app.svg
-		...
-	### locale
-		- en.js: 
-	favicon.ico
-
-## store
-	- dialog.js:
-	- index.js:
-	- profile.js:
-
-- .editorconfig: 코드편집 통일화 설정
-- .eslint.js: eslint 설정
-- .gitignore: git 예외파일 설정
-- .project: 프로젝트 개요설정
-- binding.gyp: 
-- nuxt.config.js: nuxt 환경설정
-- package-lock.json: nodejs 의존 모듈 설정
-- package.json: ...
-- yarn.lock: yarn 빌드 환경설정
-		
-		
-## nuxt.config.js
-plugins: [
-	"~/plugins/coreui",
-	"~/plugins/axios",
-	"~/plugins/utils",
-	"~/plugins/i18n.js",
-	"~/plugins/service",
-	'~/plugins/filters',
-],		
-	
-	
 
 
-PARSING API DATA FOR TABLES
-============================
+
+
+ORIGINAL API DATA
+==================
+## Reference the code
+~/data/datastores.json
+
+
+
+
+PARSED DATA FOR TABLES
+========================
 ```json
 //For DSR tables
 {
@@ -312,9 +291,9 @@ PARSING API DATA FOR TABLES
 			"metadata" : {
 				"namespace": "zdb-managed",
 				"name": "zdb-managed-dsr-mdb",
-				"creationTimestamp": "2021-04-08T07:22:10Z"
+				"creationTimestamp": "2021-04-08T07:22:10Z",
 				"labels": {
-          "cluster": "cloudzcp-pog-dev",
+          "cluster": "cloudzcp-pog-dev"
 				}
 			},
 			"spec" : {
@@ -358,7 +337,7 @@ PARSING API DATA FOR TABLES
 					"requestCpu": "700m",
 					"requestMemory": "704Mi",
 					"cpuUsage": "25m",
-					"memoryUsage": "133Mi",
+					"memoryUsage": "133Mi"
 				}				
 			},
 			"storage": {
@@ -533,6 +512,47 @@ sum(rate(kafka_topic_partition_current_offset{service=~\"%s.*\"}[1m])) by (topic
 sum(delta(kafka_consumergroup_current_offset{service=~\"%s.*\"}[1m])/60) by (consumergroup, topic)
 sum(kafka_consumergroup_lag{service=~\"%s.*\"}) by (consumergroup, topic)
 
+6. POSTGRESQL
+System Resources
+ - CPU Usage
+    sum by (pod)( rate(container_cpu_usage_seconds_total{pod=~"$postgrerelease.*", container=~"postgresql.*"}[1m] ) )
+    kube_pod_container_resource_requests_cpu_cores{pod=~"$postgrerelease.*", container=~"postgresql.*"}
+    kube_pod_container_resource_limits_cpu_cores{pod=~"$postgrerelease.*", container=~"postgresql.*"}
+    sum by (pod)( rate(container_cpu_usage_seconds_total{pod=~"$postgrerelease.*", container=~"pgpool.*"}[1m] ) )
+    kube_pod_container_resource_requests_cpu_cores{pod=~"$postgrerelease.*", container=~"pgpool.*"}
+    kube_pod_container_resource_limits_cpu_cores{pod=~"$postgrerelease.*", container=~"pgpool.*"}
+
+ - Memory Usage
+    avg by(pod) (container_memory_rss{pod=~"$postgrerelease-.*", container="postgresql"} / 1024 / 1024)
+    kube_pod_container_resource_requests_memory_bytes{pod=~"$postgrerelease-.*", container="postgresql"}/ 1024 / 1024
+    kube_pod_container_resource_limits_memory_bytes{pod=~"$postgrerelease-.*", container="postgresql"}/ 1024 / 1024
+    avg by(pod) (container_memory_rss{pod=~"$postgrerelease-.*", container="pgpool"} / 1024 / 1024)
+    kube_pod_container_resource_requests_memory_bytes{pod=~"$postgrerelease-.*", container="pgpool"}/ 1024 / 1024
+    kube_pod_container_resource_limits_memory_bytes{pod=~"$postgrerelease-.*", container="pgpool"}/ 1024 / 1024 
+ - Network I/O
+    rate (container_network_transmit_bytes_total{pod=~"$postgrerelease-.*",interface="eth0"}[5m])
+    rate (container_network_receive_bytes_total{pod=~"$postgrerelease-.*",interface="eth0"}[5m])
+
+Connections & Table
+ - PGPool Frontend 
+    pgpool2_frontend_total{release=~"$postgrerelease.*"} 
+    pgpool2_frontend_used{release=~"$postgrerelease.*"}
+ - Active sessions 
+    pg_stat_activity_count{statefulset_kubernetes_io_pod_name=~"$pod_name.*", state="active"}
+* Legend Format : {{datname}}[a], s: active/{{statefulset_kubernetes_io_pod_name}}
+ - Lock tables 
+    pg_locks_count{statefulset_kubernetes_io_pod_name=~"$pod_name.*"}
+* Legend Format : {{datname}},{{mode[b]}}/{{statefulset_kubernetes_io_pod_name}}
+
+Query & Replication
+ - PGPool Node Status
+    pgpool2_pool_nodes_status{release=~"$postgrerelease.*"}
+ - Node Replication Delay 
+    pgpool2_pool_nodes_replication_delay{release=~"$postgrerelease.*"}
+ - Replication LSN Diff 
+    pg_stat_replication_pg_wal_lsn_diff{statefulset_kubernetes_io_pod_name=~"$pod_name.*"}
+
+
 
 
 
@@ -653,17 +673,15 @@ http://localhost:8080/api/v2/projects/pjt1/datastorereleases/zdb-v2-ma-ma2/datas
 
 
 
-
-ZCP-CONSOLE-WEB SPECIFICATION
-==============================
-## Running
+ZCP-CONSOLE-WEB INTRODUCTION
+============================
 ```bash
 // port forward
 $ set KUBECONFIG=c:/kubeconfig/zcp-console-web.conf
 $ kubectl port-forward service/console-api 8080:80 -n console
 X $ kubectl port-forward service/zcp-mcm-backend-service 8081:4000 -n site1-system
 
-// dev
+// Install
 $ yarn install
 $ yarn dev
 
@@ -693,7 +711,6 @@ $ kubectl port-forward service/zcp-monitoring-backend 8083:80 -n monitoring
 $ cd /kubeconfig
 $ set KUBECONFIG=./cloudzcp-eks-dev.yml
 $ kubectl port-forward svc/zdb-managed-zdbv2-mongodb-0 27017 -n zdb-managed
-	> 127.0.0.1:27017
 
 4. Run the API
 $ cd C:\workspace
@@ -708,4 +725,3 @@ $ cd zcp-console-web-develop
 $ npm install --save package.json
 $ npm run dev
 	admin/admin
-
